@@ -2,9 +2,9 @@ class Coin {
   String name;
   String symbol;
   String imageUrl;
-  var price;
-  var change;
-  var changePercentage;
+  dynamic price;
+  dynamic change;
+  dynamic changePercentage;
 
   Coin(this.name, this.symbol, this.imageUrl, this.price, this.change,
       this.changePercentage);
