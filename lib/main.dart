@@ -34,10 +34,9 @@ class _HomeState extends State<Home> {
     if (response.statusCode == 200) {
       List<dynamic> values = [];
       values = jsonDecode(response.body);
-      print(values);
+
       if (values.length > 0) {
         for (int i = 0; i < values.length; i++) {
-          /* print(i); */
           if (values[i] != null) {
             Map<String, dynamic> map = values[i];
             coinList.add(Coin.fromJson(map));

@@ -10,13 +10,14 @@ class Coin {
       this.changePercentage);
 
   factory Coin.fromJson(Map<String, dynamic> json) {
-    return Coin(
-        json['name'],
-        json['symbol'],
-        json['image'],
-        json['curent_price'],
-        json['price_change_24h'],
-        json['price_change_percentage_24h']);
+    var currentPrice = json['current_price'];
+    currentPrice = currentPrice.toStringAsFixed(1);
+
+    /* var changePercentage = json['price_change_percentage_24h'];
+    changePercentage = changePercentage.toStringAsFixed(1);
+ */
+    return Coin(json['name'], json['symbol'], json['image'], currentPrice,
+        json['price_change_24h'], json['price_change_percentage_24h']);
   }
 }
 
