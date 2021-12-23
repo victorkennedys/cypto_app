@@ -17,3 +17,15 @@ final DateTime yearAgo = DateTime(
 
 final DateTime threeYearAgo = DateTime(
     DateTime.now().year, DateTime.now().month, DateTime.now().day - 1095);
+
+final DateTime nowInHour = DateTime.now();
+
+final DateTime inFiveHours = nowInHour.add(Duration(hours: 5));
+
+final DateTime inTenHours = nowInHour.add(Duration(hours: 10));
+
+final DateTime inFifteenHours = nowInHour.add(Duration(hours: 15));
+
+final DateTime inTwentyHours = nowInHour.add(Duration(hours: 20));
+
+final DateTime inTwentyfiveHours = nowInHour.add(Duration(hours: 24));

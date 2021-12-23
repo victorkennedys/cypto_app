@@ -40,6 +40,8 @@ class CoinView extends StatefulWidget {
 
 class _CoinViewState extends State<CoinView> {
   void changeRange(DateTime range) {
+    widget.spotValues.clear();
+    chartData.clear();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -76,8 +78,17 @@ class _CoinViewState extends State<CoinView> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ValueGraph(widget.spotValues, selectedRange, widget.minValue,
-              widget.maxValue),
+          ValueGraph(
+              widget.spotValues,
+              widget.minValue,
+              widget.maxValue,
+              widget.id,
+              widget.name,
+              widget.symbol,
+              widget.imageUrl,
+              widget.price,
+              widget.change,
+              widget.changePercentage),
           Row(
             children: [
               RangeSelector("3y", changeRange, threeYearAgo),
