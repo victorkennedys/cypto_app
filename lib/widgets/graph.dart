@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../constants.dart';
 
-class ValueGraph extends StatelessWidget {
+class ValueGraph extends StatefulWidget {
   final List<FlSpot> dataList;
   final double maxPrice;
   final double minPrice;
@@ -29,6 +29,12 @@ class ValueGraph extends StatelessWidget {
       this.price,
       this.change,
       this.changePercentage);
+
+  @override
+  State<ValueGraph> createState() => _ValueGraphState();
+}
+
+class _ValueGraphState extends State<ValueGraph> {
   @override
   @override
   Widget build(BuildContext context) {
@@ -43,31 +49,61 @@ class ValueGraph extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: CoinCard(id, name, symbol, imageUrl, price.toStringAsFixed(1),
-              change, changePercentage),
+          child: CoinCard(
+              widget.id,
+              widget.name,
+              widget.symbol,
+              widget.imageUrl,
+              widget.price.toStringAsFixed(1),
+              widget.change,
+              widget.changePercentage),
         ),
         Container(
           height: 400,
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: LineChart(
               LineChartData(
+                lineTouchData: LineTouchData(
+                  enabled: true,
+                  touchTooltipData: LineTouchTooltipData(
+                      tooltipBgColor: Colors.transparent,
+                      getTooltipItems: (touchedSpots) {
+                        return touchedSpots.map((LineBarSpot touchedSpot) {
+                          final textStyle = TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          );
+
+                          return LineTooltipItem(
+                              touchedSpot.y.toStringAsFixed(0), textStyle);
+                        }).toList();
+                      }),
+                ),
+                borderData: FlBorderData(show: false),
+                gridData: FlGridData(
+                  show: false,
+                ),
                 minX: (DateTime.now().millisecondsSinceEpoch -
                         chartData[chartData.length - 1].date) /
                     (1000 * 60 * 60),
                 maxX: (DateTime.now().millisecondsSinceEpoch -
                         chartData[1].date) /
                     (1000 * 60 * 60),
-                minY: maxPrice,
-                maxY: minPrice,
+                minY: widget.maxPrice,
+                maxY: widget.minPrice,
                 titlesData: LineTitles.getTitleData(),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: dataList,
+                    spots: widget.dataList,
                     isCurved: true,
                     colors: gradientColors,
-                    barWidth: 5,
+                    barWidth: 2,
+                    dotData: FlDotData(
+                      show: false,
+                    ),
                     belowBarData: BarAreaData(
                       show: true,
                       colors: gradientColors

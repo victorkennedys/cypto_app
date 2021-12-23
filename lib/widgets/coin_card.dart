@@ -28,7 +28,7 @@ class CoinCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => LoadingScreen(id, name, symbol, imageUrl,
-                price, change, changePercentage, monthAgo),
+                price, change, changePercentage, yesterday),
           ),
         );
       },

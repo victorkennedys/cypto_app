@@ -70,7 +70,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       var xCoordinate =
           (DateTime.now().millisecondsSinceEpoch) / 1000 / 60 / 60 -
               timeInHours;
-      print(xCoordinate);
+
       var yCoordinate = chartData[i].price.toDouble();
 
       setState(() {
@@ -97,7 +97,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     setState(() {
       minValue = smallestValue;
       maxValue = largestValue;
-      print(chartData[chartData.length - 1].price);
     });
     Navigator.push(
       context,
@@ -114,7 +113,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
               getGraphData,
               spotValues,
               minValue,
-              maxValue);
+              maxValue,
+              selectedRange);
         },
       ),
     );

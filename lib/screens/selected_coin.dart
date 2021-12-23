@@ -21,6 +21,7 @@ class CoinView extends StatefulWidget {
   final List<FlSpot> spotValues;
   final double minValue;
   final double maxValue;
+  final DateTime selectedRange;
 
   CoinView(
       this.id,
@@ -33,7 +34,8 @@ class CoinView extends StatefulWidget {
       this.getGraphData,
       this.spotValues,
       this.minValue,
-      this.maxValue);
+      this.maxValue,
+      this.selectedRange);
 
   @override
   State<CoinView> createState() => _CoinViewState();
@@ -101,13 +103,55 @@ class _CoinViewState extends State<CoinView> {
               widget.changePercentage),
           Row(
             children: [
-              RangeSelector("3y", changeRange, threeYearAgo),
-              RangeSelector("1y", changeRange, yearAgo),
-              RangeSelector("6m", changeRange, sixMonthsAgo),
-              RangeSelector("3m", changeRange, threeMonthsAgo),
-              RangeSelector("1m", changeRange, monthAgo),
-              RangeSelector("1w", changeRange, weekAgo),
-              RangeSelector("1d", changeRange, yesterday),
+              RangeSelector(
+                  "3y",
+                  changeRange,
+                  threeYearAgo,
+                  widget.selectedRange == threeYearAgo
+                      ? Colors.white.withOpacity(0.2)
+                      : Colors.transparent),
+              RangeSelector(
+                  "1y",
+                  changeRange,
+                  yearAgo,
+                  widget.selectedRange == yearAgo
+                      ? Colors.white.withOpacity(0.2)
+                      : Colors.transparent),
+              RangeSelector(
+                  "6m",
+                  changeRange,
+                  sixMonthsAgo,
+                  widget.selectedRange == sixMonthsAgo
+                      ? Colors.white.withOpacity(0.2)
+                      : Colors.transparent),
+              RangeSelector(
+                  "3m",
+                  changeRange,
+                  threeMonthsAgo,
+                  widget.selectedRange == threeMonthsAgo
+                      ? Colors.white.withOpacity(0.2)
+                      : Colors.transparent),
+              RangeSelector(
+                  "1m",
+                  changeRange,
+                  monthAgo,
+                  widget.selectedRange == monthAgo
+                      ? Colors.white.withOpacity(0.2)
+                      : Colors.transparent),
+              RangeSelector(
+                  "1w",
+                  changeRange,
+                  weekAgo,
+                  widget.selectedRange == weekAgo
+                      ? Colors.white.withOpacity(0.2)
+                      : Colors.transparent),
+              RangeSelector(
+                  "1d",
+                  changeRange,
+                  yesterday,
+                  widget.selectedRange == yesterday
+                      ? Colors.white.withOpacity(0.2)
+                      : Colors.transparent),
             ],
           )
           /* chartData[index].date,
@@ -122,12 +166,14 @@ class RangeSelector extends StatelessWidget {
   final String text;
   final Function selectRange;
   final DateTime functionInput;
+  final Color color;
 
-  RangeSelector(this.text, this.selectRange, this.functionInput);
+  RangeSelector(this.text, this.selectRange, this.functionInput, this.color);
   @override
   Widget build(BuildContext context) {
     return Flexible(
       child: FlatButton(
+        color: color,
         child: Text(text),
         onPressed: () {
           selectRange(functionInput);
