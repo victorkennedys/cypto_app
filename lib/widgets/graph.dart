@@ -32,6 +32,11 @@ class ValueGraph extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    List<Color> gradientColors = [
+      const Color(0xff23b6e6),
+      const Color(0xff02d39a),
+    ];
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -61,9 +66,13 @@ class ValueGraph extends StatelessWidget {
                   LineChartBarData(
                     spots: dataList,
                     isCurved: true,
+                    colors: gradientColors,
                     barWidth: 5,
                     belowBarData: BarAreaData(
                       show: true,
+                      colors: gradientColors
+                          .map((color) => color.withOpacity(0.3))
+                          .toList(),
                     ),
                   ),
                 ],
