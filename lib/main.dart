@@ -78,6 +78,7 @@ class _HomeState extends State<Home> {
         itemCount: coinList.length,
         itemBuilder: (context, index) {
           return CoinCard(
+              coinList[index].id,
               coinList[index].name,
               coinList[index].symbol,
               coinList[index].imageUrl,

@@ -1,4 +1,5 @@
 class Coin {
+  String id;
   String name;
   String symbol;
   String imageUrl;
@@ -6,7 +7,7 @@ class Coin {
   dynamic change;
   dynamic changePercentage;
 
-  Coin(this.name, this.symbol, this.imageUrl, this.price, this.change,
+  Coin(this.id, this.name, this.symbol, this.imageUrl, this.price, this.change,
       this.changePercentage);
 
   factory Coin.fromJson(Map<String, dynamic> json) {
@@ -16,8 +17,14 @@ class Coin {
     /* var changePercentage = json['price_change_percentage_24h'];
     changePercentage = changePercentage.toStringAsFixed(1);
  */
-    return Coin(json['name'], json['symbol'], json['image'], currentPrice,
-        json['price_change_24h'], json['price_change_percentage_24h']);
+    return Coin(
+        json['id'],
+        json['name'],
+        json['symbol'],
+        json['image'],
+        currentPrice,
+        json['price_change_24h'],
+        json['price_change_percentage_24h']);
   }
 }
 

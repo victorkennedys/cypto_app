@@ -1,7 +1,9 @@
-import 'package:cypto_tracker_2/screens/selected_coin.dart';
+import 'package:cypto_tracker_2/constants.dart';
+import 'package:cypto_tracker_2/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class CoinCard extends StatelessWidget {
+  String id;
   String name;
   String symbol;
   String imageUrl;
@@ -10,6 +12,7 @@ class CoinCard extends StatelessWidget {
   dynamic changePercentage;
 
   CoinCard(
+      @required this.id,
       @required this.name,
       @required this.symbol,
       @required this.imageUrl,
@@ -24,8 +27,8 @@ class CoinCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SelectedCoin(
-                name, symbol, imageUrl, price, change, changePercentage),
+            builder: (context) => LoadingScreen(id, name, symbol, imageUrl,
+                price, change, changePercentage, yesterday),
           ),
         );
       },
