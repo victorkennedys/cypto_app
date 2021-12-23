@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:cypto_tracker_2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cypto_tracker_2/constants.dart';
 import 'package:http/http.dart';
-import '../chart_model.dart';
-import '../graph.dart';
+import '../models/chart_model.dart';
+import '../widgets/graph.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'loading_screen.dart';
@@ -65,6 +66,15 @@ class _CoinViewState extends State<CoinView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[800],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyApp()),
+            );
+          },
+        ),
         title: Text(
           "${widget.name}",
           style: TextStyle(

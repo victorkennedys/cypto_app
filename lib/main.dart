@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:cypto_tracker_2/coin_model.dart';
+import 'package:cypto_tracker_2/models/coin_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'coin_card.dart';
+import 'widgets/coin_card.dart';
 
 void main() {
   runApp(const MyApp());

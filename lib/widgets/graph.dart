@@ -1,10 +1,10 @@
-import 'package:cypto_tracker_2/chart_model.dart';
-import 'package:cypto_tracker_2/coin_card.dart';
+import 'package:cypto_tracker_2/models/chart_model.dart';
+import 'package:cypto_tracker_2/widgets/coin_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class ValueGraph extends StatelessWidget {
   final List<FlSpot> dataList;
@@ -34,11 +34,12 @@ class ValueGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: CoinCard(
-              id, name, symbol, imageUrl, price, change, changePercentage),
+          child: CoinCard(id, name, symbol, imageUrl, price.toStringAsFixed(1),
+              change, changePercentage),
         ),
         Container(
           height: 400,
@@ -53,8 +54,8 @@ class ValueGraph extends StatelessWidget {
                 maxX: (DateTime.now().millisecondsSinceEpoch -
                         chartData[1].date) /
                     (1000 * 60 * 60),
-                minY: minPrice * 0.97,
-                maxY: maxPrice * 1.03,
+                minY: maxPrice,
+                maxY: minPrice,
                 titlesData: LineTitles.getTitleData(),
                 lineBarsData: [
                   LineChartBarData(
