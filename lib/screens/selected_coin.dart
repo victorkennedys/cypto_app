@@ -1,6 +1,7 @@
 import 'package:cypto_tracker_2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cypto_tracker_2/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/chart_model.dart';
 import '../widgets/graph.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -13,7 +14,7 @@ class CoinView extends StatefulWidget {
   final String name;
   final String symbol;
   final String imageUrl;
-  final dynamic price;
+  dynamic price;
   final dynamic change;
   final dynamic changePercentage;
   final Function getGraphData;
@@ -62,6 +63,9 @@ class _CoinViewState extends State<CoinView> {
     );
   }
 
+  late dynamic livePrice = widget.price;
+
+  @override
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
@@ -69,6 +73,11 @@ class _CoinViewState extends State<CoinView> {
 
   @override
   Widget build(BuildContext context) {
+    void _aCallbackFunction(double data) {
+      livePrice = data;
+      print(livePrice);
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -85,6 +94,17 @@ class _CoinViewState extends State<CoinView> {
             );
           },
         ),
+        actions: [
+          Row(
+            children: [
+              TextButton(
+                child: Text("Buy"),
+                onPressed: () {},
+                style: ButtonStyle(),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -98,16 +118,134 @@ class _CoinViewState extends State<CoinView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CoinText(widget.name, widget.symbol, widget.imageUrl,
-                          widget.price, widget.change, widget.changePercentage),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20, left: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    child: Image.network(widget.imageUrl),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    widget.name,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  livePrice.toStringAsFixed(0) + " \$",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                widget.change > 0
+                                    ? Text(
+                                        "+ " +
+                                            widget.changePercentage
+                                                .toStringAsFixed(2) +
+                                            " %",
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    : Text(
+                                        widget.changePercentage
+                                                .toStringAsFixed(2) +
+                                            " %",
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       /* PriceText(widget.price, widget.change, widget.changePercentage), */
                     ],
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Graph(widget.minValue, widget.maxValue, widget.spotValues,
-                      gradientColors),
+                  Container(
+                    height: 350,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
+                      child: LineChart(
+                        LineChartData(
+                          lineTouchData: LineTouchData(
+                            enabled: true,
+                            touchTooltipData: LineTouchTooltipData(
+                                tooltipBgColor: Colors.transparent,
+                                getTooltipItems: (touchedSpots) {
+                                  _aCallbackFunction(touchedSpots[0].y);
+                                  return touchedSpots
+                                      .map((LineBarSpot touchedSpot) {
+                                    final textStyle = TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    );
+
+                                    return LineTooltipItem(
+                                        touchedSpot.y.toStringAsFixed(0),
+                                        textStyle);
+                                  }).toList();
+                                }),
+                          ),
+                          borderData: FlBorderData(show: false),
+                          gridData: FlGridData(
+                            show: false,
+                          ),
+                          minX: (DateTime.now().millisecondsSinceEpoch -
+                                  chartData[chartData.length - 1].date) /
+                              (1000 * 60 * 60),
+                          maxX: (DateTime.now().millisecondsSinceEpoch -
+                                  chartData[1].date) /
+                              (1000 * 60 * 60),
+                          minY: widget.minValue,
+                          maxY: widget.maxValue,
+                          titlesData: LineTitles.getTitleData(),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: widget.spotValues,
+                              isCurved: true,
+                              colors: gradientColors,
+                              barWidth: 2,
+                              dotData: FlDotData(
+                                show: false,
+                              ),
+                              belowBarData: BarAreaData(
+                                show: true,
+                                colors: gradientColors
+                                    .map((color) => color.withOpacity(0.3))
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -163,6 +301,12 @@ class _CoinViewState extends State<CoinView> {
                           : Colors.transparent),
                 ],
               ),
+              Row(
+                children: [
+                  FlatButton(onPressed: () {}, child: Text("Buy")),
+                  FlatButton(onPressed: () {}, child: Text("Sell")),
+                ],
+              )
             ],
           ),
           NewsCard(widget.name),

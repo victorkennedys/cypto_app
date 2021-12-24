@@ -6,75 +6,28 @@ import 'package:intl/intl.dart';
 
 import '../constants.dart';
 
-class Graph extends StatelessWidget {
-  Graph(this.maxPrice, this.minPrice, this.dataList, this.gradientColors);
+/* class Graph extends StatefulWidget {
+  Graph(this.maxPrice, this.minPrice, this.dataList, this.gradientColors,
+      this.callback);
 
   final double maxPrice;
   final double minPrice;
   final List<FlSpot> dataList;
   final List<Color> gradientColors;
+  Function callback;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 350,
-      width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20, bottom: 10),
-        child: LineChart(
-          LineChartData(
-            lineTouchData: LineTouchData(
-              enabled: true,
-              touchTooltipData: LineTouchTooltipData(
-                  tooltipBgColor: Colors.transparent,
-                  getTooltipItems: (touchedSpots) {
-                    return touchedSpots.map((LineBarSpot touchedSpot) {
-                      final textStyle = TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      );
-
-                      return LineTooltipItem(
-                          touchedSpot.y.toStringAsFixed(0), textStyle);
-                    }).toList();
-                  }),
-            ),
-            borderData: FlBorderData(show: false),
-            gridData: FlGridData(
-              show: false,
-            ),
-            minX: (DateTime.now().millisecondsSinceEpoch -
-                    chartData[chartData.length - 1].date) /
-                (1000 * 60 * 60),
-            maxX: (DateTime.now().millisecondsSinceEpoch - chartData[1].date) /
-                (1000 * 60 * 60),
-            minY: maxPrice,
-            maxY: minPrice,
-            titlesData: LineTitles.getTitleData(),
-            lineBarsData: [
-              LineChartBarData(
-                spots: dataList,
-                isCurved: true,
-                colors: gradientColors,
-                barWidth: 2,
-                dotData: FlDotData(
-                  show: false,
-                ),
-                belowBarData: BarAreaData(
-                  show: true,
-                  colors: gradientColors
-                      .map((color) => color.withOpacity(0.3))
-                      .toList(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  State<Graph> createState() => _GraphState();
 }
+
+class _GraphState extends State<Graph> {
+  @override
+  Widget build(BuildContext context) {
+/* minPrice == null ?  */
+
+    return 
+  }
+} */
 
 class LineTitles {
   static getTitleData() => FlTitlesData(

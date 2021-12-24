@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 final DateTime yesterday = DateTime(DateTime.now().year, DateTime.now().month,
     DateTime.now().day, DateTime.now().hour - 24);
 final DateTime weekAgo =
@@ -29,3 +31,6 @@ final DateTime inFifteenHours = nowInHour.add(Duration(hours: 15));
 final DateTime inTwentyHours = nowInHour.add(Duration(hours: 20));
 
 final DateTime inTwentyfiveHours = nowInHour.add(Duration(hours: 24));
+
+const TextStyle articleStyle =
+    TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20);

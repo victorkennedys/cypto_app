@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cypto_tracker_2/models/article_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import '../models/chart_model.dart';
@@ -98,6 +99,23 @@ class _LoadingScreenState extends State<LoadingScreen> {
       minValue = smallestValue;
       maxValue = largestValue;
     });
+    getNewsData();
+  }
+
+  getNewsData() async {
+    const String newsKey = "5a8b2b1a798b4b94a1d46f0a5689f36c";
+    var response = await get(Uri.parse(
+        "https://newsapi.org/v2/everything?q=${widget.name}&from=2021-12-24&sortBy=popularity&apiKey=$newsKey"));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      List<dynamic> body = json['articles'];
+      for (int i = 0; i < body.length; i++) {
+        Map<String, dynamic> map = body[i];
+        articleList.add(Article.fromJson(map));
+      }
+    } else {
+      print("error");
+    }
     Navigator.push(
       context,
       MaterialPageRoute(
