@@ -1,14 +1,12 @@
-import 'dart:convert';
 import 'package:cypto_tracker_2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cypto_tracker_2/constants.dart';
-import 'package:http/http.dart';
 import '../models/chart_model.dart';
 import '../widgets/graph.dart';
 import 'package:fl_chart/fl_chart.dart';
-
 import 'loading_screen.dart';
 import '../widgets/coin_text.dart';
+import '../widgets/news_card.dart';
 
 class CoinView extends StatefulWidget {
   final String id;
@@ -167,11 +165,7 @@ class _CoinViewState extends State<CoinView> {
               ),
             ],
           ),
-          DraggableScrollableSheet(
-            builder: (context, controller) => Container(
-              color: Colors.white,
-            ),
-          ),
+          NewsCard(widget.name),
         ],
       ),
     );
