@@ -165,13 +165,10 @@ class _CoinViewState extends State<CoinView> {
                           : Colors.transparent),
                 ],
               ),
-              /* chartData[index].date,
-            chartData[index].price, */
             ],
           ),
           DraggableScrollableSheet(
             builder: (context, controller) => Container(
-              height: 100,
               color: Colors.white,
             ),
           ),
