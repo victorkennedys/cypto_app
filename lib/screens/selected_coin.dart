@@ -8,6 +8,7 @@ import '../widgets/graph.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'loading_screen.dart';
+import '../widgets/coin_text.dart';
 
 class CoinView extends StatefulWidget {
   final String id;
@@ -63,13 +64,22 @@ class _CoinViewState extends State<CoinView> {
     );
   }
 
+  List<Color> gradientColors = [
+    const Color(0xff23b6e6),
+    const Color(0xff02d39a),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[800],
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white.withOpacity(0.5),
+          ),
           onPressed: () {
             Navigator.push(
               context,
@@ -77,85 +87,94 @@ class _CoinViewState extends State<CoinView> {
             );
           },
         ),
-        title: Text(
-          "${widget.name}",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
         children: [
-          ValueGraph(
-              widget.spotValues,
-              widget.minValue,
-              widget.maxValue,
-              widget.id,
-              widget.name,
-              widget.symbol,
-              widget.imageUrl,
-              widget.price,
-              widget.change,
-              widget.changePercentage),
-          Row(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              RangeSelector(
-                  "3y",
-                  changeRange,
-                  threeYearAgo,
-                  widget.selectedRange == threeYearAgo
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.transparent),
-              RangeSelector(
-                  "1y",
-                  changeRange,
-                  yearAgo,
-                  widget.selectedRange == yearAgo
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.transparent),
-              RangeSelector(
-                  "6m",
-                  changeRange,
-                  sixMonthsAgo,
-                  widget.selectedRange == sixMonthsAgo
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.transparent),
-              RangeSelector(
-                  "3m",
-                  changeRange,
-                  threeMonthsAgo,
-                  widget.selectedRange == threeMonthsAgo
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.transparent),
-              RangeSelector(
-                  "1m",
-                  changeRange,
-                  monthAgo,
-                  widget.selectedRange == monthAgo
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.transparent),
-              RangeSelector(
-                  "1w",
-                  changeRange,
-                  weekAgo,
-                  widget.selectedRange == weekAgo
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.transparent),
-              RangeSelector(
-                  "1d",
-                  changeRange,
-                  yesterday,
-                  widget.selectedRange == yesterday
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.transparent),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CoinText(widget.name, widget.symbol, widget.imageUrl,
+                          widget.price, widget.change, widget.changePercentage),
+                      /* PriceText(widget.price, widget.change, widget.changePercentage), */
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Graph(widget.minValue, widget.maxValue, widget.spotValues,
+                      gradientColors),
+                ],
+              ),
+              Row(
+                children: [
+                  RangeSelector(
+                      "3y",
+                      changeRange,
+                      threeYearAgo,
+                      widget.selectedRange == threeYearAgo
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent),
+                  RangeSelector(
+                      "1y",
+                      changeRange,
+                      yearAgo,
+                      widget.selectedRange == yearAgo
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent),
+                  RangeSelector(
+                      "6m",
+                      changeRange,
+                      sixMonthsAgo,
+                      widget.selectedRange == sixMonthsAgo
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent),
+                  RangeSelector(
+                      "3m",
+                      changeRange,
+                      threeMonthsAgo,
+                      widget.selectedRange == threeMonthsAgo
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent),
+                  RangeSelector(
+                      "1m",
+                      changeRange,
+                      monthAgo,
+                      widget.selectedRange == monthAgo
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent),
+                  RangeSelector(
+                      "1w",
+                      changeRange,
+                      weekAgo,
+                      widget.selectedRange == weekAgo
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent),
+                  RangeSelector(
+                      "1d",
+                      changeRange,
+                      yesterday,
+                      widget.selectedRange == yesterday
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent),
+                ],
+              ),
+              /* chartData[index].date,
+            chartData[index].price, */
             ],
-          )
-          /* chartData[index].date,
-          chartData[index].price, */
+          ),
+          DraggableScrollableSheet(
+            builder: (context, controller) => Container(
+              height: 100,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
     );
