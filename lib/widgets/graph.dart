@@ -6,28 +6,81 @@ import 'package:intl/intl.dart';
 
 import '../constants.dart';
 
-/* class Graph extends StatefulWidget {
-  Graph(this.maxPrice, this.minPrice, this.dataList, this.gradientColors,
-      this.callback);
+class CoinGraph extends StatelessWidget {
+  final Function callback;
+  final double min;
+  final double max;
+  final List<FlSpot> values;
 
-  final double maxPrice;
-  final double minPrice;
-  final List<FlSpot> dataList;
-  final List<Color> gradientColors;
-  Function callback;
+  CoinGraph(this.callback, this.min, this.max, this.values);
 
-  @override
-  State<Graph> createState() => _GraphState();
-}
-
-class _GraphState extends State<Graph> {
   @override
   Widget build(BuildContext context) {
-/* minPrice == null ?  */
+    return Container(
+      height: 350,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, bottom: 10),
+        child: LineChart(
+          LineChartData(
+            lineTouchData: LineTouchData(
+              enabled: true,
+              touchTooltipData: LineTouchTooltipData(
+                tooltipBgColor: Colors.transparent,
+                fitInsideHorizontally: true,
+                getTooltipItems: (touchedSpots) {
+                  Future.delayed(Duration.zero, () async {
+                    callback(touchedSpots[0].y);
+                  });
 
-    return 
+                  return touchedSpots.map((LineBarSpot touchedSpot) {
+                    final textStyle = TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    );
+
+                    return LineTooltipItem(
+                        touchedSpot.y.toStringAsFixed(0), textStyle);
+                  }).toList();
+                },
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            gridData: FlGridData(
+              show: false,
+            ),
+            minX: (DateTime.now().millisecondsSinceEpoch -
+                    chartData[chartData.length - 1].date) /
+                (1000 * 60 * 60),
+            maxX: (DateTime.now().millisecondsSinceEpoch - chartData[1].date) /
+                (1000 * 60 * 60),
+            minY: min,
+            maxY: max,
+            titlesData: LineTitles.getTitleData(),
+            lineBarsData: [
+              LineChartBarData(
+                spots: values,
+                isCurved: true,
+                colors: gradientColors,
+                barWidth: 2,
+                dotData: FlDotData(
+                  show: false,
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  colors: gradientColors
+                      .map((color) => color.withOpacity(0.3))
+                      .toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
-} */
+}
 
 class LineTitles {
   static getTitleData() => FlTitlesData(

@@ -37,25 +37,9 @@ class NewsCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "$name news",
-                              style: articleStyle,
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.close,
-                                color: Colors.grey,
-                              ),
-                            )
-                          ],
-                        ),
+                        child: Article(name, articleList[index].description,
+                            articleList[index].urlToImage),
                       ),
-                      Article(name, articleList[index].description,
-                          articleList[index].urlToImage),
                     ],
                   );
                 },
@@ -65,28 +49,6 @@ class NewsCard extends StatelessWidget {
         ),
       ),
     );
-
-    /* DraggableScrollableSheet(
-      initialChildSize: 0.22,
-      minChildSize: 0.22,
-      builder: (context, controller) => Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-        ),
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: articleList.length,
-          itemBuilder: (context, index) {
-            return Article(name, articleList[index].description,
-                articleList[index].urlToImage);
-          },
-        ),
-      ),
-    ); */
   }
 }
 

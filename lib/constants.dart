@@ -34,3 +34,16 @@ final DateTime inTwentyfiveHours = nowInHour.add(Duration(hours: 24));
 
 const TextStyle articleStyle =
     TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20);
+
+const TextStyle greenText =
+    TextStyle(color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold);
+
+const TextStyle redText =
+    TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold);
+
+const TextStyle coinText = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+List<Color> gradientColors = [
+  const Color(0xff23b6e6),
+  const Color(0xff02d39a),
+];
