@@ -1,7 +1,14 @@
 import 'dart:convert';
+import 'package:cypto_tracker_2/constants.dart';
+import 'package:cypto_tracker_2/models/article_model.dart';
 import 'package:cypto_tracker_2/models/coin_model.dart';
+import 'package:cypto_tracker_2/screens/loading_screen.dart';
+import 'package:cypto_tracker_2/widgets/graph.dart';
+import 'package:cypto_tracker_2/widgets/news_card.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'models/chart_model.dart';
 import 'widgets/coin_card.dart';
 import './screens/coin_list.dart';
 
