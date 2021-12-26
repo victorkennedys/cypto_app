@@ -37,8 +37,10 @@ class NewsCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 30),
-                        child: Article(name, articleList[index].description,
-                            articleList[index].urlToImage),
+                        child: Article(
+                          name,
+                          articleList[index].description,
+                        ),
                       ),
                     ],
                   );
@@ -55,8 +57,8 @@ class NewsCard extends StatelessWidget {
 class Article extends StatelessWidget {
   final String name;
   final String description;
-  final String imageUrl;
-  Article(this.name, this.description, this.imageUrl);
+
+  Article(this.name, this.description);
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +99,6 @@ class Article extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              child: Image.network("$imageUrl"),
-            )
           ],
         ),
       ),

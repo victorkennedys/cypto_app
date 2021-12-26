@@ -3,6 +3,7 @@ import 'package:cypto_tracker_2/models/coin_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'widgets/coin_card.dart';
+import './screens/coin_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,32 +62,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey[800],
-        title: Text(
-          "CryptoBase",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      body: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: coinList.length,
-        itemBuilder: (context, index) {
-          return CoinCard(
-              coinList[index].id,
-              coinList[index].name,
-              coinList[index].symbol,
-              coinList[index].imageUrl,
-              coinList[index].price,
-              coinList[index].change,
-              coinList[index].changePercentage);
-        },
-      ),
-    );
+    return CoinListView();
   }
 }
