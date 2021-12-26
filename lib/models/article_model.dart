@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
+
 import '';
 
 class Article {
@@ -8,11 +12,22 @@ class Article {
   String publishedAt;
   String content;
 
-  //Now let's create the constructor
   Article(
       this.title, this.description, this.url, this.publishedAt, this.content);
 
-  //And now let's create the function that will map the json into a list
+  static getNewsArticles(String url) async {
+    var response = await get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      List<dynamic> body = json['articles'];
+      for (int i = 0; i < body.length; i++) {
+        Map<String, dynamic> map = body[i];
+        articleList.add(Article.fromJson(map));
+      }
+      return articleList;
+    }
+  }
+
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
       json['title'] as String,

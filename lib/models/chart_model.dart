@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart';
-import 'package:cypto_tracker_2/constants.dart';
 
 class PriceData {
   final double date;
@@ -8,19 +8,10 @@ class PriceData {
 
   PriceData(this.date, this.price);
 
-  factory PriceData.fromJson(Map<dynamic, dynamic> json) {
-    return PriceData(json["time"].toDouble(), json["value"]);
-  }
-
-  /* static Future addToChartData(String coinID, int minDate, int maxDate) async {
-    var data = await get(
-      Uri.parse(
-          "https://api.coingecko.com/api/v3/coins/$coinID/market_chart/range?vs_currency=usd&from=${minDate.toInt() / 1000}&to=${maxDate.toInt() / 1000}"),
-    );
-
+  static Future<List<PriceData>> getGraphData(String url) async {
+    var data = await get(Uri.parse(url));
     if (data.statusCode == 200) {
       List<dynamic> pricesList = jsonDecode(data.body)["prices"];
-
       var list = pricesList
           .map((e) => {"time": e[0], "value": e[1]})
           .toList(growable: true);
@@ -28,17 +19,63 @@ class PriceData {
       for (Map i in list) {
         chartData.add(PriceData.fromJson(i));
       }
-      var todayPrice = await get(
-        Uri.parse(
-            "https://api.coingecko.com/api/v3/coins/$coinID/market_chart/range?vs_currency=usd&from=${yesterday.millisecondsSinceEpoch.toInt() / 1000}&to=${maxDate.toInt() / 1000}"),
-      );
-      List<dynamic> todayList = jsonDecode(todayPrice.body)["prices"];
-      var alteredList = todayList
-          .map((e) => {"time": e[0], "value": e[1]})
-          .toList(growable: true);
-      return alteredList;
+      return chartData;
     }
-  } */
+    return chartData;
+  }
+
+  static getCurrentPrice(String url) async {
+    var todayPrice = await get(Uri.parse(url));
+    List<dynamic> todayList = jsonDecode(todayPrice.body)["prices"];
+    var alteredList = todayList
+        .map((e) => {"time": e[0], "value": e[1]})
+        .toList(growable: true);
+    double livePrice = alteredList[alteredList.length - 1]["value"];
+    return livePrice;
+  }
+
+  static addSpotValues() {
+    for (int i = 0; i < chartData.length; i++) {
+      double timeInSeconds =
+          chartData.reversed.toList()[i].date.toDouble() / 1000;
+
+      double timeInHours = timeInSeconds / 60 / 60;
+
+      var xCoordinate =
+          (DateTime.now().millisecondsSinceEpoch) / 1000 / 60 / 60 -
+              timeInHours;
+
+      var yCoordinate = chartData[i].price.toDouble();
+
+      var spot = FlSpot(xCoordinate, yCoordinate);
+
+      spotValues.add(spot);
+    }
+  }
+
+  static getMaxMinValues() {
+    List<double> minMaxList = [];
+    var largestValue = chartData[0].price;
+    var smallestValue = chartData[0].price;
+    for (int i = 0; i < chartData.length; i++) {
+      if (chartData[i].price > largestValue) {
+        largestValue = chartData[i].price;
+      }
+
+      if (chartData[i].price < smallestValue) {
+        smallestValue = chartData[i].price;
+      }
+    }
+    minMaxList.add(largestValue);
+    minMaxList.add(smallestValue);
+    return minMaxList;
+  }
+
+  factory PriceData.fromJson(Map<dynamic, dynamic> json) {
+    return PriceData(json["time"].toDouble(), json["value"]);
+  }
 }
 
 List<PriceData> chartData = [];
+
+List<FlSpot> spotValues = [];

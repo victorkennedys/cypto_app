@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'package:cypto_tracker_2/models/article_model.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+
 import '../models/chart_model.dart';
-import 'package:fl_chart/fl_chart.dart';
+
 import 'selected_coin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cypto_tracker_2/constants.dart';
@@ -29,7 +28,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
   num minDate = 0;
   num maxDate = 0;
   DateTime selectedRange = DateTime.now();
-  List<FlSpot> spotValues = [];
   String coinID = "";
   var maxValue;
   var minValue;
@@ -39,97 +37,38 @@ class _LoadingScreenState extends State<LoadingScreen> {
     setState(() {
       selectedRange = range;
     });
-
     int date = range.millisecondsSinceEpoch;
     int maxDate = (DateTime.now()).millisecondsSinceEpoch;
+    String url =
+        "https://api.coingecko.com/api/v3/coins/$coinID/market_chart/range?vs_currency=usd&from=${date.toInt() / 1000}&to=${maxDate.toInt() / 1000}";
+    String todayURL =
+        "https://api.coingecko.com/api/v3/coins/$coinID/market_chart/range?vs_currency=usd&from=${yesterday.millisecondsSinceEpoch.toInt() / 1000}&to=${maxDate.toInt() / 1000}";
 
-    var data = await get(
-      Uri.parse(
-          "https://api.coingecko.com/api/v3/coins/$coinID/market_chart/range?vs_currency=usd&from=${date.toInt() / 1000}&to=${maxDate.toInt() / 1000}"),
-    );
+    var cList = await PriceData.getGraphData(url); //Function 1.
 
-    if (data.statusCode == 200) {
-      List<dynamic> pricesList = jsonDecode(data.body)["prices"];
+    var currentPrice = await PriceData.getCurrentPrice(
+        todayURL); //Function 2 returning current price.
 
-      var list = pricesList
-          .map((e) => {"time": e[0], "value": e[1]})
-          .toList(growable: true);
-
-      for (Map i in list) {
-        chartData.add(PriceData.fromJson(i));
-      }
-
-      var todayPrice = await get(
-        Uri.parse(
-            "https://api.coingecko.com/api/v3/coins/$coinID/market_chart/range?vs_currency=usd&from=${yesterday.millisecondsSinceEpoch.toInt() / 1000}&to=${maxDate.toInt() / 1000}"),
-      );
-      List<dynamic> todayList = jsonDecode(todayPrice.body)["prices"];
-      var alteredList = todayList
-          .map((e) => {"time": e[0], "value": e[1]})
-          .toList(growable: true);
-
-      setState(() {
-        livePrice = alteredList[alteredList.length - 1]["value"];
-      });
-
-      x();
-    }
-  }
-
-  void x() {
-    for (int i = 0; i < chartData.length; i++) {
-      double timeInSeconds =
-          chartData.reversed.toList()[i].date.toDouble() / 1000;
-      double timeInHours = timeInSeconds / 60 / 60;
-
-      var xCoordinate =
-          (DateTime.now().millisecondsSinceEpoch) / 1000 / 60 / 60 -
-              timeInHours;
-
-      var yCoordinate = chartData[i].price.toDouble();
-
-      setState(() {
-        var spot = FlSpot(xCoordinate, yCoordinate);
-
-        spotValues.add(spot);
-      });
-    }
-    getMaxValue();
-  }
-
-  void getMaxValue() async {
-    var largestValue = chartData[0].price;
-    var smallestValue = chartData[0].price;
-    for (int i = 0; i < chartData.length; i++) {
-      if (chartData[i].price > largestValue) {
-        largestValue = chartData[i].price;
-      }
-
-      if (chartData[i].price < smallestValue) {
-        smallestValue = chartData[i].price;
-      }
-    }
     setState(() {
-      minValue = smallestValue;
-      maxValue = largestValue;
+      livePrice = currentPrice;
     });
+
+    PriceData.addSpotValues(); // function 3, adding values to graph.
+
+    List<double> minMaxList = PriceData.getMaxMinValues();
+    maxValue = minMaxList[0];
+    minValue = minMaxList[1];
+
     getNewsData();
   }
 
   getNewsData() async {
     const String newsKey = "5a8b2b1a798b4b94a1d46f0a5689f36c";
-    var response = await get(Uri.parse(
-        "https://newsapi.org/v2/everything?q=${widget.name}&from=2021-12-24&sortBy=popularity&apiKey=$newsKey"));
-    if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(response.body);
-      List<dynamic> body = json['articles'];
-      for (int i = 0; i < body.length; i++) {
-        Map<String, dynamic> map = body[i];
-        articleList.add(Article.fromJson(map));
-      }
-    } else {
-      print("error");
-    }
+    String newsUrl =
+        "https://newsapi.org/v2/everything?q=${widget.name}&from=2021-12-24&sortBy=popularity&apiKey=$newsKey";
+
+    List<Article> articleList = await Article.getNewsArticles(newsUrl);
+
     Navigator.push(
       context,
       MaterialPageRoute(
