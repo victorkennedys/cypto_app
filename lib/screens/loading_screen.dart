@@ -34,6 +34,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   String coinID = "";
   var maxValue;
   var minValue;
+  var livePrice;
 
   void getGraphData(DateTime range) async {
     setState(() {
@@ -58,6 +59,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
       for (Map i in list) {
         chartData.add(PriceData.fromJson(i));
       }
+
+      var todayPrice = await get(
+        Uri.parse(
+            "https://api.coingecko.com/api/v3/coins/$coinID/market_chart/range?vs_currency=usd&from=${yesterday.millisecondsSinceEpoch.toInt() / 1000}&to=${maxDate.toInt() / 1000}"),
+      );
+      List<dynamic> todayList = jsonDecode(todayPrice.body)["prices"];
+      var alteredList = todayList
+          .map((e) => {"time": e[0], "value": e[1]})
+          .toList(growable: true);
+
+      setState(() {
+        livePrice = alteredList[alteredList.length - 1]["value"];
+      });
 
       x();
     }
@@ -126,7 +140,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               widget.name,
               widget.symbol,
               widget.imageUrl,
-              chartData[chartData.length - 1].price,
+              livePrice,
               widget.change,
               widget.changePercentage,
               getGraphData,

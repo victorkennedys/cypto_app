@@ -15,7 +15,6 @@ class CoinGraph extends StatelessWidget {
   CoinGraph(this.callback, this.min, this.max, this.values);
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Container(
       height: 350,

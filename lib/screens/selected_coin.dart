@@ -1,12 +1,14 @@
 import 'package:cypto_tracker_2/main.dart';
 import 'package:cypto_tracker_2/widgets/coin_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/chart_model.dart';
 import '../widgets/graph.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'loading_screen.dart';
 import '../widgets/news_card.dart';
 import '../widgets/range_buttons.dart';
+import 'package:cypto_tracker_2/constants.dart';
 
 class CoinView extends StatefulWidget {
   final String id;
@@ -63,20 +65,31 @@ class _CoinViewState extends State<CoinView> {
   }
 
   late dynamic livePrice = widget.price;
-  DateTime liveDate = DateTime.now;
+  String dateFormat = DateFormat('yy-MM-dd').format(DateTime.now());
+  String timeFormat = DateFormat('kk:mm').format(DateTime.now());
+  late String liveDate =
+      widget.selectedRange != yesterday ? dateFormat : timeFormat;
   List touchedSpotsReciever = [];
   late int counter;
 
   void _aCallbackFunction(num y, num x) {
-    DateTime today = DateTime.now();
-    DateTime cursoredDate = today.subtract(Duration(hours: x.toInt()));
-    print(cursoredDate);
+    DateTime now = DateTime.now();
+    DateTime cursoredDate =
+        widget.selectedRange.add(Duration(hours: x.toInt()));
+    String formattedDate = widget.selectedRange != yesterday
+        ? DateFormat('yy-MM-dd').format(cursoredDate)
+        : DateFormat('kk:mm').format(cursoredDate);
+
     if (y != 0) {
       setState(() {
+        liveDate = formattedDate;
         livePrice = y;
       });
     } else if (y == 0) {
       setState(() {
+        widget.selectedRange != yesterday
+            ? liveDate = dateFormat
+            : liveDate = timeFormat;
         livePrice = widget.price;
       });
     }
@@ -108,7 +121,7 @@ class _CoinViewState extends State<CoinView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CoinText(widget.name, widget.symbol, widget.imageUrl, livePrice,
-                  widget.change, widget.changePercentage),
+                  widget.change, widget.changePercentage, liveDate),
               SizedBox(
                 height: 20,
               ),

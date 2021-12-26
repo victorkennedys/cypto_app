@@ -3,7 +3,7 @@ import 'package:cypto_tracker_2/constants.dart';
 
 class CoinText extends StatelessWidget {
   CoinText(this.name, this.symbol, this.imageUrl, this.price, this.change,
-      this.changeInPercent);
+      this.changeInPercent, this.selectedTime);
 
   final String name;
   final String symbol;
@@ -11,6 +11,7 @@ class CoinText extends StatelessWidget {
   final double price;
   final double change;
   final double changeInPercent;
+  final String selectedTime;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,10 @@ class CoinText extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                selectedTime,
+                style: TextStyle(color: Colors.grey[300], fontSize: 15),
+              ),
               Text(price.toStringAsFixed(0) + " \$", style: coinText),
               change > 0
                   ? Text("+ " + changeInPercent.toStringAsFixed(2) + " %",
