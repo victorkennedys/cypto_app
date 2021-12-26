@@ -63,11 +63,21 @@ class _CoinViewState extends State<CoinView> {
   }
 
   late dynamic livePrice = widget.price;
+  DateTime liveDate = DateTime.now;
+  List touchedSpotsReciever = [];
+  late int counter;
 
-  void _aCallbackFunction(num data) {
-    if (data != 0) {
+  void _aCallbackFunction(num y, num x) {
+    DateTime today = DateTime.now();
+    DateTime cursoredDate = today.subtract(Duration(hours: x.toInt()));
+    print(cursoredDate);
+    if (y != 0) {
       setState(() {
-        livePrice = data;
+        livePrice = y;
+      });
+    } else if (y == 0) {
+      setState(() {
+        livePrice = widget.price;
       });
     }
   }
