@@ -15,6 +15,7 @@ class CoinGraph extends StatelessWidget {
   CoinGraph(this.callback, this.min, this.max, this.values);
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 350,
@@ -24,13 +25,27 @@ class CoinGraph extends StatelessWidget {
         child: LineChart(
           LineChartData(
             lineTouchData: LineTouchData(
+              touchCallback: (event, touchResponse) {
+                if (event is FlPanEndEvent) {
+                  Future.delayed(Duration.zero, () async {
+                    callback(0, 0);
+                  });
+                  // handle tap here
+                }
+                if (event is FlPanCancelEvent) {
+                  Future.delayed(Duration.zero, () async {
+                    callback(0, 0);
+                  });
+                  // handle tap here
+                }
+              },
               enabled: true,
               touchTooltipData: LineTouchTooltipData(
                 tooltipBgColor: Colors.transparent,
                 fitInsideHorizontally: true,
                 getTooltipItems: (touchedSpots) {
                   Future.delayed(Duration.zero, () async {
-                    callback(touchedSpots[0].y);
+                    callback(touchedSpots[0].y, touchedSpots[0].x);
                   });
 
                   return touchedSpots.map((LineBarSpot touchedSpot) {

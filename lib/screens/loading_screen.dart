@@ -17,6 +17,7 @@ class LoadingScreen extends StatefulWidget {
   final dynamic change;
   final dynamic changePercentage;
   final DateTime viewRange;
+  static const String routeName = '/loading_screen';
 
   LoadingScreen(this.id, this.name, this.symbol, this.imageUrl, this.price,
       this.change, this.changePercentage, this.viewRange);

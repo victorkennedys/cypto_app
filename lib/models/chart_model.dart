@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:fl_chart/fl_chart.dart';
+import 'package:http/http.dart';
 
 class PriceData {
   final double date;
