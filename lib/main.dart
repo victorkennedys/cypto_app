@@ -1,15 +1,15 @@
 import 'dart:convert';
+
 import 'package:cypto_tracker_2/constants.dart';
-import 'package:cypto_tracker_2/models/article_model.dart';
+import 'package:cypto_tracker_2/models/chart_model.dart';
 import 'package:cypto_tracker_2/models/coin_model.dart';
 import 'package:cypto_tracker_2/screens/loading_screen.dart';
 import 'package:cypto_tracker_2/widgets/graph.dart';
-import 'package:cypto_tracker_2/widgets/news_card.dart';
 import 'package:fl_chart/fl_chart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'models/chart_model.dart';
-import 'widgets/coin_card.dart';
+
 import './screens/coin_list.dart';
 
 void main() {
@@ -61,6 +61,46 @@ class _HomeState extends State<Home> {
     }
   }
 
+  num minDate = 0;
+  num maxDate = 0;
+  DateTime selectedRange = DateTime.now();
+  String coinID = "";
+  var maxValue;
+  var minValue;
+  var livePrice;
+
+  Future<List> getGraphData(DateTime range, String coin) async {
+    setState(() {
+      selectedRange = range;
+    });
+    int date = range.millisecondsSinceEpoch;
+    int maxDate = (DateTime.now()).millisecondsSinceEpoch;
+    String url =
+        "https://api.coingecko.com/api/v3/coins/$coin/market_chart/range?vs_currency=usd&from=${date.toInt() / 1000}&to=${maxDate.toInt() / 1000}";
+    String todayURL =
+        "https://api.coingecko.com/api/v3/coins/$coin/market_chart/range?vs_currency=usd&from=${yesterday.millisecondsSinceEpoch.toInt() / 1000}&to=${maxDate.toInt() / 1000}";
+
+    var cList = await PriceData.getGraphData(url); //Function 1.
+
+    var currentPrice = await PriceData.getCurrentPrice(
+        todayURL); //Function 2 returning current price.
+
+    setState(() {
+      livePrice = currentPrice;
+    });
+
+    List<FlSpot> graphData =
+        await PriceData.addSpotValues(); // function 3, adding values to graph.
+
+    List<double> minMaxList = PriceData.getMaxMinValues();
+    maxValue = minMaxList[0];
+    minValue = minMaxList[1];
+
+    List returnList = [() {}, minValue, maxValue, graphData];
+
+    return returnList;
+  }
+
   @override
   void initState() {
     fetchCoin();
@@ -69,6 +109,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return CoinListView();
+    return CoinListView(getGraphData, fetchCoin);
   }
 }

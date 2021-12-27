@@ -51,6 +51,7 @@ class PriceData {
 
       spotValues.add(spot);
     }
+    return spotValues;
   }
 
   static getMaxMinValues() {

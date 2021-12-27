@@ -3,10 +3,9 @@ import '../models/coin_model.dart';
 import '../widgets/coin_card.dart';
 
 class CoinListView extends StatelessWidget {
-  const CoinListView({
-    Key? key,
-  }) : super(key: key);
-
+  final Function getGraphData;
+  final Function fetchCoins;
+  CoinListView(this.getGraphData, this.fetchCoins);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +31,9 @@ class CoinListView extends StatelessWidget {
               coinList[index].imageUrl,
               coinList[index].price,
               coinList[index].change,
-              coinList[index].changePercentage);
+              coinList[index].changePercentage,
+              getGraphData,
+              fetchCoins);
         },
       ),
     );

@@ -1,8 +1,11 @@
 import 'package:cypto_tracker_2/constants.dart';
+import 'package:cypto_tracker_2/models/chart_model.dart';
 import 'package:cypto_tracker_2/screens/loading_screen.dart';
+import 'package:cypto_tracker_2/widgets/graph.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class CoinCard extends StatelessWidget {
+class CoinCard extends StatefulWidget {
   String id;
   String name;
   String symbol;
@@ -10,6 +13,8 @@ class CoinCard extends StatelessWidget {
   dynamic price;
   dynamic change;
   dynamic changePercentage;
+  final Function getGraphData;
+  final Function fetchCoins;
 
   CoinCard(
       @required this.id,
@@ -18,7 +23,30 @@ class CoinCard extends StatelessWidget {
       @required this.imageUrl,
       @required this.price,
       @required this.change,
-      @required this.changePercentage);
+      @required this.changePercentage,
+      this.getGraphData,
+      this.fetchCoins);
+
+  @override
+  State<CoinCard> createState() => _CoinCardState();
+}
+
+late Function callback;
+late double minValue;
+late double maxValue;
+List<FlSpot> spotList = [];
+
+class _CoinCardState extends State<CoinCard> {
+  Future<CoinGraph> t() async {
+    List x = await widget.getGraphData(yesterday, widget.id);
+    setState(() {
+      callback = x[1];
+      minValue = x[2];
+      maxValue = x[3];
+      spotList = x[4];
+    });
+    return CoinGraph(callback, minValue, maxValue, spotList);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +55,15 @@ class CoinCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LoadingScreen(id, name, symbol, imageUrl,
-                price, change, changePercentage, yesterday),
+            builder: (context) => LoadingScreen(
+                widget.id,
+                widget.name,
+                widget.symbol,
+                widget.imageUrl,
+                widget.price,
+                widget.change,
+                widget.changePercentage,
+                yesterday),
           ),
         );
       },
@@ -41,7 +76,7 @@ class CoinCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.network(
-                  imageUrl,
+                  widget.imageUrl,
                   height: 30,
                 ),
                 SizedBox(
@@ -55,7 +90,7 @@ class CoinCard extends StatelessWidget {
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          name,
+                          widget.name,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
@@ -63,7 +98,7 @@ class CoinCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        symbol,
+                        widget.symbol,
                         style: TextStyle(
                           fontSize: 13,
                           color: Colors.white,
@@ -72,12 +107,33 @@ class CoinCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                FutureBuilder<CoinGraph>(
+                  /* future: _value, */
+                  builder: (context, AsyncSnapshot<CoinGraph> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        return Text("Error");
+                      } else if (snapshot.hasData) {
+                        return CoinGraph(
+                            callback, minValue, maxValue, spotValues);
+                        /* return snapshot.data as Widget; */
+                      } else {
+                        return Text("Empty data");
+                      }
+                    } else {
+                      return Text("State: ${snapshot.connectionState}");
+                    }
+                  },
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      price.toString() + "\$",
+                      widget.price.toString() + "\$",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -88,21 +144,26 @@ class CoinCard extends StatelessWidget {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            change < 0
-                                ? change.toStringAsFixed(1) + "\$"
-                                : "\$" '+' + change.toStringAsFixed(1),
+                            widget.change < 0
+                                ? widget.change.toStringAsFixed(1) + "\$"
+                                : "\$" '+' + widget.change.toStringAsFixed(1),
                             style: TextStyle(
-                                color: change < 0 ? Colors.red : Colors.green,
+                                color: widget.change < 0
+                                    ? Colors.red
+                                    : Colors.green,
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
                         Text(
-                          changePercentage < 0
-                              ? changePercentage.toStringAsFixed(1) + "%"
-                              : '+' + changePercentage.toStringAsFixed(1) + "%",
+                          widget.changePercentage < 0
+                              ? widget.changePercentage.toStringAsFixed(1) + "%"
+                              : '+' +
+                                  widget.changePercentage.toStringAsFixed(1) +
+                                  "%",
                           style: TextStyle(
-                              color: change < 0 ? Colors.red : Colors.green,
+                              color:
+                                  widget.change < 0 ? Colors.red : Colors.green,
                               fontSize: 13,
                               fontWeight: FontWeight.bold),
                         ),

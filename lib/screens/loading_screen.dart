@@ -33,7 +33,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   var minValue;
   var livePrice;
 
-  void getGraphData(DateTime range) async {
+  getGraphData(DateTime range) async {
     setState(() {
       selectedRange = range;
     });
@@ -53,13 +53,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
       livePrice = currentPrice;
     });
 
-    PriceData.addSpotValues(); // function 3, adding values to graph.
+    var graphData =
+        PriceData.addSpotValues(); // function 3, adding values to graph.
 
     List<double> minMaxList = PriceData.getMaxMinValues();
     maxValue = minMaxList[0];
     minValue = minMaxList[1];
 
     getNewsData();
+    return graphData;
   }
 
   getNewsData() async {

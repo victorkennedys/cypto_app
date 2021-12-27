@@ -51,14 +51,15 @@ class _CoinViewState extends State<CoinView> {
       MaterialPageRoute(
         builder: (context) {
           return LoadingScreen(
-              widget.id,
-              widget.name,
-              widget.symbol,
-              widget.imageUrl,
-              widget.price,
-              widget.change,
-              widget.changePercentage,
-              range);
+            widget.id,
+            widget.name,
+            widget.symbol,
+            widget.imageUrl,
+            widget.price,
+            widget.change,
+            widget.changePercentage,
+            range,
+          );
         },
       ),
     );
