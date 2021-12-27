@@ -69,10 +69,9 @@ class _HomeState extends State<Home> {
   var minValue;
   var livePrice;
 
-  Future<List> getGraphData(DateTime range, String coin) async {
-    setState(() {
-      selectedRange = range;
-    });
+  Future<CoinGraph> getGraphData(DateTime range, String coin) async {
+    selectedRange = range;
+
     int date = range.millisecondsSinceEpoch;
     int maxDate = (DateTime.now()).millisecondsSinceEpoch;
     String url =
@@ -98,7 +97,7 @@ class _HomeState extends State<Home> {
 
     List returnList = [() {}, minValue, maxValue, graphData];
 
-    return returnList;
+    return CoinGraph(() {}, minValue, maxValue, graphData);
   }
 
   @override

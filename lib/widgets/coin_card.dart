@@ -38,14 +38,9 @@ List<FlSpot> spotList = [];
 
 class _CoinCardState extends State<CoinCard> {
   Future<CoinGraph> t() async {
-    List x = await widget.getGraphData(yesterday, widget.id);
-    setState(() {
-      callback = x[1];
-      minValue = x[2];
-      maxValue = x[3];
-      spotList = x[4];
-    });
-    return CoinGraph(callback, minValue, maxValue, spotList);
+    CoinGraph coinGraph = await widget.getGraphData(yesterday, widget.id);
+
+    return coinGraph;
   }
 
   @override
@@ -108,6 +103,19 @@ class _CoinCardState extends State<CoinCard> {
                   ),
                 ),
                 FutureBuilder<CoinGraph>(
+                  builder: (BuildContext context,
+                      AsyncSnapshot<CoinGraph> snapShot) {
+                    print(snapShot);
+                    if (snapShot.hasData) {
+                      CoinGraph graph = snapShot.data as CoinGraph;
+                      return graph;
+                    }
+
+                    return Text("");
+                  },
+                  future: t(),
+                ),
+                /* FutureBuilder(
                   future: t(),
                   builder: (context, AsyncSnapshot<CoinGraph> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -127,7 +135,7 @@ class _CoinCardState extends State<CoinCard> {
                       return Text("State: ${snapshot.connectionState}");
                     }
                   },
-                ),
+                ), */
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
