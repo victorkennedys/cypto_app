@@ -108,7 +108,7 @@ class _CoinCardState extends State<CoinCard> {
                   ),
                 ),
                 FutureBuilder<CoinGraph>(
-                  /* future: _value, */
+                  future: t(),
                   builder: (context, AsyncSnapshot<CoinGraph> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator();
