@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "207865824924",
+    "project_id": "woof-ad9a6",
+    "storage_bucket": "woof-ad9a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207865824924:android:e1e6db9d35d95ff8840f59",
+        "android_client_info": {
+          "package_name": "com.dogi.woof"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207865824924-gnl56pmgkbjmj5satm2pr4n5d5l6de7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBUDiTrWyAP7Uawgw11CwZdtPCg6TbmXk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207865824924-gnl56pmgkbjmj5satm2pr4n5d5l6de7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
