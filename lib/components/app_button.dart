@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:woof/constants.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppButton extends StatelessWidget {
   final Color buttonColor;

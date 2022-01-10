@@ -13,7 +13,7 @@ class BlackPinkText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return /* Padding(
       padding: EdgeInsets.only(
         left: MediaQuery.of(context).size.width / 10,
         right: MediaQuery.of(context).size.width / 10,
@@ -22,19 +22,20 @@ class BlackPinkText extends StatelessWidget {
             ? MediaQuery.of(context).size.height / 20
             : MediaQuery.of(context).size.height / 150,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            blackText,
-            style: kH1Text,
-          ),
-          Text(
-            pinkText,
-            style: kH1Text.copyWith(color: kPinkColor),
-          ),
-        ],
-      ),
+      child: */
+        Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          blackText,
+          style: kH1Text,
+        ),
+        Text(
+          pinkText,
+          style: kH1Text.copyWith(color: kPinkColor),
+        ),
+      ],
     );
+    /* ); */
   }
 }

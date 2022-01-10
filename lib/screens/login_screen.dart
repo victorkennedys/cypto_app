@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                     email: email, password: passWord);
                 if (user != null) {
                   /* Navigator.pushNamed(context, Home.id); */
-                  Navigator.pushNamed(context, AddDogScreen.id);
+                  Navigator.pushNamed(context, Home.id);
                 }
               } catch (e) {
                 print(e);

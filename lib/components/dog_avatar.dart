@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DogAvatar extends StatelessWidget {
+  final String imageUrl;
+
+  DogAvatar(this.imageUrl);
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height / 12,
-        right: MediaQuery.of(context).size.width / 10,
-      ),
       child: ClipOval(
-        child: Image.asset(
-          "images/Zoe.png",
+        child: Image.network(
+          imageUrl,
           fit: BoxFit.cover,
           height: MediaQuery.of(context).size.height / 17,
           width: MediaQuery.of(context).size.height / 17,

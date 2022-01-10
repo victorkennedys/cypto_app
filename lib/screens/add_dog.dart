@@ -1,16 +1,24 @@
-import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
+import 'package:woof/screens/home_screen.dart';
 import '../components/form_question_text.dart';
 import '../constants.dart';
+import '../components/add_dog_image.dart';
+
+final _firestore = FirebaseFirestore.instance;
+List urlList = [];
 
 class AddDogScreen extends StatelessWidget {
+  final _auth = FirebaseAuth.instance;
+  late User loggedInUser = _auth.currentUser!;
+
   static const String id = 'add_dog_screen';
+  String dogName = '';
+  String breed = '';
+  String birthDay = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,17 +51,45 @@ class AddDogScreen extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AddImageOfDog(100, 100),
-                          AddImageOfDog(70, 70),
-                          AddImageOfDog(70, 70),
+                          AddImageOfDog(100, 100, urlList),
+                          AddImageOfDog(70, 70, urlList),
+                          AddImageOfDog(70, 70, urlList),
                         ],
                       ),
                     ),
                     FormQuestionText("Vad heter din hund?"),
-                    TextField(
-                      decoration: kInputDecoration.copyWith(
-                          hintText: "Vad heter din hund?"),
-                    )
+                    Container(
+                      margin: EdgeInsets.only(left: 20, right: 20),
+                      child: TextField(
+                        decoration: kInputDecoration.copyWith(
+                            hintText: "Vad heter din hund?"),
+                        onChanged: (value) {
+                          dogName = value;
+                        },
+                      ),
+                    ),
+                    FormQuestionText("Vad har du för hundras"),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, right: 20),
+                      child: TextField(
+                        decoration:
+                            kInputDecoration.copyWith(hintText: "Hundras"),
+                        onChanged: (value) {
+                          breed = value;
+                        },
+                      ),
+                    ),
+                    FormQuestionText("När är din hund född?"),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, right: 20),
+                      child: TextField(
+                        decoration: kInputDecoration.copyWith(
+                            hintText: "${DateTime.now.toString()}"),
+                        onChanged: (value) {
+                          birthDay = value;
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -62,71 +98,40 @@ class AddDogScreen extends StatelessWidget {
           AppButton(
               buttonColor: kPurpleColor,
               textColor: kPinkColor,
-              onPressed: () {},
+              onPressed: () {
+                if (urlList.length == 1) {
+                  _firestore.collection('dogs').add({
+                    'name': dogName,
+                    'image1': urlList[0].toString(),
+                    'breed': breed,
+                    'birthday': birthDay,
+                    'owner': loggedInUser.email
+                  });
+                } else if (urlList.length == 2) {
+                  _firestore.collection('dogs').add({
+                    'name': dogName,
+                    'image1': urlList[0].toString(),
+                    'image2': urlList[1].toString(),
+                    'breed': breed,
+                    'birthday': birthDay,
+                    'owner': loggedInUser.email
+                  });
+                } else if (urlList.length == 3) {
+                  _firestore.collection('dogs').add({
+                    'name': dogName,
+                    'image1': urlList[0].toString(),
+                    'image2': urlList[1].toString(),
+                    'image3': urlList[2].toString(),
+                    'breed': breed,
+                    'birthday': birthDay,
+                    'owner': loggedInUser.email
+                  });
+                }
+                Navigator.pushNamed(context, Home.id);
+              },
               buttonText: "Klar")
         ],
       ),
-    );
-  }
-}
-
-class AddImageOfDog extends StatefulWidget {
-  final double height;
-  final double width;
-
-  AddImageOfDog(this.height, this.width);
-
-  @override
-  State<AddImageOfDog> createState() => _AddImageOfDogState();
-}
-
-class _AddImageOfDogState extends State<AddImageOfDog> {
-  File? imageFile;
-  Future pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) {
-        return;
-      }
-      final imageTemporary = File(image.path);
-      setState(() {
-        this.imageFile = imageTemporary;
-      });
-      uploadToFireBase(context);
-    } on PlatformException catch (e) {
-      print(e);
-    }
-  }
-
-  Future uploadToFireBase(context) async {
-    String fileName = basename(imageFile!.path);
-
-    Reference ref = FirebaseStorage.instance.ref().child('dogimages/$fileName');
-    var uploadTask = ref.putFile(imageFile!);
-    TaskSnapshot taskSnapshot = await uploadTask;
-    String url = await taskSnapshot.ref.getDownloadURL();
-    print(url);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => pickImage(),
-      child: Container(
-          decoration: BoxDecoration(
-              color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
-          margin: EdgeInsets.symmetric(horizontal: 3),
-          height: widget.height,
-          width: widget.width,
-          child: imageFile != null
-              ? Image.file(
-                  imageFile!,
-                  fit: BoxFit.cover,
-                )
-              : Icon(
-                  Icons.image,
-                  color: Colors.white,
-                )),
     );
   }
 }
