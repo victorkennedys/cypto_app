@@ -6,32 +6,28 @@ class AppButton extends StatelessWidget {
   final Color buttonColor;
   final Color textColor;
   final dynamic onPressed;
+  final String buttonText;
 
   AppButton(
       {required this.buttonColor,
       required this.textColor,
-      required this.onPressed});
+      required this.onPressed,
+      required this.buttonText});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-          color: kPurpleColor,
+          color: buttonColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.08,
+        width: MediaQuery.of(context).size.width * 0.85,
+        height: MediaQuery.of(context).size.height * 0.07,
         child: MaterialButton(
           onPressed: onPressed,
-          child: Text(
-            "Kom igång!",
-            style: GoogleFonts.montserrat(
-              color: kPinkColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          child: Text(buttonText,
+              style: kButtonTextStyle.copyWith(color: textColor)),
         ),
       ),
     );

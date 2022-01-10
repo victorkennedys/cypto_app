@@ -4,9 +4,10 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/home_screen.dart';
 import '../components/black_and_pink_text.dart';
+import 'add_dog.dart';
 
-class RegistrationScreen extends StatelessWidget {
-  static const String id = 'registration_screen';
+class LoginScreen extends StatelessWidget {
+  static const String id = 'login_screen';
   final _auth = FirebaseAuth.instance;
   String email = '';
   String passWord = '';
@@ -20,7 +21,7 @@ class RegistrationScreen extends StatelessWidget {
         children: [
           BlackPinkText(
             //To change added padding from textfield
-            blackText: "Kom igång med",
+            blackText: "Logga in på",
             pinkText: "Woof",
           ),
           SizedBox(
@@ -41,8 +42,7 @@ class RegistrationScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: TextField(
-              decoration:
-                  kInputDecoration.copyWith(hintText: "Välj ett lösenord"),
+              decoration: kInputDecoration.copyWith(hintText: "Ange lösenord"),
               obscureText: true,
               onChanged: (value) {
                 passWord = value;
@@ -57,16 +57,17 @@ class RegistrationScreen extends StatelessWidget {
             textColor: kPinkColor,
             onPressed: () async {
               try {
-                final newUser = await _auth.createUserWithEmailAndPassword(
+                final user = await _auth.signInWithEmailAndPassword(
                     email: email, password: passWord);
-                if (newUser != null) {
-                  Navigator.pushNamed(context, Home.id);
+                if (user != null) {
+                  /* Navigator.pushNamed(context, Home.id); */
+                  Navigator.pushNamed(context, AddDogScreen.id);
                 }
               } catch (e) {
                 print(e);
               }
             },
-            buttonText: "Klar",
+            buttonText: "Logga in",
           )
         ],
       ),

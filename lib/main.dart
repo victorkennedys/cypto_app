@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:woof/screens/add_dog.dart';
+import 'package:woof/screens/home_screen.dart';
+import 'package:woof/screens/login_screen.dart';
 import 'package:woof/screens/signup_screen.dart';
 import 'constants.dart';
 import './components/app_button.dart';
@@ -14,12 +17,20 @@ class Woof extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      initialRoute: WelcomeScreen.id,
+      routes: {
+        WelcomeScreen.id: (context) => WelcomeScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        RegistrationScreen.id: (context) => RegistrationScreen(),
+        Home.id: (context) => Home(),
+        AddDogScreen.id: (context) => AddDogScreen(),
+      },
     );
   }
 }
 
-class LoginScreen extends StatelessWidget {
+class WelcomeScreen extends StatelessWidget {
+  static const String id = 'welcome_screen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +46,17 @@ class LoginScreen extends StatelessWidget {
                 buttonColor: kPurpleColor,
                 textColor: kPinkColor,
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              RegistrationScreen()));
+                  Navigator.pushNamed(context, RegistrationScreen.id);
                 },
+                buttonText: "Kom igång!",
               ),
             ),
+            TextButton(
+              child: Text("Redan registrerad? Logga in"),
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+            )
           ],
         ),
       ),
