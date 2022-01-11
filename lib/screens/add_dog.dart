@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
-import 'package:woof/screens/home_screen.dart';
 import '../components/form_question_text.dart';
 import '../constants.dart';
 import '../components/add_dog_image.dart';
@@ -11,14 +10,24 @@ import '../components/add_dog_image.dart';
 final _firestore = FirebaseFirestore.instance;
 List urlList = [];
 
-class AddDogScreen extends StatelessWidget {
+class AddDogScreen extends StatefulWidget {
+  static const String id = 'add_dog_screen';
+
+  @override
+  State<AddDogScreen> createState() => _AddDogScreenState();
+}
+
+class _AddDogScreenState extends State<AddDogScreen> {
   final _auth = FirebaseAuth.instance;
+
   late User loggedInUser = _auth.currentUser!;
 
-  static const String id = 'add_dog_screen';
   String dogName = '';
+
   String breed = '';
-  String birthDay = '';
+
+  DateTime birthDay = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +50,7 @@ class AddDogScreen extends StatelessWidget {
               elevation: 8.0,
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.87,
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: MediaQuery.of(context).size.height * 0.6,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -80,14 +89,27 @@ class AddDogScreen extends StatelessWidget {
                       ),
                     ),
                     FormQuestionText("När är din hund född?"),
-                    Container(
-                      margin: EdgeInsets.only(left: 20, right: 20),
-                      child: TextField(
-                        decoration: kInputDecoration.copyWith(
-                            hintText: "${DateTime.now.toString()}"),
-                        onChanged: (value) {
-                          birthDay = value;
-                        },
+                    GestureDetector(
+                      onTap: () async {
+                        DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime.now());
+
+                        if (picked != null) {
+                          setState(() {
+                            birthDay = picked;
+                          });
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20, right: 20),
+                        child: TextField(
+                          enabled: false,
+                          decoration: kInputDecoration.copyWith(
+                              hintText: "${birthDay.toString()}"),
+                        ),
                       ),
                     ),
                   ],

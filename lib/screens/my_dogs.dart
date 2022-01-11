@@ -21,36 +21,6 @@ class MyDogs extends StatefulWidget {
 }
 
 class _MyDogsState extends State<MyDogs> {
-  /* List<DogCard> dogList = [];
-  void getDogList() async {
-    await _firestore
-        .collection('dogs')
-        .where("owner", isEqualTo: loggedInUser.email)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      List<QueryDocumentSnapshot<Object?>> list = querySnapshot.docs;
-      for (var doc in list) {
-        final String dogName = doc.get("name");
-        final String breed = doc.get("breed");
-        final String birthDay = doc.get("birthday");
-        final String imageUrl = doc.get("image1");
-        print(imageUrl);
-
-        dogList.add(DogCard(dogName, breed, birthDay, imageUrl));
-        setState(() {
-          dogList;
-        });
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    getDogList();
-
-    super.initState();
-  } */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,13 +29,13 @@ class _MyDogsState extends State<MyDogs> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BlackPinkText(blackText: "Dina", pinkText: "Hundar"),
-          AppButton(
-              buttonColor: kPinkColor,
+          /* AppButton(
+              buttonColor: kPurpleColor,
               textColor: Colors.white,
               onPressed: () {
                 Navigator.pushNamed(context, AddDogScreen.id);
               },
-              buttonText: "Lägg till en hund"),
+              buttonText: "Lägg till en hund"), */
           UserDogList(),
         ],
       ),

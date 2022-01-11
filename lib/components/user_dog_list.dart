@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/dog_avatar.dart';
+import 'package:woof/screens/current_dog.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser = _auth.currentUser!;
@@ -12,14 +13,59 @@ class UserDogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return DogStream();
+    return StreamBuilder<QuerySnapshot>(
+        stream: _firestore
+            .collection("dogs")
+            .where("owner", isEqualTo: loggedInUser.email)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            print("it has data");
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          final allDogs = snapshot.data?.docs;
+
+          List<DogCard> dogList = [];
+          for (var dog in allDogs!) {
+            final dogName = dog.get("name");
+            final breed = dog.get("breed");
+            final birthDay = (dog.get("birthday") as Timestamp).toDate();
+            final image1 = dog.get("image1");
+
+            final dogCard = DogCard(
+              name: dogName,
+              breed: breed,
+              birthDay: birthDay,
+              imageUrl: image1,
+            );
+            dogList.add(dogCard);
+          }
+          return Align(
+            alignment: Alignment.center,
+            child: Card(
+              elevation: 8.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.87,
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: dogList,
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
 
 class DogCard extends StatelessWidget {
   final String name;
   final String breed;
-  final String birthDay;
+  final DateTime birthDay;
   final String imageUrl;
 
   DogCard(
@@ -34,8 +80,19 @@ class DogCard extends StatelessWidget {
         left: MediaQuery.of(context).size.width / 10,
         right: MediaQuery.of(context).size.width / 10,
       ),
-      child: Card(
-        elevation: 1,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CurrentDog(
+                      name: name,
+                      breed: breed,
+                      birthDay: birthDay,
+                      image1: imageUrl,
+                    )),
+          );
+        },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           decoration: BoxDecoration(
@@ -59,44 +116,5 @@ class DogCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class DogStream extends StatelessWidget {
-  const DogStream({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: _firestore
-            .collection("dogs")
-            .where("owner", isEqualTo: loggedInUser.email)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          final allDogs = snapshot.data?.docs;
-          List<DogCard> dogList = [];
-          for (var dog in allDogs!) {
-            final dogName = dog.get("name");
-            final breed = dog.get("breed");
-            final birthDay = dog.get("burthday");
-            final image = dog.get("image1");
-
-            final dogCard = DogCard(
-              name: dogName,
-              breed: breed,
-              birthDay: birthDay,
-              imageUrl: image,
-            );
-            dogList.add(dogCard);
-          }
-          return Column(
-            children: dogList,
-          );
-        });
   }
 }

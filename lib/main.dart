@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:woof/screens/add_dog.dart';
+import 'package:woof/screens/current_dog.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/login_screen.dart';
 import 'package:woof/screens/my_dogs.dart';
