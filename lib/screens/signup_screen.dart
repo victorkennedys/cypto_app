@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/screens/add_dog.dart';
 import 'package:woof/screens/home_screen.dart';
 import '../components/black_and_pink_text.dart';
 
@@ -60,7 +61,7 @@ class RegistrationScreen extends StatelessWidget {
                 final newUser = await _auth.createUserWithEmailAndPassword(
                     email: email, password: passWord);
                 if (newUser != null) {
-                  Navigator.pushNamed(context, Home.id);
+                  Navigator.pushNamed(context, AddDogScreen.id);
                 }
               } catch (e) {
                 print(e);

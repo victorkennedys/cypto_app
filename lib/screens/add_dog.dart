@@ -127,7 +127,7 @@ class AddDogScreen extends StatelessWidget {
                     'owner': loggedInUser.email
                   });
                 }
-                Navigator.pushNamed(context, Home.id);
+                Navigator.pop(context);
               },
               buttonText: "Klar")
         ],

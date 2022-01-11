@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:woof/screens/add_dog.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/login_screen.dart';
+import 'package:woof/screens/my_dogs.dart';
 import 'package:woof/screens/signup_screen.dart';
 import 'constants.dart';
 import './components/app_button.dart';
@@ -24,6 +25,7 @@ class Woof extends StatelessWidget {
         RegistrationScreen.id: (context) => RegistrationScreen(),
         Home.id: (context) => Home(),
         AddDogScreen.id: (context) => AddDogScreen(),
+        MyDogs.id: (context) => MyDogs(),
       },
     );
   }

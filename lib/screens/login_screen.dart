@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/home_screen.dart';
+
 import '../components/black_and_pink_text.dart';
 import 'add_dog.dart';
 
@@ -61,6 +62,7 @@ class LoginScreen extends StatelessWidget {
                     email: email, password: passWord);
                 if (user != null) {
                   /* Navigator.pushNamed(context, Home.id); */
+
                   Navigator.pushNamed(context, Home.id);
                 }
               } catch (e) {

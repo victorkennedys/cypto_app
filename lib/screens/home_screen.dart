@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
-import 'package:woof/components/dog_avatar.dart';
 import 'package:woof/constants.dart';
-import '../components/user_dog_list.dart';
+import 'package:woof/screens/my_dogs.dart';
+import '../components/nav_bar.dart';
 
 class Home extends StatefulWidget {
   static const String id = 'home_screen';
@@ -37,44 +37,33 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width / 10,
-            right: MediaQuery.of(context).size.width / 10,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BlackPinkText(
+            blackText: "Vad behöver",
+            pinkText: "Zoe?",
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlackPinkText(
-                blackText: "Vad behöver",
-                pinkText: "Zoe?",
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 40,
-              ),
-              AppButton(
-                  buttonColor: kPurpleColor,
-                  textColor: kPinkColor,
-                  onPressed: () {},
-                  buttonText: "Promenad"),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 40,
-              ),
-              AppButton(
-                  buttonColor: kPinkColor,
-                  textColor: kPurpleColor,
-                  onPressed: () {},
-                  buttonText: "Hundpassning"),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 40,
-              ),
-              UserDogList(),
-            ],
+          AppButton(
+              buttonColor: kPurpleColor,
+              textColor: kPinkColor,
+              onPressed: () {},
+              buttonText: "Promenad"),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 40,
           ),
-        ),
+          AppButton(
+              buttonColor: kPinkColor,
+              textColor: kPurpleColor,
+              onPressed: () {},
+              buttonText: "Hundpassning"),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 40,
+          ),
+        ],
       ),
+      bottomNavigationBar: NavBar(0),
     );
   }
 }

@@ -8,45 +8,11 @@ User loggedInUser = _auth.currentUser!;
 
 final _auth = FirebaseAuth.instance;
 
-class UserDogList extends StatefulWidget {
-  @override
-  State<UserDogList> createState() => _UserDogListState();
-}
-
-class _UserDogListState extends State<UserDogList> {
-  List<DogCard> dogList = [];
-  getDogList() async {
-    await _firestore
-        .collection('dogs')
-        .where("owner", isEqualTo: loggedInUser.email)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      List<QueryDocumentSnapshot<Object?>> list = querySnapshot.docs;
-      for (var doc in list) {
-        final String dogName = doc.get("name");
-        final String breed = doc.get("breed");
-        final String birthDay = doc.get("birthday");
-        final String imageUrl = doc.get("image1");
-        print(imageUrl);
-
-        dogList.add(DogCard(dogName, breed, birthDay, imageUrl));
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    getDogList();
-
-    super.initState();
-  }
-
+class UserDogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Column(
-      children: dogList,
-    );
+    return DogStream();
   }
 }
 
@@ -56,20 +22,81 @@ class DogCard extends StatelessWidget {
   final String birthDay;
   final String imageUrl;
 
-  DogCard(this.name, this.breed, this.birthDay, this.imageUrl);
+  DogCard(
+      {required this.name,
+      required this.breed,
+      required this.birthDay,
+      required this.imageUrl});
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        DogAvatar(imageUrl),
-        Column(
-          children: [
-            Text(name),
-            Text(breed),
-          ],
+    return Padding(
+      padding: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width / 10,
+        right: MediaQuery.of(context).size.width / 10,
+      ),
+      child: Card(
+        elevation: 1,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              DogAvatar(imageUrl),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(name),
+                  Text(breed),
+                ],
+              ),
+            ],
+          ),
         ),
-      ],
+      ),
     );
+  }
+}
+
+class DogStream extends StatelessWidget {
+  const DogStream({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: _firestore
+            .collection("dogs")
+            .where("owner", isEqualTo: loggedInUser.email)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          final allDogs = snapshot.data?.docs;
+          List<DogCard> dogList = [];
+          for (var dog in allDogs!) {
+            final dogName = dog.get("name");
+            final breed = dog.get("breed");
+            final birthDay = dog.get("burthday");
+            final image = dog.get("image1");
+
+            final dogCard = DogCard(
+              name: dogName,
+              breed: breed,
+              birthDay: birthDay,
+              imageUrl: image,
+            );
+            dogList.add(dogCard);
+          }
+          return Column(
+            children: dogList,
+          );
+        });
   }
 }
