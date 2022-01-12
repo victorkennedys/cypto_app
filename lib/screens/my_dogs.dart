@@ -22,7 +22,7 @@ class _MyDogsState extends State<MyDogs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /* appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 3,
         backgroundColor: Colors.transparent,
@@ -36,7 +36,7 @@ class _MyDogsState extends State<MyDogs> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Expanded(
+              icon:  Expanded(
                 child: Icon(
                   Icons.arrow_back_ios,
                 ),
@@ -44,7 +44,7 @@ class _MyDogsState extends State<MyDogs> {
             ),
           ],
         ),
-      ),
+      ), */
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
@@ -63,7 +63,7 @@ class _MyDogsState extends State<MyDogs> {
                 flex: 4,
                 child: UserDogList(selectable: false),
               ),
-              const Flexible(
+              Flexible(
                 child: SizedBox(),
               ),
               Flexible(

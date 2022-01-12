@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
@@ -5,7 +7,13 @@ import 'package:woof/components/form_question_text.dart';
 import 'package:woof/components/toggle_button.dart';
 import 'package:woof/constants.dart';
 
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+final user = _auth.currentUser;
+
 class BookWalkScreen extends StatefulWidget {
+  final List dogList;
+  BookWalkScreen(this.dogList);
   static const String id = 'book_walk_screen';
 
   @override
@@ -44,7 +52,21 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
     }
   }
 
-  setOnChanged(String value, var variable) {}
+  List<bool> buttonSelected = [false, false];
+  int length = 0;
+  getWalkLength(int index) {
+    setState(() {
+      if (index == 0) {
+        buttonSelected[0] = true;
+        buttonSelected[1] = false;
+        length = 30;
+      } else if (index == 1) {
+        buttonSelected[1] = true;
+        buttonSelected[0] = false;
+        length = 60;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +110,7 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormQuestionText("Hur lång promenad behöver Zoe?"),
-                        TogButtons(),
+                        TogButtons(getWalkLength, buttonSelected),
                         FormQuestionText("Vilken dag Zoe sin promenad"),
                         DateTimePicker(selectedDateTime.toString(), selectDate),
                         FormQuestionText("Vart ska Zoe upphämtas?"),
@@ -117,7 +139,15 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                     buttonColor: kPurpleColor,
                     buttonText: "Fortsätt",
                     textColor: kPinkColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      _firestore.collection("adverts").add({
+                        'dogs': widget.dogList,
+                        'creator': user?.email,
+                        'length': length,
+                        'datetime': date.toUtc(),
+                        'meetup spot': meetUpSpot,
+                      });
+                    },
                   ))
             ],
           ),

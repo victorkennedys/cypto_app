@@ -4,9 +4,9 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/user_dog_list.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/screens/walk_booking_screen.dart';
 
 class PickDogScreen extends StatelessWidget {
-  final _firestore = FirebaseFirestore.instance;
   static const String id = 'pick_dog_screen';
 
   List<String> dogList = [];
@@ -42,7 +42,12 @@ class PickDogScreen extends StatelessWidget {
                   buttonText: "Fortsätt",
                   onPressed: () {
                     if (dogList.isNotEmpty) {
-                      _firestore.collection("adverts").add({'dogs': dogList});
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BookWalkScreen(dogList),
+                        ),
+                      );
                     }
                   },
                 ),

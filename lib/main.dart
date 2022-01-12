@@ -28,7 +28,6 @@ class Woof extends StatelessWidget {
         Home.id: (context) => Home(),
         AddDogScreen.id: (context) => AddDogScreen(),
         MyDogs.id: (context) => MyDogs(),
-        BookWalkScreen.id: (context) => BookWalkScreen(),
         PickDogScreen.id: (context) => PickDogScreen(),
       },
     );

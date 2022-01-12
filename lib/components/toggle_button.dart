@@ -2,27 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:woof/constants.dart';
 
 class TogButtons extends StatefulWidget {
+  final Function getLength;
+  final List<bool> buttonSelected;
+  TogButtons(this.getLength, this.buttonSelected);
   @override
   _TogButtonsState createState() => _TogButtonsState();
 }
 
 class _TogButtonsState extends State<TogButtons> {
-  int length = 0;
-  onPressed(int index) {
-    setState(() {
-      if (index == 0) {
-        buttonSelected[0] = true;
-        buttonSelected[1] = false;
-        length = 30;
-      } else if (index == 1) {
-        buttonSelected[1] = true;
-        buttonSelected[0] = false;
-        length = 60;
-      }
-    });
-  }
-
-  List<bool> buttonSelected = [false, false];
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -33,13 +20,14 @@ class _TogButtonsState extends State<TogButtons> {
         borderRadius: BorderRadius.circular(30),
         borderColor: Colors.transparent,
         onPressed: (int index) {
-          onPressed(index);
+          widget.getLength(index);
         },
-        isSelected: buttonSelected,
+        isSelected: widget.buttonSelected,
         children: [
-          TogButton(
-              "30 minuter", buttonSelected[0] ? kPinkColor : Colors.black38),
-          TogButton("1 timme", buttonSelected[1] ? kPinkColor : Colors.black38),
+          TogButton("30 minuter",
+              widget.buttonSelected[0] ? kPinkColor : Colors.black38),
+          TogButton("1 timme",
+              widget.buttonSelected[1] ? kPinkColor : Colors.black38),
         ],
       ),
     );
