@@ -6,6 +6,7 @@ import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/login_screen.dart';
 import 'package:woof/screens/my_dogs.dart';
 import 'package:woof/screens/signup_screen.dart';
+import 'package:woof/screens/walk_booking_screen.dart';
 import 'constants.dart';
 import './components/app_button.dart';
 
@@ -27,6 +28,7 @@ class Woof extends StatelessWidget {
         Home.id: (context) => Home(),
         AddDogScreen.id: (context) => AddDogScreen(),
         MyDogs.id: (context) => MyDogs(),
+        BookWalkScreen.id: (context) => BookWalkScreen(),
       },
     );
   }

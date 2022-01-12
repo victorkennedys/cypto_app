@@ -45,7 +45,6 @@ class _AddImageOfDogState extends State<AddImageOfDog> {
     uploadTask.whenComplete(() async {
       String imageUrl = await firebaseStorageRef.getDownloadURL();
       urlList.add(imageUrl);
-      print(urlList);
     });
   }
 

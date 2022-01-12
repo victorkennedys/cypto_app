@@ -1,46 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
 
-class ToggleButtons1 extends StatefulWidget {
+class TogButtons extends StatefulWidget {
   @override
-  _ToggleButtons1State createState() => _ToggleButtons1State();
+  _TogButtonsState createState() => _TogButtonsState();
 }
 
-class _ToggleButtons1State extends State<ToggleButtons1> {
-  List<bool> isSelected = [true, false];
+class _TogButtonsState extends State<TogButtons> {
+  int length = 0;
+  onPressed(int index) {
+    setState(() {
+      if (index == 0) {
+        buttonSelected[0] = true;
+        buttonSelected[1] = false;
+        length = 30;
+      } else if (index == 1) {
+        buttonSelected[1] = true;
+        buttonSelected[0] = false;
+        length = 60;
+      }
+    });
+  }
+
+  List<bool> buttonSelected = [false, false];
   @override
   Widget build(BuildContext context) {
-    return ToggleButtons(
-      direction: Axis.horizontal,
-      isSelected: isSelected,
-      fillColor: kPinkColor,
-      borderRadius: BorderRadius.circular(30),
-      children: [
-        TogButton(),
-        SizedBox(
-          width: 20,
-        ),
-        TogButton(),
-      ],
-      onPressed: (int newIndex) {},
+    return Center(
+      child: ToggleButtons(
+        splashColor: Colors.transparent,
+        fillColor: Colors.transparent,
+        selectedBorderColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(30),
+        borderColor: Colors.transparent,
+        onPressed: (int index) {
+          onPressed(index);
+        },
+        isSelected: buttonSelected,
+        children: [
+          TogButton(
+              "30 minuter", buttonSelected[0] ? kPinkColor : Colors.black38),
+          TogButton("1 timme", buttonSelected[1] ? kPinkColor : Colors.black38),
+        ],
+      ),
     );
   }
 }
 
 class TogButton extends StatelessWidget {
-  const TogButton({
-    Key? key,
-  }) : super(key: key);
+  final String text;
+  final Color borderColor;
 
+  TogButton(this.text, this.borderColor);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
-      child: Expanded(
-        child: Text(
-          "30 min",
-          style: TextStyle(color: Colors.grey[100]),
-        ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+            color: borderColor, width: borderColor == kPinkColor ? 2 : 1),
+      ),
+      width: MediaQuery.of(context).size.width * 0.32,
+      height: MediaQuery.of(context).size.height * 0.05,
+      child: Center(
+        child: Text(text,
+            style: kButtonTextStyle.copyWith(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.w200)),
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
@@ -8,7 +7,6 @@ import 'package:woof/components/user_dog_list.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/add_dog.dart';
 
-final _firestore = FirebaseFirestore.instance;
 User loggedInUser = _auth.currentUser!;
 
 final _auth = FirebaseAuth.instance;
@@ -24,20 +22,40 @@ class _MyDogsState extends State<MyDogs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BlackPinkText(blackText: "Dina", pinkText: "Hundar"),
-          /* AppButton(
-              buttonColor: kPurpleColor,
-              textColor: Colors.white,
-              onPressed: () {
-                Navigator.pushNamed(context, AddDogScreen.id);
-              },
-              buttonText: "Lägg till en hund"), */
-          UserDogList(),
-        ],
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: MediaQuery.of(context).size.width / 12,
+            right: MediaQuery.of(context).size.width / 12,
+            top: MediaQuery.of(context).size.height / 40,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                  flex: 1,
+                  child: BlackPinkText(blackText: "Dina", pinkText: "Hundar")),
+              Flexible(
+                flex: 4,
+                child: UserDogList(),
+              ),
+              Flexible(
+                child: SizedBox(),
+              ),
+              Flexible(
+                child: AppButton(
+                  textColor: kPinkColor,
+                  buttonColor: kPurpleColor,
+                  buttonText: "Lägg till en hund",
+                  onPressed: () {
+                    Navigator.pushNamed(context, AddDogScreen.id);
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: NavBar(1),
     );

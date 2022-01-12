@@ -6,7 +6,7 @@ Color kPurpleColor = Color(0xff562D97);
 Color kPinkColor = Color(0xffFFC0AF);
 
 var kH1Text = GoogleFonts.montserrat(
-    color: Colors.black, fontWeight: FontWeight.w600, fontSize: 35);
+    color: Colors.black, fontWeight: FontWeight.w600, fontSize: 30);
 
 var kInputDecoration = InputDecoration(
   hintText: 'Enter a value',

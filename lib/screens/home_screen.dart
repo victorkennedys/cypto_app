@@ -4,6 +4,7 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/my_dogs.dart';
+import 'package:woof/screens/walk_booking_screen.dart';
 import '../components/nav_bar.dart';
 
 class Home extends StatefulWidget {
@@ -37,31 +38,75 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BlackPinkText(
-            blackText: "Vad behöver",
-            pinkText: "Zoe?",
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height / 40,
+            left: MediaQuery.of(context).size.width / 12,
+            right: MediaQuery.of(context).size.width / 12,
           ),
-          AppButton(
-              buttonColor: kPurpleColor,
-              textColor: kPinkColor,
-              onPressed: () {},
-              buttonText: "Promenad"),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 40,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: BlackPinkText(
+                      blackText: "Välkommen till",
+                      pinkText: "Woof",
+                    ),
+                  ),
+                ],
+              ),
+              Flexible(
+                flex: 4,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 8.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: SizedBox(),
+              ),
+              Flexible(
+                flex: 2,
+                child: Column(
+                  children: [
+                    AppButton(
+                        buttonColor: kPurpleColor,
+                        textColor: kPinkColor,
+                        onPressed: () {
+                          Navigator.pushNamed(context, BookWalkScreen.id);
+                        },
+                        buttonText: "Promenad"),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 40,
+                    ),
+                    AppButton(
+                        buttonColor: kPinkColor,
+                        textColor: kPurpleColor,
+                        onPressed: () {},
+                        buttonText: "Hundpassning"),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 40,
+              ),
+            ],
           ),
-          AppButton(
-              buttonColor: kPinkColor,
-              textColor: kPurpleColor,
-              onPressed: () {},
-              buttonText: "Hundpassning"),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 40,
-          ),
-        ],
+        ),
       ),
       bottomNavigationBar: NavBar(0),
     );

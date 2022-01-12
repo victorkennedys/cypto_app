@@ -19,8 +19,7 @@ class UserDogList extends StatelessWidget {
             .where("owner", isEqualTo: loggedInUser.email)
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            print("it has data");
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -49,12 +48,8 @@ class UserDogList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.87,
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Column(
-                  children: dogList,
-                ),
+              child: Column(
+                children: dogList,
               ),
             ),
           );
@@ -75,44 +70,38 @@ class DogCard extends StatelessWidget {
       required this.imageUrl});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width / 10,
-        right: MediaQuery.of(context).size.width / 10,
-      ),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CurrentDog(
-                      name: name,
-                      breed: breed,
-                      birthDay: birthDay,
-                      image1: imageUrl,
-                    )),
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              DogAvatar(imageUrl),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(name),
-                  Text(breed),
-                ],
-              ),
-            ],
-          ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CurrentDog(
+                    name: name,
+                    breed: breed,
+                    birthDay: birthDay,
+                    image1: imageUrl,
+                  )),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            DogAvatar(imageUrl),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(name),
+                Text(breed),
+              ],
+            ),
+          ],
         ),
       ),
     );
