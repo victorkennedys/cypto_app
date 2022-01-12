@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:woof/screens/add_dog.dart';
+import 'package:woof/screens/logged%20in%20user%20dog/add_dog.dart';
 
 class AddImageOfDog extends StatefulWidget {
   final double height;
   final double width;
   final List urlList;
-  int imagesAdded = 0;
 
-  AddImageOfDog(this.height, this.width, this.urlList);
+  const AddImageOfDog(this.height, this.width, this.urlList, {Key? key})
+      : super(key: key);
 
   @override
   State<AddImageOfDog> createState() => _AddImageOfDogState();
@@ -29,11 +29,11 @@ class _AddImageOfDogState extends State<AddImageOfDog> {
 
       final imageTemporary = File(image.path);
       setState(() {
-        this.imageFile = imageTemporary;
+        imageFile = imageTemporary;
       });
       uploadImageToFirebase(context);
     } on PlatformException catch (e) {
-      print(e);
+      throw Exception(e);
     }
   }
 
@@ -55,7 +55,7 @@ class _AddImageOfDogState extends State<AddImageOfDog> {
       child: Container(
           decoration: BoxDecoration(
               color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
-          margin: EdgeInsets.symmetric(horizontal: 3),
+          margin: const EdgeInsets.symmetric(horizontal: 3),
           height: widget.height,
           width: widget.width,
           child: imageFile != null
@@ -67,7 +67,7 @@ class _AddImageOfDogState extends State<AddImageOfDog> {
                     fit: BoxFit.cover,
                   ),
                 )
-              : Icon(
+              : const Icon(
                   Icons.image,
                   color: Colors.white,
                 )),

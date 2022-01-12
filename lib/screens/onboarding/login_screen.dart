@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/home_screen.dart';
-import '../components/black_and_pink_text.dart';
+import '../../components/black_and_pink_text.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String id = 'login_screen';

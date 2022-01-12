@@ -6,7 +6,7 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/form_question_text.dart';
 import 'package:woof/components/toggle_button.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/confirmed_advert.dart';
+import 'package:woof/screens/booking%20process/confirmed_advert.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;

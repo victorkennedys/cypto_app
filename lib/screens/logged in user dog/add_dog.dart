@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
-import '../components/form_question_text.dart';
-import '../constants.dart';
-import '../components/add_dog_image.dart';
+import '../../components/form_question_text.dart';
+import '../../constants.dart';
+import '../../components/add_dog_image.dart';
 
 final _firestore = FirebaseFirestore.instance;
 List urlList = [];

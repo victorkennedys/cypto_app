@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/add_dog.dart';
-import '../components/black_and_pink_text.dart';
+import 'package:woof/screens/logged%20in%20user%20dog/add_dog.dart';
+import '../../components/black_and_pink_text.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const String id = 'registration_screen';

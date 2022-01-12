@@ -3,7 +3,7 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/user_dog_list.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/walk_booking_screen.dart';
+import 'package:woof/screens/booking%20process/walk_booking_screen.dart';
 
 class PickDogScreen extends StatelessWidget {
   static const String id = 'pick_dog_screen';
@@ -12,6 +12,9 @@ class PickDogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        excludeHeaderSemantics: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(

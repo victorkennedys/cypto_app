@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/screens/dashboard.dart';
 import 'package:woof/screens/home_screen.dart';
-import 'package:woof/screens/my_dogs.dart';
+import 'package:woof/screens/logged%20in%20user%20dog/my_dogs.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 
 class NavBar extends StatefulWidget {
@@ -27,7 +28,7 @@ class _NavBarState extends State<NavBar> {
               } else if (value == 1) {
                 Navigator.pushNamed(context, MyDogs.id);
               } else if (value == 2) {
-                //Link to dashboard
+                Navigator.pushNamed(context, AdvertsScreen.id);
               } else if (value == 3) {
                 //Link to profile
               }

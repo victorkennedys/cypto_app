@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:woof/screens/add_dog.dart';
+import 'package:woof/screens/dashboard.dart';
+import 'package:woof/screens/logged%20in%20user%20dog/add_dog.dart';
 import 'package:woof/screens/home_screen.dart';
-import 'package:woof/screens/login_screen.dart';
-import 'package:woof/screens/my_dogs.dart';
-import 'package:woof/screens/pick_dog_screen.dart';
-import 'package:woof/screens/signup_screen.dart';
-import 'package:woof/screens/walk_booking_screen.dart';
+import 'package:woof/screens/onboarding/login_screen.dart';
+import 'package:woof/screens/logged%20in%20user%20dog/my_dogs.dart';
+import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
+import 'package:woof/screens/onboarding/signup_screen.dart';
 import 'constants.dart';
 import './components/app_button.dart';
 
@@ -29,6 +29,7 @@ class Woof extends StatelessWidget {
         AddDogScreen.id: (context) => AddDogScreen(),
         MyDogs.id: (context) => MyDogs(),
         PickDogScreen.id: (context) => PickDogScreen(),
+        AdvertsScreen.id: (context) => AdvertsScreen(),
       },
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woof/components/dog_avatar.dart';
-import 'package:woof/screens/current_dog.dart';
+import 'package:woof/screens/logged%20in%20user%20dog/current_dog.dart';
 import 'package:woof/constants.dart';
 
 class DogCard extends StatefulWidget {
