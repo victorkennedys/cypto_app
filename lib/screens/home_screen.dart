@@ -3,9 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/my_dogs.dart';
 import 'package:woof/screens/pick_dog_screen.dart';
-import 'package:woof/screens/walk_booking_screen.dart';
 import '../components/nav_bar.dart';
 
 class Home extends StatefulWidget {

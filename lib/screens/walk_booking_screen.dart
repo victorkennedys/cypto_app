@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/form_question_text.dart';
-import 'package:woof/components/input_field.dart';
 import 'package:woof/components/toggle_button.dart';
 import 'package:woof/constants.dart';
 
