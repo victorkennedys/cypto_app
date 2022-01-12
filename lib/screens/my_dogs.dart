@@ -36,7 +36,7 @@ class _MyDogsState extends State<MyDogs> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Expanded(
+              icon: const Expanded(
                 child: Icon(
                   Icons.arrow_back_ios,
                 ),
@@ -63,7 +63,7 @@ class _MyDogsState extends State<MyDogs> {
                 flex: 4,
                 child: UserDogList(selectable: false),
               ),
-              Flexible(
+              const Flexible(
                 child: SizedBox(),
               ),
               Flexible(
