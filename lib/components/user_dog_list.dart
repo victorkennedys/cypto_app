@@ -11,7 +11,12 @@ final _auth = FirebaseAuth.instance;
 class UserDogList extends StatelessWidget {
   final bool selectable;
   final List<String>? advertDogList;
-  UserDogList({required this.selectable, this.advertDogList});
+  final bool showAllDogs;
+
+  UserDogList(
+      {required this.selectable,
+      this.advertDogList,
+      required this.showAllDogs});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -30,22 +35,43 @@ class UserDogList extends StatelessWidget {
 
           List<DogCard> dogList = [];
           for (var dog in allDogs!) {
-            final docId = dog.id;
-            final dogName = dog.get("name");
-            final breed = dog.get("breed");
-            final birthDay = (dog.get("birthday") as Timestamp).toDate();
-            final image1 = dog.get("image1");
+            if (showAllDogs == true) {
+              final docId = dog.id;
+              final dogName = dog.get("name");
+              final breed = dog.get("breed");
+              final birthDay = (dog.get("birthday") as Timestamp).toDate();
+              final image1 = dog.get("image1");
 
-            final dogCard = DogCard(
-              docId: docId,
-              name: dogName,
-              breed: breed,
-              birthDay: birthDay,
-              imageUrl: image1,
-              selectable: selectable,
-              dogList: advertDogList ?? null,
-            );
-            dogList.add(dogCard);
+              final dogCard = DogCard(
+                docId: docId,
+                name: dogName,
+                breed: breed,
+                birthDay: birthDay,
+                imageUrl: image1,
+                selectable: selectable,
+                dogList: advertDogList ?? null,
+              );
+              dogList.add(dogCard);
+            } else {
+              if (advertDogList!.contains(dog.id)) {
+                final docId = dog.id;
+                final dogName = dog.get("name");
+                final breed = dog.get("breed");
+                final birthDay = (dog.get("birthday") as Timestamp).toDate();
+                final image1 = dog.get("image1");
+
+                final dogCard = DogCard(
+                  docId: docId,
+                  name: dogName,
+                  breed: breed,
+                  birthDay: birthDay,
+                  imageUrl: image1,
+                  selectable: selectable,
+                  dogList: advertDogList ?? null,
+                );
+                dogList.add(dogCard);
+              }
+            }
           }
           return Align(
             alignment: Alignment.center,

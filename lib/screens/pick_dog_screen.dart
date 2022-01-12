@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
@@ -30,7 +29,11 @@ class PickDogScreen extends StatelessWidget {
               ),
               Flexible(
                 flex: 4,
-                child: UserDogList(selectable: true, advertDogList: dogList),
+                child: UserDogList(
+                  selectable: true,
+                  advertDogList: dogList,
+                  showAllDogs: true,
+                ),
               ),
               Flexible(
                 child: SizedBox(),

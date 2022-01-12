@@ -153,13 +153,23 @@ class _AddDogScreenState extends State<AddDogScreen> {
                                   60 /
                                   24 >=
                               30) {
+                        int age;
+                        String ageString;
+                        if (DateTime.now().year != birthDay!.year) {
+                          age = DateTime.now().year - birthDay!.year;
+                          ageString = age.toString() + "år";
+                        } else {
+                          age = DateTime.now().month - birthDay!.month;
+                          ageString = age.toString() + "månader";
+                        }
                         if (urlList.length == 1) {
                           _firestore.collection('dogs').add({
                             'name': dogName,
                             'image1': urlList[0].toString(),
                             'breed': breed,
                             'birthday': birthDay,
-                            'owner': loggedInUser.email
+                            'owner': loggedInUser.email,
+                            'age': ageString
                           });
                         } else if (urlList.length == 2) {
                           _firestore.collection('dogs').add({
@@ -168,7 +178,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                             'image2': urlList[1].toString(),
                             'breed': breed,
                             'birthday': birthDay,
-                            'owner': loggedInUser.email
+                            'owner': loggedInUser.email,
+                            'age': ageString
                           });
                         } else if (urlList.length == 3) {
                           _firestore.collection('dogs').add({
@@ -178,7 +189,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                             'image3': urlList[2].toString(),
                             'breed': breed,
                             'birthday': birthDay,
-                            'owner': loggedInUser.email
+                            'owner': loggedInUser.email,
+                            'age': ageString,
                           });
                         }
                         Navigator.pop(context);

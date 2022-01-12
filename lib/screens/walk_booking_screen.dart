@@ -6,13 +6,14 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/form_question_text.dart';
 import 'package:woof/components/toggle_button.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/screens/confirmed_advert.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 final user = _auth.currentUser;
 
 class BookWalkScreen extends StatefulWidget {
-  final List dogList;
+  final List<String> dogList;
   BookWalkScreen(this.dogList);
   static const String id = 'book_walk_screen';
 
@@ -144,9 +145,16 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                         'dogs': widget.dogList,
                         'creator': user?.email,
                         'length': length,
-                        'datetime': date.toUtc(),
+                        'datetime': selectedDateTime,
                         'meetup spot': meetUpSpot,
                       });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ConfirmedAdvert(widget.dogList,
+                              length, selectedDateTime, meetUpSpot),
+                        ),
+                      );
                     },
                   ))
             ],

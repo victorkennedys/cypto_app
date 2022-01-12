@@ -61,7 +61,10 @@ class _MyDogsState extends State<MyDogs> {
                   child: BlackPinkText(blackText: "Dina", pinkText: "Hundar")),
               Flexible(
                 flex: 4,
-                child: UserDogList(selectable: false),
+                child: UserDogList(
+                  selectable: false,
+                  showAllDogs: true,
+                ),
               ),
               Flexible(
                 child: SizedBox(),

@@ -26,7 +26,6 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlackPinkText(
-                //To change added padding from textfield
                 blackText: "Logga in på",
                 pinkText: "Woof",
               ),

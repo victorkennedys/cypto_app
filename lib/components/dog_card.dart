@@ -74,12 +74,12 @@ class _DogCardState extends State<DogCard> {
                 ? GestureDetector(
                     onTap: () {
                       if (isSelected == false) {
-                        widget.dogList!.add("/dogs/${widget.docId}");
+                        widget.dogList!.add(widget.docId);
                         setState(() {
                           isSelected = true;
                         });
                       } else if (isSelected == true) {
-                        widget.dogList!.remove("/dogs/${widget.docId}");
+                        widget.dogList!.remove(widget.docId);
                         setState(() {
                           isSelected = false;
                         });
