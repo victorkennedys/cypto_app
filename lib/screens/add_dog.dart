@@ -26,7 +26,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   String breed = '';
 
-  DateTime birthDay = DateTime.now();
+  DateTime? birthDay;
 
   @override
   Widget build(BuildContext context) {
@@ -141,35 +141,48 @@ class _AddDogScreenState extends State<AddDogScreen> {
                     buttonColor: kPurpleColor,
                     textColor: kPinkColor,
                     onPressed: () {
-                      if (urlList.length == 1) {
-                        _firestore.collection('dogs').add({
-                          'name': dogName,
-                          'image1': urlList[0].toString(),
-                          'breed': breed,
-                          'birthday': birthDay,
-                          'owner': loggedInUser.email
-                        });
-                      } else if (urlList.length == 2) {
-                        _firestore.collection('dogs').add({
-                          'name': dogName,
-                          'image1': urlList[0].toString(),
-                          'image2': urlList[1].toString(),
-                          'breed': breed,
-                          'birthday': birthDay,
-                          'owner': loggedInUser.email
-                        });
-                      } else if (urlList.length == 3) {
-                        _firestore.collection('dogs').add({
-                          'name': dogName,
-                          'image1': urlList[0].toString(),
-                          'image2': urlList[1].toString(),
-                          'image3': urlList[2].toString(),
-                          'breed': breed,
-                          'birthday': birthDay,
-                          'owner': loggedInUser.email
-                        });
+                      if (dogName.isNotEmpty &&
+                          breed.isNotEmpty &&
+                          birthDay != null &&
+                          (DateTime.now().toUtc().millisecondsSinceEpoch -
+                                      birthDay!
+                                          .toUtc()
+                                          .millisecondsSinceEpoch) /
+                                  1000 /
+                                  60 /
+                                  60 /
+                                  24 >=
+                              30) {
+                        if (urlList.length == 1) {
+                          _firestore.collection('dogs').add({
+                            'name': dogName,
+                            'image1': urlList[0].toString(),
+                            'breed': breed,
+                            'birthday': birthDay,
+                            'owner': loggedInUser.email
+                          });
+                        } else if (urlList.length == 2) {
+                          _firestore.collection('dogs').add({
+                            'name': dogName,
+                            'image1': urlList[0].toString(),
+                            'image2': urlList[1].toString(),
+                            'breed': breed,
+                            'birthday': birthDay,
+                            'owner': loggedInUser.email
+                          });
+                        } else if (urlList.length == 3) {
+                          _firestore.collection('dogs').add({
+                            'name': dogName,
+                            'image1': urlList[0].toString(),
+                            'image2': urlList[1].toString(),
+                            'image3': urlList[2].toString(),
+                            'breed': breed,
+                            'birthday': birthDay,
+                            'owner': loggedInUser.email
+                          });
+                        }
+                        Navigator.pop(context);
                       }
-                      Navigator.pop(context);
                     },
                     buttonText: "Klar"),
               )

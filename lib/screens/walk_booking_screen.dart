@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/form_question_text.dart';
+import 'package:woof/components/input_field.dart';
 import 'package:woof/components/toggle_button.dart';
 import 'package:woof/constants.dart';
-import 'package:flutter/cupertino.dart';
 
 class BookWalkScreen extends StatefulWidget {
   static const String id = 'book_walk_screen';
@@ -15,6 +15,9 @@ class BookWalkScreen extends StatefulWidget {
 
 class _BookWalkScreenState extends State<BookWalkScreen> {
   DateTime date = DateTime.now();
+  TimeOfDay time = TimeOfDay.now();
+  DateTime selectedDateTime = DateTime.now();
+  String meetUpSpot = '';
   selectDate() async {
     DateTime? picked = await showDatePicker(
         context: context,
@@ -25,20 +28,37 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
     if (picked != null) {
       setState(() {
         date = picked;
-        print(date);
+      });
+      selectTime();
+    }
+  }
+
+  selectTime() async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    if (picked != null) {
+      setState(() {
+        time = picked;
+        selectedDateTime =
+            DateTime(date.year, date.month, date.day, time.hour, time.minute);
       });
     }
   }
 
+  setOnChanged(String value, var variable) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
             left: MediaQuery.of(context).size.width / 12,
             right: MediaQuery.of(context).size.width / 12,
-            top: MediaQuery.of(context).size.height / 40,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,18 +90,17 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                       children: [
                         FormQuestionText("Hur lång promenad behöver Zoe?"),
                         TogButtons(),
-                        FormQuestionText("När behöver Zoe sin promenad"),
-                        GestureDetector(
-                          onTap: () {
-                            selectDate();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20, right: 20),
-                            child: TextField(
-                              enabled: false,
-                              decoration: kInputDecoration.copyWith(
-                                  hintText: "${date.toString()}"),
-                            ),
+                        FormQuestionText("Vilken dag Zoe sin promenad"),
+                        DateTimePicker(selectedDateTime.toString(), selectDate),
+                        FormQuestionText("Vart ska Zoe upphämtas?"),
+                        Container(
+                          margin: EdgeInsets.only(left: 20, right: 20),
+                          child: TextField(
+                            decoration: kInputDecoration.copyWith(
+                                hintText: "Ange plats"),
+                            onChanged: (value) {
+                              meetUpSpot = value;
+                            },
                           ),
                         ),
                       ],
@@ -103,6 +122,27 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                   ))
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class DateTimePicker extends StatelessWidget {
+  final String inputText;
+  final Function onPressed;
+  DateTimePicker(this.inputText, this.onPressed);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onPressed();
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+        child: TextField(
+          enabled: false,
+          decoration: kInputDecoration.copyWith(hintText: "${inputText}"),
         ),
       ),
     );

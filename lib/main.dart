@@ -5,6 +5,7 @@ import 'package:woof/screens/current_dog.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/login_screen.dart';
 import 'package:woof/screens/my_dogs.dart';
+import 'package:woof/screens/pick_dog_screen.dart';
 import 'package:woof/screens/signup_screen.dart';
 import 'package:woof/screens/walk_booking_screen.dart';
 import 'constants.dart';
@@ -29,6 +30,7 @@ class Woof extends StatelessWidget {
         AddDogScreen.id: (context) => AddDogScreen(),
         MyDogs.id: (context) => MyDogs(),
         BookWalkScreen.id: (context) => BookWalkScreen(),
+        PickDogScreen.id: (context) => PickDogScreen(),
       },
     );
   }

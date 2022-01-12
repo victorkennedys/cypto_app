@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:woof/components/dog_avatar.dart';
-import 'package:woof/screens/current_dog.dart';
+import 'dog_card.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser = _auth.currentUser!;
@@ -10,6 +9,9 @@ User loggedInUser = _auth.currentUser!;
 final _auth = FirebaseAuth.instance;
 
 class UserDogList extends StatelessWidget {
+  final bool selectable;
+  final List<String>? advertDogList;
+  UserDogList({required this.selectable, this.advertDogList});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -28,16 +30,20 @@ class UserDogList extends StatelessWidget {
 
           List<DogCard> dogList = [];
           for (var dog in allDogs!) {
+            final docId = dog.id;
             final dogName = dog.get("name");
             final breed = dog.get("breed");
             final birthDay = (dog.get("birthday") as Timestamp).toDate();
             final image1 = dog.get("image1");
 
             final dogCard = DogCard(
+              docId: docId,
               name: dogName,
               breed: breed,
               birthDay: birthDay,
               imageUrl: image1,
+              selectable: selectable,
+              dogList: advertDogList ?? null,
             );
             dogList.add(dogCard);
           }
@@ -54,56 +60,5 @@ class UserDogList extends StatelessWidget {
             ),
           );
         });
-  }
-}
-
-class DogCard extends StatelessWidget {
-  final String name;
-  final String breed;
-  final DateTime birthDay;
-  final String imageUrl;
-
-  DogCard(
-      {required this.name,
-      required this.breed,
-      required this.birthDay,
-      required this.imageUrl});
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CurrentDog(
-                    name: name,
-                    breed: breed,
-                    birthDay: birthDay,
-                    image1: imageUrl,
-                  )),
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            DogAvatar(imageUrl),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(name),
-                Text(breed),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
