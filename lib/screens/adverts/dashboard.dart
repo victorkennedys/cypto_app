@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/nav_bar.dart';
-import '../components/advert.dart';
+import '../../components/advert.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -18,14 +18,7 @@ class AdvertsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 40,
-                left: MediaQuery.of(context).size.width / 12,
-                right: MediaQuery.of(context).size.width / 12,
-              ),
-              child: BlackPinkText(blackText: "Hundar på", pinkText: "Woof"),
-            ),
+            BlackPinkText(blackText: "Hundar på", pinkText: "Woof"),
             StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection("adverts").snapshots(),
               builder: (context, snapshot) {
@@ -48,6 +41,7 @@ class AdvertsScreen extends StatelessWidget {
                   final dateTime = advert.get("datetime");
                   final owner = advert.get("creator");
                   final meetUpSpot = advert.get("meetup spot");
+                  final bookingType = advert.get("booking type");
 
                   String firstDogID = dogList[0].toString();
 
@@ -58,6 +52,7 @@ class AdvertsScreen extends StatelessWidget {
                       owner: owner,
                       meetUpSpot: meetUpSpot,
                       dogId: firstDogID,
+                      bookingType: bookingType,
                     ),
                   );
                 }

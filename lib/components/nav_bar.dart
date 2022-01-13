@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/dashboard.dart';
+import 'package:woof/screens/adverts/dashboard.dart';
+import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
-import 'package:woof/screens/logged%20in%20user%20dog/my_dogs.dart';
+import 'package:woof/screens/dog/add_dog.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 
 class NavBar extends StatefulWidget {

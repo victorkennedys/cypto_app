@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:woof/screens/dashboard.dart';
-import 'package:woof/screens/logged%20in%20user%20dog/add_dog.dart';
+import 'package:woof/screens/adverts/dashboard.dart';
+import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/onboarding/login_screen.dart';
-import 'package:woof/screens/logged%20in%20user%20dog/my_dogs.dart';
+import 'package:woof/screens/dog/add_dog.dart';
 import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import 'package:woof/screens/onboarding/signup_screen.dart';
 import 'constants.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:woof/screens/logged%20in%20user%20dog/add_dog.dart';
+import 'package:woof/screens/dog/add_dog.dart';
 
 class AddImageOfDog extends StatefulWidget {
   final double height;

@@ -5,7 +5,7 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/nav_bar.dart';
 import 'package:woof/components/user_dog_list.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/logged%20in%20user%20dog/add_dog.dart';
+import 'package:woof/screens/dog/add_dog.dart';
 
 User loggedInUser = _auth.currentUser!;
 

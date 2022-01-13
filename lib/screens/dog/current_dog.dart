@@ -6,15 +6,16 @@ class CurrentDog extends StatelessWidget {
   final String breed;
   final DateTime birthDay;
   final String image1;
+  final String age;
 
 //to fix enable image2, image3. (problem = if they exist in firestore)
 
-  CurrentDog({
-    required this.name,
-    required this.breed,
-    required this.birthDay,
-    required this.image1,
-  });
+  CurrentDog(
+      {required this.name,
+      required this.breed,
+      required this.birthDay,
+      required this.image1,
+      required this.age});
   String getDogAge() {
     num age;
     if (DateTime.now().year != birthDay.year) {

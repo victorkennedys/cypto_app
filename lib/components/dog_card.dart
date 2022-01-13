@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woof/components/dog_avatar.dart';
-import 'package:woof/screens/logged%20in%20user%20dog/current_dog.dart';
+import 'package:woof/screens/dog/current_dog.dart';
 import 'package:woof/constants.dart';
 
 class DogCard extends StatefulWidget {
@@ -11,6 +11,7 @@ class DogCard extends StatefulWidget {
   final String imageUrl;
   final bool selectable;
   final List<String>? dogList;
+  final String age;
 
   DogCard(
       {required this.docId,
@@ -19,7 +20,8 @@ class DogCard extends StatefulWidget {
       required this.birthDay,
       required this.imageUrl,
       required this.selectable,
-      this.dogList});
+      this.dogList,
+      required this.age});
 
   @override
   State<DogCard> createState() => _DogCardState();
@@ -41,6 +43,7 @@ class _DogCardState extends State<DogCard> {
                           breed: widget.breed,
                           birthDay: widget.birthDay,
                           image1: widget.imageUrl,
+                          age: widget.age,
                         )),
               )
             : () {

@@ -41,6 +41,7 @@ class UserDogList extends StatelessWidget {
               final breed = dog.get("breed");
               final birthDay = (dog.get("birthday") as Timestamp).toDate();
               final image1 = dog.get("image1");
+              final age = dog.get("age");
 
               final dogCard = DogCard(
                 docId: docId,
@@ -50,6 +51,7 @@ class UserDogList extends StatelessWidget {
                 imageUrl: image1,
                 selectable: selectable,
                 dogList: advertDogList ?? null,
+                age: age,
               );
               dogList.add(dogCard);
             } else {
@@ -59,6 +61,7 @@ class UserDogList extends StatelessWidget {
                 final breed = dog.get("breed");
                 final birthDay = (dog.get("birthday") as Timestamp).toDate();
                 final image1 = dog.get("image1");
+                final age = dog.get("age");
 
                 final dogCard = DogCard(
                   docId: docId,
@@ -68,6 +71,7 @@ class UserDogList extends StatelessWidget {
                   imageUrl: image1,
                   selectable: selectable,
                   dogList: advertDogList ?? null,
+                  age: age,
                 );
                 dogList.add(dogCard);
               }
