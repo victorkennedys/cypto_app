@@ -5,6 +5,7 @@ import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/dog/add_dog.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
+import 'package:woof/screens/profile_screen.dart';
 
 class NavBar extends StatefulWidget {
   final int currentIndex;
@@ -31,7 +32,7 @@ class _NavBarState extends State<NavBar> {
               } else if (value == 2) {
                 Navigator.pushNamed(context, AdvertsScreen.id);
               } else if (value == 3) {
-                //Link to profile
+                Navigator.pushNamed(context, ProfileScreen.id);
               }
             }
           },
