@@ -26,6 +26,11 @@ class Advert extends StatelessWidget {
           if (snapshot.hasError) {
             return Text("Something went wrong");
           }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
@@ -39,7 +44,7 @@ class Advert extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: kPurpleColor,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
             );
