@@ -5,11 +5,21 @@ import 'package:woof/constants.dart';
 import 'package:woof/screens/home_screen.dart';
 import '../../components/black_and_pink_text.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
-  String email = '';
-  String passWord = '';
+
+  bool _isChecked = false;
+
+  TextEditingController _emailController = TextEditingController();
+
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +45,7 @@ class LoginScreen extends StatelessWidget {
               TextField(
                 decoration:
                     kInputDecoration.copyWith(hintText: "Ange din email"),
-                onChanged: (value) {
-                  email = value;
-                },
+                controller: _emailController,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 40,
@@ -46,10 +54,27 @@ class LoginScreen extends StatelessWidget {
                 decoration:
                     kInputDecoration.copyWith(hintText: "Ange lösenord"),
                 obscureText: true,
-                onChanged: (value) {
-                  passWord = value;
-                },
+                controller: _passwordController,
               ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 40,
+              ),
+              /* Row(
+                children: [
+                  Container(
+                    child: Checkbox(
+                      activeColor: Colors.white,
+                      value: _isChecked,
+                      onChanged: (value) {
+                        
+                      },
+                      autofocus: true,
+                      checkColor: kPinkColor,
+                    ),
+                  ),
+                  Text("Kom ihåg mig"),
+                ],
+              ), */
               SizedBox(
                 height: MediaQuery.of(context).size.height / 40,
               ),
@@ -57,13 +82,16 @@ class LoginScreen extends StatelessWidget {
                 buttonColor: kPurpleColor,
                 textColor: kPinkColor,
                 onPressed: () async {
-                  try {
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: email, password: passWord);
-                    if (user != null) {
-                      /* Navigator.pushNamed(context, Home.id); */
+                  String email = _emailController.text;
 
-                      Navigator.pushNamed(context, Home.id);
+                  String passWord = _passwordController.text;
+                  try {
+                    if (email != null && passWord != null) {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email, password: passWord);
+                      if (user != null) {
+                        Navigator.pushNamed(context, Home.id);
+                      }
                     }
                   } catch (e) {
                     print(e);
