@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
@@ -20,6 +21,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getCurrentUser();
+
     super.initState();
   }
 
