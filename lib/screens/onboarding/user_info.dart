@@ -72,10 +72,33 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                         FormQuestionText("Vad heter du?"),
                         InputField("Ange ditt namn", true, setName),
                         FormQuestionText("Hur många hundar har du?"),
-                        Flexible(
-                          child: TogButtons(
-                              setNumberOfDogs, buttonSelected, "1", "2"),
-                        )
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 21),
+                          child: Container(
+                            height: 50,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border:
+                                  Border.all(color: Colors.black45, width: 1),
+                            ),
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 7, vertical: 7),
+                                    child: Image.asset('images/dog.png'),
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Text("Lägg till din hund"),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        TogButtons(setNumberOfDogs, buttonSelected, "1", "2")
                       ],
                     ),
                   ),
