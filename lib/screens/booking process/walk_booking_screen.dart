@@ -143,7 +143,7 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                     onPressed: () {
                       _firestore.collection("adverts").add({
                         'dogs': widget.dogList,
-                        'creator': user?.email,
+                        'creator': user?.email ?? user?.phoneNumber,
                         'length': length,
                         'datetime': selectedDateTime,
                         'meetup spot': meetUpSpot,

@@ -168,7 +168,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                             'image1': urlList[0].toString(),
                             'breed': breed,
                             'birthday': birthDay,
-                            'owner': loggedInUser.email,
+                            'owner':
+                                loggedInUser.email ?? loggedInUser.phoneNumber,
                             'age': ageString
                           });
                         } else if (urlList.length == 2) {
@@ -178,7 +179,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                             'image2': urlList[1].toString(),
                             'breed': breed,
                             'birthday': birthDay,
-                            'owner': loggedInUser.email,
+                            'owner':
+                                loggedInUser.email ?? loggedInUser.phoneNumber,
                             'age': ageString
                           });
                         } else if (urlList.length == 3) {
@@ -189,7 +191,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                             'image3': urlList[2].toString(),
                             'breed': breed,
                             'birthday': birthDay,
-                            'owner': loggedInUser.email,
+                            'owner':
+                                loggedInUser.email ?? loggedInUser.phoneNumber,
                             'age': ageString,
                           });
                         }

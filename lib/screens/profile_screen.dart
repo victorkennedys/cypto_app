@@ -13,7 +13,6 @@ class ProfileScreen extends StatelessWidget {
   signOut(context) {
     FirebaseAuth.instance.signOut();
     User user = FirebaseAuth.instance.currentUser!;
-    //print('$user');
     Navigator.pushNamed(context, WelcomeScreen.id);
   }
 

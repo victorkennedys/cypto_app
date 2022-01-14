@@ -23,7 +23,8 @@ class UserDogList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
         stream: _firestore
             .collection("dogs")
-            .where("owner", isEqualTo: loggedInUser.email)
+            .where("owner",
+                isEqualTo: loggedInUser.email ?? loggedInUser.phoneNumber)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
