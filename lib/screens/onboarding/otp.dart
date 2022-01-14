@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
+import 'package:woof/screens/onboarding/user_info.dart';
 import '../../constants.dart';
 import '../home_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -21,17 +22,47 @@ class _OTPScreenState extends State<OTPScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   pinEntered(value) async {
+    String phoneWithCountryCode = '+46${widget.phone}';
+    var dogOwners = FirebaseFirestore.instance.collection('dog owners');
+
+    bool newUser = true;
+
+    await dogOwners
+        .where('phone', isEqualTo: phoneWithCountryCode)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      if (querySnapshot.docs.length == 0) {
+        newUser = true;
+      } else {
+        newUser = false;
+      }
+    });
+
     try {
       await FirebaseAuth.instance
           .signInWithCredential(PhoneAuthProvider.credential(
               verificationId: verificationCode, smsCode: _authController.text))
           .then((response) async {
         if (response.user != null) {
-          //if user does not exist
-          FirebaseFirestore.instance
-              .collection('dog owners')
-              .add({'phone': '+46${widget.phone}'});
-          Navigator.pushNamed(context, Home.id);
+          if (newUser == true) {
+            dogOwners.add({'phone': phoneWithCountryCode});
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserEnterInfoScreen(newUser: newUser),
+              ),
+            );
+          }
+          if (newUser == false) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Home(
+                  newUser: newUser,
+                ),
+              ),
+            );
+          }
         }
       });
     } catch (e) {

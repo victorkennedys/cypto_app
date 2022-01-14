@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:woof/constants.dart';
 
 class TogButtons extends StatefulWidget {
-  final Function getLength;
+  final String button1Text;
+  final String button2Text;
+  final Function function;
   final List<bool> buttonSelected;
-  TogButtons(this.getLength, this.buttonSelected);
+  TogButtons(
+      this.function, this.buttonSelected, this.button1Text, this.button2Text);
   @override
   _TogButtonsState createState() => _TogButtonsState();
 }
@@ -20,13 +23,13 @@ class _TogButtonsState extends State<TogButtons> {
         borderRadius: BorderRadius.circular(30),
         borderColor: Colors.transparent,
         onPressed: (int index) {
-          widget.getLength(index);
+          widget.function(index);
         },
         isSelected: widget.buttonSelected,
         children: [
-          TogButton("30 minuter",
+          TogButton(widget.button1Text,
               widget.buttonSelected[0] ? kPinkColor : Colors.black38),
-          TogButton("1 timme",
+          TogButton(widget.button2Text,
               widget.buttonSelected[1] ? kPinkColor : Colors.black38),
         ],
       ),

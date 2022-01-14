@@ -111,7 +111,8 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FormQuestionText("Hur lång promenad behöver Zoe?"),
-                        TogButtons(getWalkLength, buttonSelected),
+                        TogButtons(getWalkLength, buttonSelected, "30 minuter",
+                            "1 timme"),
                         FormQuestionText("Vilken dag Zoe sin promenad"),
                         DateTimePicker(selectedDateTime.toString(), selectDate),
                         FormQuestionText("Vart ska Zoe upphämtas?"),

@@ -6,8 +6,11 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import '../components/nav_bar.dart';
+import 'onboarding/user_info.dart';
 
 class Home extends StatefulWidget {
+  bool? newUser;
+  Home({this.newUser});
   static const String id = 'home_screen';
   @override
   State<Home> createState() => _HomeState();
