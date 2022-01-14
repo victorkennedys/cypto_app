@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/home_screen.dart';
+import 'package:woof/screens/onboarding/otp.dart';
 import '../../components/black_and_pink_text.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,9 +18,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isChecked = false;
 
-  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
 
   TextEditingController _passwordController = TextEditingController();
+
+  loginWithEmailAndPassword() async {
+    String email = _phoneController.text;
+
+    String passWord = _passwordController.text;
+    try {
+      if (email != null && passWord != null) {
+        final user = await _auth.signInWithEmailAndPassword(
+            email: email, password: passWord);
+        if (user != null) {
+          Navigator.pushNamed(context, Home.id);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +61,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: MediaQuery.of(context).size.height / 10,
               ),
               TextField(
-                decoration:
-                    kInputDecoration.copyWith(hintText: "Ange din email"),
-                controller: _emailController,
+                textInputAction: TextInputAction.go,
+                decoration: kInputDecoration.copyWith(
+                    hintText: "Ange ditt nummer",
+                    prefix: Padding(
+                      padding: EdgeInsets.only(right: 4),
+                      child: Text("+46"),
+                    )),
+                controller: _phoneController,
+                maxLength: 10,
+                keyboardType: TextInputType.number,
               ),
-              SizedBox(
+              /* SizedBox(
                 height: MediaQuery.of(context).size.height / 40,
               ),
               TextField(
@@ -74,28 +99,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Text("Kom ihåg mig"),
                 ],
-              ), */
+              ), */ */
               SizedBox(
                 height: MediaQuery.of(context).size.height / 40,
               ),
               AppButton(
                 buttonColor: kPurpleColor,
                 textColor: kPinkColor,
-                onPressed: () async {
-                  String email = _emailController.text;
-
-                  String passWord = _passwordController.text;
-                  try {
-                    if (email != null && passWord != null) {
-                      final user = await _auth.signInWithEmailAndPassword(
-                          email: email, password: passWord);
-                      if (user != null) {
-                        Navigator.pushNamed(context, Home.id);
-                      }
-                    }
-                  } catch (e) {
-                    print(e);
-                  }
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          OTPScreen(phone: _phoneController.text),
+                    ),
+                  );
                 },
                 buttonText: "Logga in",
               )
