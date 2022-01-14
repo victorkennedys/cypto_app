@@ -6,7 +6,6 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import '../components/nav_bar.dart';
-import 'onboarding/user_info.dart';
 
 class Home extends StatefulWidget {
   bool? newUser;
@@ -34,8 +33,6 @@ class _HomeState extends State<Home> {
       final user = await _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
-        print(user.uid);
-        /* _fireStore. */
       }
     } catch (e) {
       print(e);

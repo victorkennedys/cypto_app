@@ -76,34 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 maxLength: 10,
                 keyboardType: TextInputType.number,
               ),
-              /* SizedBox(
-                height: MediaQuery.of(context).size.height / 40,
-              ),
-              TextField(
-                decoration:
-                    kInputDecoration.copyWith(hintText: "Ange lösenord"),
-                obscureText: true,
-                controller: _passwordController,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 40,
-              ),
-              /* Row(
-                children: [
-                  Container(
-                    child: Checkbox(
-                      activeColor: Colors.white,
-                      value: _isChecked,
-                      onChanged: (value) {
-                        
-                      },
-                      autofocus: true,
-                      checkColor: kPinkColor,
-                    ),
-                  ),
-                  Text("Kom ihåg mig"),
-                ],
-              ), */ */
               SizedBox(
                 height: MediaQuery.of(context).size.height / 40,
               ),

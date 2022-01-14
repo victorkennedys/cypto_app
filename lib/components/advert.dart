@@ -35,7 +35,7 @@ class Advert extends StatelessWidget {
 
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
+                snapshot.data?.data() as Map<String, dynamic>;
             final image = data['image1'];
             final dogName = data['name'];
 

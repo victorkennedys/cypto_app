@@ -85,7 +85,7 @@ class UserDogList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Column(
+              child: ListView(
                 children: dogList,
               ),
             ),

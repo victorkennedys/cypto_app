@@ -3,9 +3,8 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/form_question_text.dart';
 import 'package:woof/components/input_field.dart';
-import 'package:woof/components/toggle_button.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/dog/add_dog.dart';
+import 'package:woof/components/add_dog_to_profile.dart';
 
 class UserEnterInfoScreen extends StatefulWidget {
   final bool newUser;
@@ -41,6 +40,8 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
     });
   }
 
+  List<AddDogWidget> addDogWidgetList = [AddDogWidget()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +74,31 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                         FormQuestionText("Vad heter du?"),
                         InputField("Ange ditt namn", true, setName),
                         FormQuestionText("Hur många hundar har du?"),
-                        AddDogWidget(),
+                        Column(
+                          children: [
+                            Column(
+                              children: addDogWidgetList,
+                            ),
+                            Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (addDogWidgetList[
+                                          addDogWidgetList.length - 1]
+                                      .dogData
+                                      .isNotEmpty) {
+                                    setState(() {
+                                      addDogWidgetList.add(
+                                        AddDogWidget(),
+                                      );
+                                    });
+                                  }
+                                },
+                                child: Text("Lägg till en till hund"),
+                              ),
+                            )
+                          ],
+                        ),
+
                         /* TogButtons(setNumberOfDogs, buttonSelected, "1", "2") */
                       ],
                     ),
@@ -86,63 +111,6 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                       textColor: kPinkColor,
                       onPressed: () {},
                       buttonText: "Klar"))
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class AddDogWidget extends StatefulWidget {
-  @override
-  State<AddDogWidget> createState() => _AddDogWidgetState();
-}
-
-class _AddDogWidgetState extends State<AddDogWidget> {
-  Map dogData = {};
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async {
-        dogData = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddDogScreen(),
-          ),
-        );
-        setState(() {
-          dogData;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 21),
-        child: Container(
-          height: 50,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black45, width: 1),
-          ),
-          child: Row(
-            children: [
-              Flexible(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-                  child: dogData.isEmpty
-                      ? Image.asset('images/dog.png')
-                      : Image.network(
-                          dogData['imageUrl'],
-                        ),
-                ),
-              ),
-              Flexible(
-                child: Text(dogData.isEmpty
-                    ? "Lägg till din hund"
-                    : dogData['dogName']),
-              ),
             ],
           ),
         ),

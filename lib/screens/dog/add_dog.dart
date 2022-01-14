@@ -31,94 +31,93 @@ class _AddDogScreenState extends State<AddDogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 40,
-            left: MediaQuery.of(context).size.width / 12,
-            right: MediaQuery.of(context).size.width / 12,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      /* resizeToAvoidBottomInset: false, */
+      body: Padding(
+        padding: EdgeInsets.only(
+          /* top: MediaQuery.of(context).size.height / 40, */
+          left: MediaQuery.of(context).size.width / 12,
+          right: MediaQuery.of(context).size.width / 12,
+        ),
+        child: ListView(children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlackPinkText(
                 blackText: "Lägg till din",
                 pinkText: "hund",
               ),
-              Align(
-                alignment: Alignment.center,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FormQuestionText("Ladda upp en bild på din hund"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 21),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AddImageOfDog(100, 100, urlList),
+                        AddImageOfDog(70, 70, urlList),
+                        AddImageOfDog(70, 70, urlList),
+                      ],
+                    ),
                   ),
-                  color: Colors.white,
-                  elevation: 8.0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FormQuestionText("Ladda upp en bild på din hund"),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 21),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AddImageOfDog(100, 100, urlList),
-                            AddImageOfDog(70, 70, urlList),
-                            AddImageOfDog(70, 70, urlList),
-                          ],
-                        ),
-                      ),
-                      FormQuestionText("Vad heter din hund?"),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          decoration: kInputDecoration.copyWith(
-                              hintText: "Vad heter din hund?"),
-                          onChanged: (value) {
-                            dogName = value;
-                          },
-                        ),
-                      ),
-                      FormQuestionText("Vad har du för hundras"),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          decoration:
-                              kInputDecoration.copyWith(hintText: "Hundras"),
-                          onChanged: (value) {
-                            breed = value;
-                          },
-                        ),
-                      ),
-                      FormQuestionText("När är din hund född?"),
-                      GestureDetector(
-                        onTap: () async {
-                          DateTime? picked = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime.now());
+                  FormQuestionText("Vad heter din hund?"),
+                  Container(
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    child: TextField(
+                      decoration: kInputDecoration.copyWith(
+                          hintText: "Vad heter din hund?"),
+                      onChanged: (value) {
+                        dogName = value;
+                      },
+                    ),
+                  ),
+                  FormQuestionText("Vad har du för hundras"),
+                  Container(
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    child: TextField(
+                      decoration:
+                          kInputDecoration.copyWith(hintText: "Hundras"),
+                      onChanged: (value) {
+                        breed = value;
+                      },
+                    ),
+                  ),
+                  FormQuestionText("När är din hund född?"),
+                  GestureDetector(
+                    onTap: () async {
+                      DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime.now());
 
-                          if (picked != null) {
-                            setState(() {
-                              birthDay = picked;
-                            });
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20, right: 20),
-                          child: TextField(
-                            enabled: false,
-                            decoration: kInputDecoration.copyWith(
-                                hintText: "${birthDay.toString()}"),
-                          ),
-                        ),
+                      if (picked != null) {
+                        setState(() {
+                          birthDay = picked;
+                        });
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20, right: 20),
+                      child: TextField(
+                        enabled: false,
+                        decoration: kInputDecoration.copyWith(
+                            hintText: "${birthDay.toString()}"),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
+              ),
+              SizedBox(
+                height: 50,
               ),
               AppButton(
                   buttonColor: kPurpleColor,
@@ -194,7 +193,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                   buttonText: "Klar")
             ],
           ),
-        ),
+        ]),
       ),
     );
   }

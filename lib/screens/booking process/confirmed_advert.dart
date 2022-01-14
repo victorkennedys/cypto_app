@@ -22,7 +22,6 @@ class ConfirmedAdvert extends StatelessWidget {
   getDogData() async {
     if (dogList.length == 1) {
       final document = await _firestore.collection('dogs').doc(dogList[0]);
-      final dynamic;
       return document;
     }
   }

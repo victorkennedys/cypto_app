@@ -12,9 +12,6 @@ class PickDogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* appBar: AppBar(
-        excludeHeaderSemantics: true,
-      ), */
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
