@@ -31,6 +31,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
@@ -142,6 +143,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                         age = DateTime.now().month - birthDay!.month;
                         ageString = age.toString() + "månader";
                       }
+                      String docId = '';
                       if (urlList.length == 1) {
                         _firestore.collection('dogs').add({
                           'name': dogName,
@@ -151,6 +153,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                           'owner':
                               loggedInUser.email ?? loggedInUser.phoneNumber,
                           'age': ageString
+                        }).then((value) {
+                          docId = value.id;
                         });
                       } else if (urlList.length == 2) {
                         _firestore.collection('dogs').add({
@@ -162,6 +166,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                           'owner':
                               loggedInUser.email ?? loggedInUser.phoneNumber,
                           'age': ageString
+                        }).then((value) {
+                          docId = value.id;
                         });
                       } else if (urlList.length == 3) {
                         _firestore.collection('dogs').add({
@@ -174,9 +180,15 @@ class _AddDogScreenState extends State<AddDogScreen> {
                           'owner':
                               loggedInUser.email ?? loggedInUser.phoneNumber,
                           'age': ageString,
+                        }).then((value) {
+                          docId = value.id;
                         });
                       }
-                      Navigator.pop(context);
+                      Navigator.of(context).pop({
+                        "dogName": dogName,
+                        "imageUrl": urlList[0],
+                        'docId': docId
+                      });
                     }
                   },
                   buttonText: "Klar")
