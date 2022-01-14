@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/app_button.dart';
@@ -16,6 +17,7 @@ class _HomeState extends State<Home> {
   late User loggedInUser;
 
   final _auth = FirebaseAuth.instance;
+  final _fireStore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -29,6 +31,8 @@ class _HomeState extends State<Home> {
       final user = await _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
+        print(user.uid);
+        /* _fireStore. */
       }
     } catch (e) {
       print(e);

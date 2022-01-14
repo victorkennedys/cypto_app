@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
@@ -26,6 +27,10 @@ class _OTPScreenState extends State<OTPScreen> {
               verificationId: verificationCode, smsCode: _authController.text))
           .then((response) async {
         if (response.user != null) {
+          //if user does not exist
+          FirebaseFirestore.instance
+              .collection('dog owners')
+              .add({'phone': '+46${widget.phone}'});
           Navigator.pushNamed(context, Home.id);
         }
       });
