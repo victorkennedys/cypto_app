@@ -29,3 +29,8 @@ var kButtonTextStyle = GoogleFonts.montserrat(
   fontSize: 18,
   fontWeight: FontWeight.w500,
 );
+
+AppBar kAppBar = AppBar(
+  backgroundColor: Colors.transparent,
+  elevation: 0.0,
+);

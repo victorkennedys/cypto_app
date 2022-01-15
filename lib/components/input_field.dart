@@ -11,7 +11,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
+      margin: EdgeInsets.only(right: 20),
       child: TextField(
         enabled: enabled,
         decoration: kInputDecoration.copyWith(hintText: "${hintText}"),

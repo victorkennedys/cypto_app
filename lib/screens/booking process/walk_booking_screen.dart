@@ -8,6 +8,8 @@ import 'package:woof/components/toggle_button.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/booking%20process/confirmed_advert.dart';
 
+import '../../main.dart';
+
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 final user = _auth.currentUser;
@@ -77,91 +79,86 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width / 12,
-            right: MediaQuery.of(context).size.width / 12,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Flexible(
-                flex: 2,
-                child: BlackPinkText(
-                    blackText: "Uppge detaljer om", pinkText: "promenaden"),
-              ),
-              Flexible(
-                flex: 1,
-                child: SizedBox(),
-              ),
-              Flexible(
-                flex: 7,
-                child: Card(
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FormQuestionText("Hur lång promenad behöver Zoe?"),
-                        TogButtons(getWalkLength, buttonSelected, "30 minuter",
-                            "1 timme"),
-                        FormQuestionText("Vilken dag Zoe sin promenad"),
-                        DateTimePicker(selectedDateTime.toString(), selectDate),
-                        FormQuestionText("Vart ska Zoe upphämtas?"),
-                        Container(
-                          margin: EdgeInsets.only(left: 20, right: 20),
-                          child: TextField(
-                            decoration: kInputDecoration.copyWith(
-                                hintText: "Ange plats"),
-                            onChanged: (value) {
-                              meetUpSpot = value;
-                            },
-                          ),
+      body: Padding(
+        padding: Woof.defaultPadding(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Flexible(
+              flex: 2,
+              child: BlackPinkText(
+                  blackText: "Uppge detaljer om", pinkText: "promenaden"),
+            ),
+            Flexible(
+              flex: 1,
+              child: SizedBox(),
+            ),
+            Flexible(
+              flex: 7,
+              child: Card(
+                elevation: 8.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FormQuestionText("Hur lång promenad behöver Zoe?"),
+                      TogButtons(getWalkLength, buttonSelected, "30 minuter",
+                          "1 timme", null, 2, null, null, null),
+                      FormQuestionText("Vilken dag Zoe sin promenad"),
+                      DateTimePicker(selectedDateTime.toString(), selectDate),
+                      FormQuestionText("Vart ska Zoe upphämtas?"),
+                      Container(
+                        margin: EdgeInsets.only(left: 20, right: 20),
+                        child: TextField(
+                          decoration:
+                              kInputDecoration.copyWith(hintText: "Ange plats"),
+                          onChanged: (value) {
+                            meetUpSpot = value;
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Flexible(
-                flex: 2,
-                child: Container(),
-              ),
-              Flexible(
-                  flex: 1,
-                  child: AppButton(
-                    buttonColor: kPurpleColor,
-                    buttonText: "Fortsätt",
-                    textColor: kPinkColor,
-                    onPressed: () {
-                      _firestore.collection("adverts").add({
-                        'dogs': widget.dogList,
-                        'creator': user?.email ?? user?.phoneNumber,
-                        'length': length,
-                        'datetime': selectedDateTime,
-                        'meetup spot': meetUpSpot,
-                        'booking type': "promenad",
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ConfirmedAdvert(widget.dogList,
-                              length, selectedDateTime, meetUpSpot),
-                        ),
-                      );
-                    },
-                  ))
-            ],
-          ),
+            ),
+            Flexible(
+              flex: 2,
+              child: Container(),
+            ),
+            Flexible(
+                flex: 1,
+                child: AppButton(
+                  buttonColor: kPurpleColor,
+                  buttonText: "Fortsätt",
+                  textColor: kPinkColor,
+                  onPressed: () {
+                    _firestore.collection("adverts").add({
+                      'dogs': widget.dogList,
+                      'creator': user?.email ?? user?.phoneNumber,
+                      'length': length,
+                      'datetime': selectedDateTime,
+                      'meetup spot': meetUpSpot,
+                      'booking type': "promenad",
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ConfirmedAdvert(widget.dogList,
+                            length, selectedDateTime, meetUpSpot),
+                      ),
+                    );
+                  },
+                ))
+          ],
         ),
       ),
     );

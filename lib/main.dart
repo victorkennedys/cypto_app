@@ -19,6 +19,14 @@ void main() async {
 }
 
 class Woof extends StatelessWidget {
+  static defaultPadding(context) {
+    return EdgeInsets.only(
+      left: MediaQuery.of(context).size.width / 12,
+      right: MediaQuery.of(context).size.width / 12,
+      top: MediaQuery.of(context).size.height / 10,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

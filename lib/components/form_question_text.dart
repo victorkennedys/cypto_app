@@ -8,7 +8,7 @@ class FormQuestionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 21),
+      padding: const EdgeInsets.symmetric(vertical: 21),
       child: Text(
         question,
         style:

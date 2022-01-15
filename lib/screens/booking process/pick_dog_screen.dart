@@ -4,6 +4,7 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/user_dog_list.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/booking%20process/walk_booking_screen.dart';
+import '../../main.dart';
 
 class PickDogScreen extends StatelessWidget {
   static const String id = 'pick_dog_screen';
@@ -12,13 +13,12 @@ class PickDogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      extendBodyBehindAppBar: true,
+      appBar: kAppBar,
+      body: MediaQuery.removePadding(
+        context: context,
         child: Padding(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width / 12,
-            right: MediaQuery.of(context).size.width / 12,
-            top: MediaQuery.of(context).size.height / 40,
-          ),
+          padding: Woof.defaultPadding(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

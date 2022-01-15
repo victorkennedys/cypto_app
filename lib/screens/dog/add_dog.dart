@@ -3,9 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
+import 'package:woof/components/date_selector.dart';
+import 'package:woof/components/input_field.dart';
+import 'package:woof/components/toggle_button.dart';
 import '../../components/form_question_text.dart';
 import '../../constants.dart';
 import '../../components/add_dog_image.dart';
+import '../../main.dart';
 
 final _firestore = FirebaseFirestore.instance;
 List urlList = [];
@@ -19,14 +23,72 @@ class AddDogScreen extends StatefulWidget {
 
 class _AddDogScreenState extends State<AddDogScreen> {
   final _auth = FirebaseAuth.instance;
-
   late User loggedInUser = _auth.currentUser!;
-
+  List<bool> genderButtonSelected = [false, false];
+  List<bool> sizeButtonSelected = [false, false, false];
   String dogName = '';
-
   String breed = '';
-
   DateTime? birthDay;
+  String gender = '';
+  String size = '';
+
+  setName(String value) {
+    setState(() {
+      dogName = value;
+    });
+  }
+
+  setBreed(String value) {
+    setState(() {
+      breed = value;
+    });
+  }
+
+  setDate(DateTime date) {
+    setState(() {
+      birthDay = date;
+    });
+  }
+
+  changeActiveGenderButton(int index) {
+    setState(() {
+      print(index);
+      if (index == 0) {
+        genderButtonSelected[0] = true;
+        genderButtonSelected[1] = false;
+        gender = "female";
+      }
+      if (index == 1) {
+        genderButtonSelected[0] = false;
+        genderButtonSelected[1] = true;
+        gender = "male";
+      }
+    });
+  }
+
+  changeActiveSizeButton(int index) {
+    setState(() {
+      print(index);
+      if (index == 0) {
+        sizeButtonSelected[0] = true;
+        sizeButtonSelected[1] = false;
+        sizeButtonSelected[2] = false;
+        size = "small";
+      }
+      if (index == 1) {
+        sizeButtonSelected[0] = false;
+        sizeButtonSelected[1] = true;
+        sizeButtonSelected[2] = false;
+        size = "medium";
+      }
+      if (index == 2) {
+        sizeButtonSelected[0] = false;
+        sizeButtonSelected[1] = false;
+        sizeButtonSelected[2] = true;
+        size = "big";
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,104 +99,80 @@ class _AddDogScreenState extends State<AddDogScreen> {
         elevation: 0,
       ),
       /* resizeToAvoidBottomInset: false, */
-      body: Padding(
-        padding: EdgeInsets.only(
-          /* top: MediaQuery.of(context).size.height / 40, */
-          left: MediaQuery.of(context).size.width / 12,
-          right: MediaQuery.of(context).size.width / 12,
-        ),
-        child: ListView(children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlackPinkText(
-                blackText: "Lägg till din",
-                pinkText: "hund",
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FormQuestionText("Ladda upp en bild på din hund"),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 21),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AddImageOfDog(100, 100, urlList),
-                        AddImageOfDog(70, 70, urlList),
-                        AddImageOfDog(70, 70, urlList),
-                      ],
-                    ),
-                  ),
-                  FormQuestionText("Vad heter din hund?"),
-                  Container(
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: TextField(
-                      decoration: kInputDecoration.copyWith(
-                          hintText: "Vad heter din hund?"),
-                      onChanged: (value) {
-                        dogName = value;
-                      },
-                    ),
-                  ),
-                  FormQuestionText("Vad har du för hundras"),
-                  Container(
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: TextField(
-                      decoration:
-                          kInputDecoration.copyWith(hintText: "Hundras"),
-                      onChanged: (value) {
-                        breed = value;
-                      },
-                    ),
-                  ),
-                  FormQuestionText("När är din hund född?"),
-                  GestureDetector(
-                    onTap: () async {
-                      DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime.now());
-
-                      if (picked != null) {
-                        setState(() {
-                          birthDay = picked;
-                        });
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 20, right: 20),
-                      child: TextField(
-                        enabled: false,
-                        decoration: kInputDecoration.copyWith(
-                            hintText: "${birthDay.toString()}"),
+      body: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: Padding(
+          padding: Woof.defaultPadding(context),
+          child: ListView(children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlackPinkText(
+                  blackText: "Lägg till din",
+                  pinkText: "hund",
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    FormQuestionText("Ladda upp en bild på din hund"),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 21),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AddImageOfDog(100, 100, urlList),
+                          AddImageOfDog(70, 70, urlList),
+                          AddImageOfDog(70, 70, urlList),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              AppButton(
-                  buttonColor: kPurpleColor,
-                  textColor: kPinkColor,
-                  onPressed: () {
-                    addDogToFireBase();
-                  },
-                  buttonText: "Klar")
-            ],
-          ),
-        ]),
+                    FormQuestionText("Vad heter din hund?"),
+                    InputField("Namn", true, setName),
+                    FormQuestionText("Vad har du för hundras"),
+                    InputField("Hundras", true, setBreed),
+                    FormQuestionText("När är din hund född?"),
+                    DateSelector(setDate),
+                    FormQuestionText("Vad är din hund för kön?"),
+                    TogButtons(
+                        changeActiveGenderButton,
+                        genderButtonSelected,
+                        "Hona",
+                        "Hane",
+                        null,
+                        2,
+                        AssetImage('/woman.png'),
+                        AssetImage('/male.png'),
+                        null),
+                    FormQuestionText("Hur stor är din hund?"),
+                    TogButtons(changeActiveSizeButton, sizeButtonSelected,
+                        "Liten", "Mellan", "Stor", 3, null, null, null),
+                  ],
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                AppButton(
+                    buttonColor: kPurpleColor,
+                    textColor: kPinkColor,
+                    onPressed: () {
+                      addDogToFireBase();
+                    },
+                    buttonText: "Klar")
+              ],
+            ),
+          ]),
+        ),
       ),
     );
   }
 
   addDogToFireBase() {
     if (dogName.isNotEmpty &&
+        size.isNotEmpty &&
+        gender.isNotEmpty &&
         breed.isNotEmpty &&
         birthDay != null &&
         (DateTime.now().toUtc().millisecondsSinceEpoch -
@@ -164,7 +202,9 @@ class _AddDogScreenState extends State<AddDogScreen> {
           'breed': breed,
           'birthday': birthDay,
           'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-          'age': ageString
+          'age': ageString,
+          'gender': gender,
+          'size': size
         });
       } else if (urlList.length == 2) {
         _firestore
@@ -177,7 +217,9 @@ class _AddDogScreenState extends State<AddDogScreen> {
           'breed': breed,
           'birthday': birthDay,
           'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-          'age': ageString
+          'age': ageString,
+          'gender': gender,
+          'size': size
         });
       } else if (urlList.length == 3) {
         _firestore
@@ -192,6 +234,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
           'birthday': birthDay,
           'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
           'age': ageString,
+          'gender': gender,
+          'size': size
         });
       }
 
