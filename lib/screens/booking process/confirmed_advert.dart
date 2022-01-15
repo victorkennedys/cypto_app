@@ -6,6 +6,7 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/user_dog_list.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/screens/home_screen.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
@@ -124,7 +125,9 @@ class CurrentAdvertInfo extends StatelessWidget {
                     AppButton(
                         buttonColor: kPurpleColor,
                         textColor: kPinkColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, Home.id);
+                        },
                         buttonText: "Klar"),
                   ],
                 ),

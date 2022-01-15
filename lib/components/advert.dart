@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:woof/constants.dart';
 import 'package:woof/screens/adverts/current_advert.dart';
 
 class Advert extends StatelessWidget {
@@ -9,6 +10,7 @@ class Advert extends StatelessWidget {
   final String meetUpSpot;
   final String dogId;
   final String bookingType;
+  final List dogList;
 
   Advert(
       {required this.advertId,
@@ -16,7 +18,8 @@ class Advert extends StatelessWidget {
       required this.owner,
       required this.meetUpSpot,
       required this.dogId,
-      required this.bookingType});
+      required this.bookingType,
+      required this.dogList});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,7 @@ class Advert extends StatelessWidget {
               meetUpSpot: meetUpSpot,
               dogId: dogId,
               bookingType: bookingType,
+              dogList: dogList,
             );
           }
           return Text("loading");
@@ -64,6 +68,7 @@ class GridItem extends StatelessWidget {
   final String meetUpSpot;
   final String dogId;
   final String bookingType;
+  final List dogList;
   GridItem(
       {required this.image,
       required this.dogName,
@@ -72,7 +77,8 @@ class GridItem extends StatelessWidget {
       required this.owner,
       required this.meetUpSpot,
       required this.dogId,
-      required this.bookingType});
+      required this.bookingType,
+      required this.dogList});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -99,21 +105,28 @@ class GridItem extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(image),
+                  colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.1), BlendMode.srcOver)),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  image,
-                  fit: BoxFit.cover,
-                )),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(dogName),
-            ],
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  dogList.length == 1
+                      ? "Promenad med $dogName"
+                      : dogList.length.toString(),
+                  style: kH1Text.copyWith(color: Colors.white, fontSize: 18),
+                ),
+              ],
+            ),
           ),
         ],
       ),

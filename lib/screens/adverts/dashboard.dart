@@ -59,6 +59,7 @@ class AdvertsScreen extends StatelessWidget {
                         meetUpSpot: meetUpSpot,
                         dogId: firstDogID,
                         bookingType: bookingType,
+                        dogList: dogList,
                       ),
                     );
                   }
