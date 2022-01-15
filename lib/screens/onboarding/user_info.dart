@@ -7,6 +7,7 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/form_question_text.dart';
 import 'package:woof/components/input_field.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/screens/home_screen.dart';
 
 class UserEnterInfoScreen extends StatefulWidget {
   final String fireStoreDocID;
@@ -119,7 +120,9 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                   child: AppButton(
                       buttonColor: kPurpleColor,
                       textColor: kPinkColor,
-                      onPressed: () async {},
+                      onPressed: () {
+                        addUSerDataToFireBase();
+                      },
                       buttonText: "Klar"))
             ],
           ),
@@ -127,17 +130,15 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
       ),
     );
   }
+
+  addUSerDataToFireBase() {
+    final userDoc = FirebaseFirestore.instance.collection('dog owners');
+    userDoc.doc(widget.fireStoreDocID).set({
+      'phone': widget.user?.phoneNumber,
+      'name': name,
+      'email': email,
+      'dogs': docIdList
+    });
+    Navigator.pushNamed(context, Home.id);
+  }
 }
-
-
-  /* QuerySnapshot querySnapshot = await FirebaseFirestore
-                            .instance
-                            .collection('dogs')
-                            .where('owner', isEqualTo: widget.user?.phoneNumber)
-                            .get();
-
-                        final allData = querySnapshot.docs
-                            .map((doc) => doc.data())
-                            .toList();
- */
-                        //Get ID!! Add id to list of id.

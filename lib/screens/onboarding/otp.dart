@@ -47,8 +47,10 @@ class _OTPScreenState extends State<OTPScreen> {
           .then((response) async {
         if (response.user != null) {
           if (newUser == true) {
-            dogOwners.add({'phone': phoneWithCountryCode}).then((value) {
-              userDocId = value.id;
+            dogOwners
+                .doc(phoneWithCountryCode)
+                .set({'phone': phoneWithCountryCode}).then((value) {
+              userDocId = phoneWithCountryCode;
             });
             Navigator.push(
               context,
