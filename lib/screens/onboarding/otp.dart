@@ -27,6 +27,8 @@ class _OTPScreenState extends State<OTPScreen> {
 
     bool newUser = true;
 
+    String userDocId = '';
+
     await dogOwners
         .where('phone', isEqualTo: phoneWithCountryCode)
         .get()
@@ -45,11 +47,14 @@ class _OTPScreenState extends State<OTPScreen> {
           .then((response) async {
         if (response.user != null) {
           if (newUser == true) {
-            dogOwners.add({'phone': phoneWithCountryCode});
+            dogOwners.add({'phone': phoneWithCountryCode}).then((value) {
+              userDocId = value.id;
+            });
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => UserEnterInfoScreen(newUser: newUser),
+                builder: (context) =>
+                    UserEnterInfoScreen(fireStoreDocID: userDocId),
               ),
             );
           }

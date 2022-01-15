@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:woof/components/add_dog_to_profile.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/form_question_text.dart';
 import 'package:woof/components/input_field.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/components/add_dog_to_profile.dart';
 
 class UserEnterInfoScreen extends StatefulWidget {
-  final bool newUser;
-  UserEnterInfoScreen({required this.newUser});
+  final String fireStoreDocID;
+  UserEnterInfoScreen({required this.fireStoreDocID});
+
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   State<UserEnterInfoScreen> createState() => _UserEnterInfoScreenState();
@@ -16,6 +20,7 @@ class UserEnterInfoScreen extends StatefulWidget {
 
 class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
   String name = '';
+  String email = '';
 
   setName(value) {
     setState(() {
@@ -23,24 +28,29 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
     });
   }
 
-  List<bool> buttonSelected = [false, false];
-  int numberOfDogs = 0;
-
-  setNumberOfDogs(int index) {
+  setEmail(value) {
     setState(() {
-      if (index == 0) {
-        buttonSelected[0] = true;
-        buttonSelected[1] = false;
-        numberOfDogs = 1;
-      } else if (index == 1) {
-        buttonSelected[1] = true;
-        buttonSelected[0] = false;
-        numberOfDogs = 2;
-      }
+      email = value;
     });
   }
 
-  List<AddDogWidget> addDogWidgetList = [AddDogWidget()];
+  List<bool> buttonSelected = [false, false];
+  List<String> docIdList = [];
+  List<AddDogWidget> addDogWidgetList = [];
+
+  setDocId(String id) {
+    docIdList.add(id);
+    setState(() {
+      docIdList;
+    });
+    print(docIdList);
+  }
+
+  @override
+  void initState() {
+    addDogWidgetList.add(AddDogWidget(setDocId));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +98,7 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                                       .isNotEmpty) {
                                     setState(() {
                                       addDogWidgetList.add(
-                                        AddDogWidget(),
+                                        AddDogWidget(setDocId),
                                       );
                                     });
                                   }
@@ -98,8 +108,8 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                             )
                           ],
                         ),
-
-                        /* TogButtons(setNumberOfDogs, buttonSelected, "1", "2") */
+                        FormQuestionText("Vad är din email?"),
+                        InputField("Ange din email", true, setEmail),
                       ],
                     ),
                   ),
@@ -109,7 +119,7 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                   child: AppButton(
                       buttonColor: kPurpleColor,
                       textColor: kPinkColor,
-                      onPressed: () {},
+                      onPressed: () async {},
                       buttonText: "Klar"))
             ],
           ),
@@ -118,3 +128,16 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
     );
   }
 }
+
+
+  /* QuerySnapshot querySnapshot = await FirebaseFirestore
+                            .instance
+                            .collection('dogs')
+                            .where('owner', isEqualTo: widget.user?.phoneNumber)
+                            .get();
+
+                        final allData = querySnapshot.docs
+                            .map((doc) => doc.data())
+                            .toList();
+ */
+                        //Get ID!! Add id to list of id.

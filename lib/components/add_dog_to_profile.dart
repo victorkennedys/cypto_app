@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:woof/screens/dog/add_dog.dart';
 
 class AddDogWidget extends StatefulWidget {
+  final Function setDocId;
+  AddDogWidget(this.setDocId);
   Map dogData = {};
   @override
   State<AddDogWidget> createState() => _AddDogWidgetState();
@@ -18,6 +20,8 @@ class _AddDogWidgetState extends State<AddDogWidget> {
             builder: (context) => AddDogScreen(),
           ),
         );
+        print(widget.dogData);
+        widget.setDocId(widget.dogData['docId']);
         setState(() {
           widget.dogData;
         });

@@ -123,6 +123,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                   buttonColor: kPurpleColor,
                   textColor: kPinkColor,
                   onPressed: () {
+                    String docId = '';
                     if (dogName.isNotEmpty &&
                         breed.isNotEmpty &&
                         birthDay != null &&
@@ -142,9 +143,12 @@ class _AddDogScreenState extends State<AddDogScreen> {
                         age = DateTime.now().month - birthDay!.month;
                         ageString = age.toString() + "månader";
                       }
-                      String docId = '';
+
                       if (urlList.length == 1) {
-                        _firestore.collection('dogs').add({
+                        _firestore
+                            .collection('dogs')
+                            .doc("${loggedInUser.phoneNumber}$dogName")
+                            .set({
                           'name': dogName,
                           'image1': urlList[0].toString(),
                           'breed': breed,
@@ -152,11 +156,12 @@ class _AddDogScreenState extends State<AddDogScreen> {
                           'owner':
                               loggedInUser.email ?? loggedInUser.phoneNumber,
                           'age': ageString
-                        }).then((value) {
-                          docId = value.id;
                         });
                       } else if (urlList.length == 2) {
-                        _firestore.collection('dogs').add({
+                        _firestore
+                            .collection('dogs')
+                            .doc("${loggedInUser.phoneNumber}$dogName")
+                            .set({
                           'name': dogName,
                           'image1': urlList[0].toString(),
                           'image2': urlList[1].toString(),
@@ -165,11 +170,12 @@ class _AddDogScreenState extends State<AddDogScreen> {
                           'owner':
                               loggedInUser.email ?? loggedInUser.phoneNumber,
                           'age': ageString
-                        }).then((value) {
-                          docId = value.id;
                         });
                       } else if (urlList.length == 3) {
-                        _firestore.collection('dogs').add({
+                        _firestore
+                            .collection('dogs')
+                            .doc("${loggedInUser.phoneNumber}$dogName")
+                            .set({
                           'name': dogName,
                           'image1': urlList[0].toString(),
                           'image2': urlList[1].toString(),
@@ -179,14 +185,13 @@ class _AddDogScreenState extends State<AddDogScreen> {
                           'owner':
                               loggedInUser.email ?? loggedInUser.phoneNumber,
                           'age': ageString,
-                        }).then((value) {
-                          docId = value.id;
                         });
                       }
+
                       Navigator.of(context).pop({
                         "dogName": dogName,
                         "imageUrl": urlList[0],
-                        'docId': docId
+                        'docId': "${loggedInUser.phoneNumber}$dogName"
                       });
                     }
                   },
@@ -198,3 +203,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
     );
   }
 }
+
+
+/*  */ /*  */

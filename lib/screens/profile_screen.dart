@@ -12,7 +12,7 @@ class ProfileScreen extends StatelessWidget {
 
   signOut(context) {
     FirebaseAuth.instance.signOut();
-    User user = FirebaseAuth.instance.currentUser!;
+
     Navigator.pushNamed(context, WelcomeScreen.id);
   }
 
@@ -23,6 +23,11 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            AppButton(
+                buttonColor: kPurpleColor,
+                textColor: kPinkColor,
+                onPressed: () {},
+                buttonText: "Bli hundpassare"),
             AppButton(
                 buttonColor: kPinkColor,
                 textColor: kPurpleColor,
