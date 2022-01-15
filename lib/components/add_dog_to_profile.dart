@@ -20,7 +20,7 @@ class _AddDogWidgetState extends State<AddDogWidget> {
             builder: (context) => AddDogScreen(),
           ),
         );
-        print(widget.dogData);
+
         widget.setDocId(widget.dogData['docId']);
         setState(() {
           widget.dogData;

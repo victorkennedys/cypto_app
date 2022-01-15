@@ -10,9 +10,6 @@ import 'package:woof/constants.dart';
 import 'package:woof/screens/home_screen.dart';
 
 class UserEnterInfoScreen extends StatefulWidget {
-  final String fireStoreDocID;
-  UserEnterInfoScreen({required this.fireStoreDocID});
-
   final user = FirebaseAuth.instance.currentUser;
 
   @override
@@ -50,6 +47,7 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
   @override
   void initState() {
     addDogWidgetList.add(AddDogWidget(setDocId));
+
     super.initState();
   }
 
@@ -133,7 +131,7 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
 
   addUSerDataToFireBase() {
     final userDoc = FirebaseFirestore.instance.collection('dog owners');
-    userDoc.doc(widget.fireStoreDocID).set({
+    userDoc.doc(widget.user?.phoneNumber).set({
       'phone': widget.user?.phoneNumber,
       'name': name,
       'email': email,

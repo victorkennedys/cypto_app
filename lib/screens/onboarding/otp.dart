@@ -51,12 +51,12 @@ class _OTPScreenState extends State<OTPScreen> {
                 .doc(phoneWithCountryCode)
                 .set({'phone': phoneWithCountryCode}).then((value) {
               userDocId = phoneWithCountryCode;
+              print("userDocID: $userDocId");
             });
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    UserEnterInfoScreen(fireStoreDocID: userDocId),
+                builder: (context) => UserEnterInfoScreen(),
               ),
             );
           }
