@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:woof/components/dog_avatar.dart';
+import 'package:woof/components/dog/dog_avatar.dart';
 import 'package:woof/screens/dog/current_dog.dart';
 import 'package:woof/constants.dart';
 

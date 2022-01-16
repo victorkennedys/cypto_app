@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
-import 'package:woof/components/date_selector.dart';
-import 'package:woof/components/input_field.dart';
-import 'package:woof/components/toggle_button.dart';
+import 'package:woof/components/input%20widgets/date_selector.dart';
+import 'package:woof/components/input%20widgets/input_field.dart';
+import 'package:woof/components/input%20widgets/toggle_button.dart';
 import 'package:woof/screens/dog/add_dog_image.dart';
-import '../../components/form_question_text.dart';
+import '../../components/input widgets/form_question_text.dart';
 import '../../constants.dart';
-import '../../components/add_dog_image.dart';
+import '../../components/dog/add_dog_image.dart';
 import '../../main.dart';
 
 final _firestore = FirebaseFirestore.instance;

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:woof/components/add_dog_image.dart';
-import 'package:woof/components/add_dog_to_profile.dart';
+import 'package:woof/components/dog/add_dog_image.dart';
+import 'package:woof/components/dog/add_dog_to_profile.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';

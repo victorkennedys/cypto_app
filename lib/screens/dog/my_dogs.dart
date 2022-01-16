@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/nav_bar.dart';
-import 'package:woof/components/user_dog_list.dart';
+import 'package:woof/components/dog/user_dog_list.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/dog/add_dog.dart';
 

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:woof/components/add_dog_to_profile.dart';
+import 'package:woof/components/dog/add_dog_to_profile.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
-import 'package:woof/components/form_question_text.dart';
-import 'package:woof/components/input_field.dart';
+import 'package:woof/components/input%20widgets/form_question_text.dart';
+import 'package:woof/components/input%20widgets/input_field.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/home_screen.dart';
 

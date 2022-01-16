@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
-import 'package:woof/components/form_question_text.dart';
-import 'package:woof/components/toggle_button.dart';
+import 'package:woof/components/input%20widgets/form_question_text.dart';
+import 'package:woof/components/input%20widgets/toggle_button.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/booking%20process/confirmed_advert.dart';
 
