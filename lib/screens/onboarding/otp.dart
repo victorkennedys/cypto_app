@@ -53,7 +53,7 @@ class _OTPScreenState extends State<OTPScreen> {
               userDocId = phoneWithCountryCode;
               print("userDocID: $userDocId");
             });
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => UserEnterInfoScreen(),
@@ -61,7 +61,7 @@ class _OTPScreenState extends State<OTPScreen> {
             );
           }
           if (newUser == false) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => Home(

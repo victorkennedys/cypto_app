@@ -6,6 +6,7 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/date_selector.dart';
 import 'package:woof/components/input_field.dart';
 import 'package:woof/components/toggle_button.dart';
+import 'package:woof/screens/dog/add_dog_image.dart';
 import '../../components/form_question_text.dart';
 import '../../constants.dart';
 import '../../components/add_dog_image.dart';
@@ -117,7 +118,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    FormQuestionText("Ladda upp en bild på din hund"),
+                    FormQuestionText('Lägg till en bild på din hund'),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 21),
                       child: Row(
@@ -143,8 +144,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
                         "Hane",
                         null,
                         2,
-                        AssetImage('/woman.png'),
-                        AssetImage('/male.png'),
+                        'images/woman.png',
+                        'images/male.png',
                         null),
                     FormQuestionText("Hur stor är din hund?"),
                     TogButtons(changeActiveSizeButton, sizeButtonSelected,
@@ -244,6 +245,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
         "imageUrl": urlList[0],
         'docId': "${loggedInUser.phoneNumber}_$dogName"
       });
+
       urlList.clear();
     }
   }

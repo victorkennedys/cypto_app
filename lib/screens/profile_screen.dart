@@ -4,6 +4,8 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/nav_bar.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
+import 'package:woof/screens/helper%20onboarding/helper_info.dart';
+import 'package:woof/screens/onboarding/user_info.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -26,7 +28,12 @@ class ProfileScreen extends StatelessWidget {
             AppButton(
                 buttonColor: kPurpleColor,
                 textColor: kPinkColor,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HelperInfoScreen()));
+                },
                 buttonText: "Bli hundpassare"),
             AppButton(
                 buttonColor: kPinkColor,

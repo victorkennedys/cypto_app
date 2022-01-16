@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/screens/dog/add_dog.dart';
 
@@ -5,6 +6,9 @@ class AddDogWidget extends StatefulWidget {
   final Function setDocId;
   AddDogWidget(this.setDocId);
   Map dogData = {};
+  static const String id = 'add_dog_widget';
+  final _auth = FirebaseAuth.instance;
+  late User loggedInUser = _auth.currentUser!;
   @override
   State<AddDogWidget> createState() => _AddDogWidgetState();
 }

@@ -8,9 +8,9 @@ class TogButtons extends StatefulWidget {
   final String button2Text;
   final String? button3Text;
   final int numberOfButtons;
-  final AssetImage? icon1;
-  final AssetImage? icon2;
-  final AssetImage? icon3;
+  final String? icon1;
+  final String? icon2;
+  final String? icon3;
 
   TogButtons(
       this.callback,
@@ -70,7 +70,9 @@ class _TogButtonsState extends State<TogButtons> {
     return Center(
       child: ToggleButtons(
         constraints: BoxConstraints.expand(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: widget.icon1 == null
+                ? MediaQuery.of(context).size.height * 0.05
+                : MediaQuery.of(context).size.height * 0.06,
             width: MediaQuery.of(context).size.width *
                 (1 / widget.numberOfButtons) *
                 0.8),
@@ -92,9 +94,15 @@ class _TogButtonsState extends State<TogButtons> {
 class TogButton extends StatelessWidget {
   final String text;
   final Color borderColor;
-  final AssetImage? icon;
+  final String? icon;
 
   TogButton(this.text, this.borderColor, this.icon);
+
+  getImage() {
+    if (icon != null) {
+      return Flexible(child: Image.asset(icon.toString()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,13 +116,16 @@ class TogButton extends StatelessWidget {
       ),
       child: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            icon != null ? icon as Widget : SizedBox(),
-            Text(text,
-                style: kButtonTextStyle.copyWith(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w200)),
+            icon != null ? getImage() : Container(),
+            Flexible(
+              child: Text(text,
+                  style: kButtonTextStyle.copyWith(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w200)),
+            ),
           ],
         ),
       ),
