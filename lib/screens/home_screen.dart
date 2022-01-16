@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
   late User loggedInUser;
 
   final _auth = FirebaseAuth.instance;
+
   final _fireStore = FirebaseFirestore.instance;
 
   @override

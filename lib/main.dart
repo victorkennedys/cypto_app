@@ -10,7 +10,6 @@ import 'package:woof/screens/onboarding/otp.dart';
 import 'package:woof/screens/onboarding/signup_screen.dart';
 import 'package:woof/screens/profile_screen.dart';
 import 'constants.dart';
-import './components/app_button.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
