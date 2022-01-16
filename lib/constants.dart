@@ -34,3 +34,14 @@ AppBar kAppBar = AppBar(
   backgroundColor: Colors.transparent,
   elevation: 0.0,
 );
+
+SnackBar kSnackBar(String errorMessage) {
+  return SnackBar(
+    backgroundColor: kPinkColor,
+    content: Text(
+      errorMessage,
+      textAlign: TextAlign.center,
+      style: kH1Text.copyWith(fontSize: 15, color: Colors.white),
+    ),
+  );
+}

@@ -23,6 +23,7 @@ class AddDogScreen extends StatefulWidget {
 }
 
 class _AddDogScreenState extends State<AddDogScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _auth = FirebaseAuth.instance;
   late User loggedInUser = _auth.currentUser!;
   List<bool> genderButtonSelected = [false, false];
@@ -94,6 +95,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -159,7 +161,30 @@ class _AddDogScreenState extends State<AddDogScreen> {
                     buttonColor: kPurpleColor,
                     textColor: kPinkColor,
                     onPressed: () {
-                      addDogToFireBase();
+                      final dogAge =
+                          ((DateTime.now().toUtc().millisecondsSinceEpoch) -
+                                  (birthDay!.toUtc().millisecondsSinceEpoch)) /
+                              1000 /
+                              60 /
+                              60 /
+                              24;
+                      print(dogAge);
+                      if (dogName.isNotEmpty &&
+                          size.isNotEmpty &&
+                          gender.isNotEmpty &&
+                          breed.isNotEmpty &&
+                          birthDay != null &&
+                          dogAge >= 30) {
+                        addDogToFireBase();
+                      } else if (dogName.isEmpty) {
+                        showSnackBar("Du måste fylla i hundens namn", context);
+                      } else if (size.isEmpty) {
+                        showSnackBar("Fyll i hundens storlek", context);
+                      } else if (gender.isEmpty) {
+                        showSnackBar("Ange hundens kön", context);
+                      } else if (dogAge <= 30) {
+                        showSnackBar("Ogiltigt födelsedatum", context);
+                      }
                     },
                     buttonText: "Klar")
               ],
@@ -170,83 +195,76 @@ class _AddDogScreenState extends State<AddDogScreen> {
     );
   }
 
+  showSnackBar(String errorMessage, BuildContext context) {
+    _scaffoldKey.currentState?.showSnackBar(
+      kSnackBar(errorMessage),
+    );
+  }
+
   addDogToFireBase() {
-    if (dogName.isNotEmpty &&
-        size.isNotEmpty &&
-        gender.isNotEmpty &&
-        breed.isNotEmpty &&
-        birthDay != null &&
-        (DateTime.now().toUtc().millisecondsSinceEpoch -
-                    birthDay!.toUtc().millisecondsSinceEpoch) /
-                1000 /
-                60 /
-                60 /
-                24 >=
-            30) {
-      int age;
-      String ageString;
-      if (DateTime.now().year != birthDay!.year) {
-        age = DateTime.now().year - birthDay!.year;
-        ageString = age.toString() + "år";
-      } else {
-        age = DateTime.now().month - birthDay!.month;
-        ageString = age.toString() + "månader";
-      }
-
-      if (urlList.length == 1) {
-        _firestore
-            .collection('dogs')
-            .doc("${loggedInUser.phoneNumber}$dogName")
-            .set({
-          'name': dogName,
-          'image1': urlList[0].toString(),
-          'breed': breed,
-          'birthday': birthDay,
-          'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-          'age': ageString,
-          'gender': gender,
-          'size': size
-        });
-      } else if (urlList.length == 2) {
-        _firestore
-            .collection('dogs')
-            .doc("${loggedInUser.phoneNumber}$dogName")
-            .set({
-          'name': dogName,
-          'image1': urlList[0].toString(),
-          'image2': urlList[1].toString(),
-          'breed': breed,
-          'birthday': birthDay,
-          'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-          'age': ageString,
-          'gender': gender,
-          'size': size
-        });
-      } else if (urlList.length == 3) {
-        _firestore
-            .collection('dogs')
-            .doc("${loggedInUser.phoneNumber}$dogName")
-            .set({
-          'name': dogName,
-          'image1': urlList[0].toString(),
-          'image2': urlList[1].toString(),
-          'image3': urlList[2].toString(),
-          'breed': breed,
-          'birthday': birthDay,
-          'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-          'age': ageString,
-          'gender': gender,
-          'size': size
-        });
-      }
-
-      Navigator.of(context).pop({
-        "dogName": dogName,
-        "imageUrl": urlList[0],
-        'docId': "${loggedInUser.phoneNumber}_$dogName"
-      });
-
-      urlList.clear();
+    int age;
+    String ageString;
+    if (DateTime.now().year != birthDay!.year) {
+      age = DateTime.now().year - birthDay!.year;
+      ageString = age.toString() + "år";
+    } else {
+      age = DateTime.now().month - birthDay!.month;
+      ageString = age.toString() + "månader";
     }
+
+    if (urlList.length == 1) {
+      _firestore
+          .collection('dogs')
+          .doc("${loggedInUser.phoneNumber}$dogName")
+          .set({
+        'name': dogName,
+        'image1': urlList[0].toString(),
+        'breed': breed,
+        'birthday': birthDay,
+        'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
+        'age': ageString,
+        'gender': gender,
+        'size': size
+      });
+    } else if (urlList.length == 2) {
+      _firestore
+          .collection('dogs')
+          .doc("${loggedInUser.phoneNumber}$dogName")
+          .set({
+        'name': dogName,
+        'image1': urlList[0].toString(),
+        'image2': urlList[1].toString(),
+        'breed': breed,
+        'birthday': birthDay,
+        'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
+        'age': ageString,
+        'gender': gender,
+        'size': size
+      });
+    } else if (urlList.length == 3) {
+      _firestore
+          .collection('dogs')
+          .doc("${loggedInUser.phoneNumber}$dogName")
+          .set({
+        'name': dogName,
+        'image1': urlList[0].toString(),
+        'image2': urlList[1].toString(),
+        'image3': urlList[2].toString(),
+        'breed': breed,
+        'birthday': birthDay,
+        'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
+        'age': ageString,
+        'gender': gender,
+        'size': size
+      });
+    }
+
+    Navigator.of(context).pop({
+      "dogName": dogName,
+      "imageUrl": urlList[0],
+      'docId': "${loggedInUser.phoneNumber}_$dogName"
+    });
+
+    urlList.clear();
   }
 }
