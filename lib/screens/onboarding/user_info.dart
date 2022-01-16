@@ -17,6 +17,7 @@ class UserEnterInfoScreen extends StatefulWidget {
 }
 
 class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   String name = '';
   String email = '';
 
@@ -54,6 +55,7 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
@@ -70,48 +72,16 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                       blackText: "Välkommen till", pinkText: "woof")),
               Flexible(
                 flex: 3,
-                child: Card(
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FormQuestionText("Vad heter du?"),
-                        InputField("Ange ditt namn", true, setName),
-                        FormQuestionText("Hur många hundar har du?"),
-                        Column(
-                          children: [
-                            Column(
-                              children: addDogWidgetList,
-                            ),
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (addDogWidgetList[
-                                          addDogWidgetList.length - 1]
-                                      .dogData
-                                      .isNotEmpty) {
-                                    setState(() {
-                                      addDogWidgetList.add(
-                                        AddDogWidget(setDocId),
-                                      );
-                                    });
-                                  }
-                                },
-                                child: Text("Lägg till en till hund"),
-                              ),
-                            )
-                          ],
-                        ),
-                        FormQuestionText("Vad är din email?"),
-                        InputField("Ange din email", true, setEmail),
-                      ],
-                    ),
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FormQuestionText("Vad heter du?"),
+                    InputField("Ange ditt namn", true, setName),
+                    FormQuestionText("Hur många hundar har du?"),
+                    AddUserDogWidgetList(addDogWidgetList, setDocId),
+                    FormQuestionText("Vad är din email?"),
+                    InputField("Ange din email", true, setEmail),
+                  ],
                 ),
               ),
               Flexible(
@@ -119,13 +89,29 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                       buttonColor: kPurpleColor,
                       textColor: kPinkColor,
                       onPressed: () {
-                        addUSerDataToFireBase();
+                        if (name.isNotEmpty &&
+                            email.isNotEmpty &&
+                            docIdList.isNotEmpty) {
+                          addUSerDataToFireBase();
+                        } else if (name.isEmpty) {
+                          showSnackBar("Ange ditt namn", context);
+                        } else if (email.isEmpty) {
+                          showSnackBar("Ange din email", context);
+                        } else if (docIdList.isEmpty) {
+                          showSnackBar("Lägg till minst en hund", context);
+                        }
                       },
                       buttonText: "Klar"))
             ],
           ),
         ),
       ),
+    );
+  }
+
+  showSnackBar(String errorMessage, BuildContext context) {
+    _scaffoldKey.currentState?.showSnackBar(
+      kSnackBar(errorMessage),
     );
   }
 
@@ -138,5 +124,43 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
       'dogs': docIdList
     });
     Navigator.pushNamed(context, Home.id);
+  }
+}
+
+class AddUserDogWidgetList extends StatefulWidget {
+  final List<AddDogWidget> addDogWidgetList;
+  final Function callback;
+
+  AddUserDogWidgetList(this.addDogWidgetList, this.callback);
+
+  @override
+  _AddUserDogWidgetListState createState() => _AddUserDogWidgetListState();
+}
+
+class _AddUserDogWidgetListState extends State<AddUserDogWidgetList> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Column(
+          children: widget.addDogWidgetList,
+        ),
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              if (widget.addDogWidgetList[widget.addDogWidgetList.length - 1]
+                  .dogData.isNotEmpty) {
+                setState(() {
+                  widget.addDogWidgetList.add(
+                    AddDogWidget(widget.callback),
+                  );
+                });
+              }
+            },
+            child: Text("Lägg till en till hund"),
+          ),
+        )
+      ],
+    );
   }
 }
