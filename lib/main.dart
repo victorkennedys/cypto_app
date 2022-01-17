@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:woof/screens/adverts/dashboard.dart';
+import 'package:woof/screens/chat/chat_screen.dart';
 import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/onboarding/login_screen.dart';
@@ -41,6 +42,7 @@ class Woof extends StatelessWidget {
         AdvertsScreen.id: (context) => AdvertsScreen(),
         ProfileScreen.id: (context) => ProfileScreen(),
         UserEnterInfoScreen.id: (context) => UserEnterInfoScreen(),
+        ChatScreen.id: (context) => ChatScreen(),
       },
     );
   }

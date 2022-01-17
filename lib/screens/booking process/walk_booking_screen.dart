@@ -148,6 +148,7 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
                       'datetime': selectedDateTime,
                       'meetup spot': meetUpSpot,
                       'booking type': "promenad",
+                      'helper accepted': "false"
                     });
                     Navigator.push(
                       context,

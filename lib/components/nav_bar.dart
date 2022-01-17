@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/adverts/dashboard.dart';
+import 'package:woof/screens/chat/chat_screen.dart';
 import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/dog/add_dog.dart';
@@ -26,13 +27,20 @@ class _NavBarState extends State<NavBar> {
           onChange: (value) {
             if (value != widget.currentIndex) {
               if (value == 0) {
-                Navigator.pushNamed(context, Home.id);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    Home.id, (Route<dynamic> route) => false);
               } else if (value == 1) {
-                Navigator.pushNamed(context, MyDogs.id);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    MyDogs.id, (Route<dynamic> route) => false);
               } else if (value == 2) {
-                Navigator.pushNamed(context, AdvertsScreen.id);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    AdvertsScreen.id, (Route<dynamic> route) => false);
               } else if (value == 3) {
-                Navigator.pushNamed(context, ProfileScreen.id);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    ChatScreen.id, (Route<dynamic> route) => false);
+              } else if (value == 4) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    ProfileScreen.id, (Route<dynamic> route) => false);
               }
             }
           },
@@ -50,6 +58,11 @@ class _NavBarState extends State<NavBar> {
             FluidNavBarIcon(
               selectedForegroundColor: kPinkColor,
               icon: Icons.dashboard,
+              backgroundColor: Colors.white,
+            ),
+            FluidNavBarIcon(
+              selectedForegroundColor: kPinkColor,
+              icon: Icons.chat,
               backgroundColor: Colors.white,
             ),
             FluidNavBarIcon(

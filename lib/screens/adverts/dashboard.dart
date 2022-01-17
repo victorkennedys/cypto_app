@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/nav_bar.dart';
-import '../../components/advert.dart';
+import '../../components/advert/advert.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
