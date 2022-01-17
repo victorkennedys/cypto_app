@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woof/components/dog/dog_avatar.dart';
+import 'package:woof/components/input%20widgets/checkbox.dart';
 import 'package:woof/screens/dog/current_dog.dart';
 import 'package:woof/constants.dart';
 
@@ -28,7 +29,13 @@ class DogCard extends StatefulWidget {
 }
 
 class _DogCardState extends State<DogCard> {
-  bool isSelected = false;
+  callBack(bool selected) {
+    setState(() {
+      selected
+          ? widget.dogList!.add(widget.docId)
+          : widget.dogList!.remove(widget.docId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,33 +80,7 @@ class _DogCardState extends State<DogCard> {
                 ),
               ],
             ),
-            widget.selectable == true
-                ? GestureDetector(
-                    onTap: () {
-                      if (isSelected == false) {
-                        widget.dogList!.add(widget.docId);
-                        setState(() {
-                          isSelected = true;
-                        });
-                      } else if (isSelected == true) {
-                        widget.dogList!.remove(widget.docId);
-                        setState(() {
-                          isSelected = false;
-                        });
-                      }
-                    },
-                    child: Container(
-                      child: Icon(
-                        Icons.check,
-                        color: isSelected ? kPurpleColor : Colors.transparent,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black45),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  )
-                : Container(),
+            widget.selectable ? FormCheckBox(callBack) : Container(),
           ],
         ),
       ),

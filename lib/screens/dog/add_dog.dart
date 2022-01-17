@@ -10,7 +10,10 @@ import 'package:woof/screens/dog/add_dog_image.dart';
 import '../../components/input widgets/form_question_text.dart';
 import '../../constants.dart';
 import '../../components/dog/add_dog_image.dart';
+import '../../constants.dart';
+import '../../constants.dart';
 import '../../main.dart';
+import 'more_dog_info.dart';
 
 final _firestore = FirebaseFirestore.instance;
 List urlList = [];
@@ -140,15 +143,16 @@ class _AddDogScreenState extends State<AddDogScreen> {
                     DateSelector(setDate),
                     FormQuestionText("Vad är din hund för kön?"),
                     TogButtons(
-                        changeActiveGenderButton,
-                        genderButtonSelected,
-                        "Hona",
-                        "Hane",
-                        null,
-                        2,
-                        'images/woman.png',
-                        'images/male.png',
-                        null),
+                      changeActiveGenderButton,
+                      genderButtonSelected,
+                      "Hona",
+                      "Hane",
+                      null,
+                      2,
+                      'images/woman.png',
+                      'images/male.png',
+                      null,
+                    ),
                     FormQuestionText("Hur stor är din hund?"),
                     TogButtons(changeActiveSizeButton, sizeButtonSelected,
                         "Liten", "Mellan", "Stor", 3, null, null, null),
@@ -212,58 +216,35 @@ class _AddDogScreenState extends State<AddDogScreen> {
       ageString = age.toString() + "månader";
     }
 
-    if (urlList.length == 1) {
-      _firestore
-          .collection('dogs')
-          .doc("${loggedInUser.phoneNumber}$dogName")
-          .set({
-        'name': dogName,
-        'image1': urlList[0].toString(),
-        'breed': breed,
-        'birthday': birthDay,
-        'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-        'age': ageString,
-        'gender': gender,
-        'size': size
-      });
-    } else if (urlList.length == 2) {
-      _firestore
-          .collection('dogs')
-          .doc("${loggedInUser.phoneNumber}$dogName")
-          .set({
-        'name': dogName,
-        'image1': urlList[0].toString(),
-        'image2': urlList[1].toString(),
-        'breed': breed,
-        'birthday': birthDay,
-        'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-        'age': ageString,
-        'gender': gender,
-        'size': size
-      });
-    } else if (urlList.length == 3) {
-      _firestore
-          .collection('dogs')
-          .doc("${loggedInUser.phoneNumber}$dogName")
-          .set({
-        'name': dogName,
-        'image1': urlList[0].toString(),
-        'image2': urlList[1].toString(),
-        'image3': urlList[2].toString(),
-        'breed': breed,
-        'birthday': birthDay,
-        'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
-        'age': ageString,
-        'gender': gender,
-        'size': size
-      });
-    }
+    _firestore
+        .collection('dogs')
+        .doc("${loggedInUser.phoneNumber}$dogName")
+        .set({
+      'name': dogName,
+      'image1': urlList[0] ?? "",
+      'image2': urlList.length == 2 ? urlList[1] : null,
+      'image3': urlList.length == 3 ? urlList[2] : null,
+      'breed': breed,
+      'birthday': birthDay,
+      'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
+      'age': ageString,
+      'gender': gender,
+      'size': size
+    });
 
-    Navigator.of(context).pop({
+    /*   Navigator.of(context).pop({
       "dogName": dogName,
       "imageUrl": urlList[0],
       'docId': "${loggedInUser.phoneNumber}_$dogName"
-    });
+    }); */
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            AddDogInfo(dogName, "${loggedInUser.phoneNumber}$dogName"),
+      ),
+    );
 
     urlList.clear();
   }
