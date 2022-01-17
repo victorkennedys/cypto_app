@@ -12,14 +12,16 @@ class Advert extends StatelessWidget {
   final String bookingType;
   final List dogList;
 
-  Advert(
-      {required this.advertId,
+  const Advert(
+      {Key? key,
+      required this.advertId,
       required this.dateTime,
       required this.owner,
       required this.meetUpSpot,
       required this.dogId,
       required this.bookingType,
-      required this.dogList});
+      required this.dogList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,10 @@ class Advert extends StatelessWidget {
         future: dogs.doc(dogId).get(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text("Something went wrong");
+            return const Text("Something went wrong");
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -54,7 +56,7 @@ class Advert extends StatelessWidget {
               dogList: dogList,
             );
           }
-          return Text("loading");
+          return const Text("loading");
         });
   }
 }
@@ -69,8 +71,10 @@ class GridItem extends StatelessWidget {
   final String dogId;
   final String bookingType;
   final List dogList;
-  GridItem(
-      {required this.image,
+
+  const GridItem(
+      {Key? key,
+      required this.image,
       required this.dogName,
       required this.advertId,
       required this.dateTime,
@@ -78,7 +82,9 @@ class GridItem extends StatelessWidget {
       required this.meetUpSpot,
       required this.dogId,
       required this.bookingType,
-      required this.dogList});
+      required this.dogList})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -115,7 +121,7 @@ class GridItem extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

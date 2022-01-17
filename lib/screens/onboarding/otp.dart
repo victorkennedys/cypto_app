@@ -53,22 +53,12 @@ class _OTPScreenState extends State<OTPScreen> {
               userDocId = phoneWithCountryCode;
               print("userDocID: $userDocId");
             });
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => UserEnterInfoScreen(),
-              ),
-            );
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                UserEnterInfoScreen.id, (Route<dynamic> route) => false);
           }
           if (newUser == false) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Home(
-                  newUser: newUser,
-                ),
-              ),
-            );
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Home.id, (Route<dynamic> route) => false);
           }
         }
       });

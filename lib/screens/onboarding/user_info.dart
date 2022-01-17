@@ -11,6 +11,7 @@ import 'package:woof/screens/home_screen.dart';
 
 class UserEnterInfoScreen extends StatefulWidget {
   final user = FirebaseAuth.instance.currentUser;
+  static const String id = 'user_info_screen';
 
   @override
   State<UserEnterInfoScreen> createState() => _UserEnterInfoScreenState();

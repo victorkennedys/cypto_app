@@ -8,6 +8,7 @@ import 'package:woof/screens/dog/add_dog.dart';
 import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import 'package:woof/screens/onboarding/otp.dart';
 import 'package:woof/screens/onboarding/signup_screen.dart';
+import 'package:woof/screens/onboarding/user_info.dart';
 import 'package:woof/screens/profile_screen.dart';
 import 'constants.dart';
 
@@ -40,6 +41,7 @@ class Woof extends StatelessWidget {
         PickDogScreen.id: (context) => PickDogScreen(),
         AdvertsScreen.id: (context) => AdvertsScreen(),
         ProfileScreen.id: (context) => ProfileScreen(),
+        UserEnterInfoScreen.id: (context) => UserEnterInfoScreen(),
       },
     );
   }
@@ -59,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
         children: [
           Card(
             elevation: 8.0,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
