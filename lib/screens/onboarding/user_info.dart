@@ -90,7 +90,7 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
                             });
                           }
                         },
-                        child: Text("Lägg till en till hund"),
+                        child: const Text("Lägg till en till hund"),
                       ),
                     )
                   ],
