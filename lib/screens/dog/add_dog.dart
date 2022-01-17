@@ -13,9 +13,10 @@ import '../../main.dart';
 import 'more_dog_info.dart';
 
 final _firestore = FirebaseFirestore.instance;
-List urlList = [];
 
 class AddDogScreen extends StatefulWidget {
+  final List<String> urlList;
+  AddDogScreen(this.urlList);
   static const String id = 'add_dog_screen';
 
   @override
@@ -120,18 +121,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    FormQuestionText('Lägg till en bild på din hund'),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 21),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AddImageOfDog(100, 100, urlList),
-                          AddImageOfDog(70, 70, urlList),
-                          AddImageOfDog(70, 70, urlList),
-                        ],
-                      ),
-                    ),
                     FormQuestionText("Vad heter din hund?"),
                     InputField("Namn", true, setName),
                     FormQuestionText("Vad har du för hundras"),
@@ -218,9 +207,9 @@ class _AddDogScreenState extends State<AddDogScreen> {
         .doc("${loggedInUser.phoneNumber}$dogName")
         .set({
       'name': dogName,
-      'image1': urlList[0] ?? "",
-      'image2': urlList.length == 2 ? urlList[1] : null,
-      'image3': urlList.length == 3 ? urlList[2] : null,
+      'image1': widget.urlList[0],
+      'image2': widget.urlList.length == 2 ? widget.urlList[1] : null,
+      'image3': widget.urlList.length == 3 ? widget.urlList[2] : null,
       'breed': breed,
       'birthday': birthDay,
       'owner': loggedInUser.email ?? loggedInUser.phoneNumber,
@@ -238,12 +227,12 @@ class _AddDogScreenState extends State<AddDogScreen> {
     Map<String, dynamic>? data = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AddDogInfo(
-            dogName, "${loggedInUser.phoneNumber}$dogName", urlList[0]),
+            dogName, "${loggedInUser.phoneNumber}$dogName", widget.urlList[0]),
       ),
     );
 
     Navigator.pop(context, data);
 
-    urlList.clear();
+    widget.urlList.clear();
   }
 }

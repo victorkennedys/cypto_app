@@ -8,7 +8,6 @@ import '../home_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPScreen extends StatefulWidget {
-  //Important: Test values verification code: 100 000
   final String phone;
   OTPScreen({required this.phone});
   @override

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/screens/dog/add_dog.dart';
+import 'package:woof/screens/dog/add_dog_image.dart';
 
 class AddDogWidget extends StatefulWidget {
   final Function setDocId;
@@ -20,7 +21,7 @@ class _AddDogWidgetState extends State<AddDogWidget> {
       onTap: () async {
         Map<String, dynamic>? data = await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => AddDogScreen(),
+            builder: (context) => AddDogImage(),
           ),
         );
         print(data);
