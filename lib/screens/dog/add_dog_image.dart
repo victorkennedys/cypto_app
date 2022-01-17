@@ -5,13 +5,12 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
+import 'package:woof/screens/dog/add_dog.dart';
 
 class AddDogImage extends StatelessWidget {
-  final List urlList;
-  final String name;
-  AddDogImage(this.urlList, this.name);
   final _auth = FirebaseAuth.instance;
   late User loggedInUser = _auth.currentUser!;
+  List<String> urlList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +38,14 @@ class AddDogImage extends StatelessWidget {
               AppButton(
                   buttonColor: kPurpleColor,
                   textColor: kPinkColor,
-                  onPressed: () {
-                    Navigator.of(context).pop({
-                      "dogName": name,
-                      "imageUrl": urlList[0],
-                      'docId': "${loggedInUser.phoneNumber}_$name"
-                    });
+                  onPressed: () async {
+                    Map<String, dynamic> data = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddDogScreen(urlList),
+                      ),
+                    );
+                    Navigator.pop(context, data);
                   },
                   buttonText: "Klar")
             ],
