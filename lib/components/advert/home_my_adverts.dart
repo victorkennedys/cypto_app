@@ -1,33 +1,64 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:woof/components/advert/advert.dart';
 import 'package:woof/screens/dog/my_dogs.dart';
+import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
 final User? loggedInUser = _auth.currentUser;
+final _firestore = FirebaseFirestore.instance;
 
-class UserAdverts extends StatelessWidget {
-  const UserAdverts({Key? key}) : super(key: key);
-
+class UserAdvertsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: FirebaseFirestore.instance
-          .collection('adverts')
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore
+          .collection("adverts")
           .where('creator', isEqualTo: loggedInUser?.phoneNumber)
-          .get(),
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text("error");
+          print("Error");
         }
+
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map map = snapshot.data as Map<String, dynamic>;
-          print(map);
+
+        List<Advert> advertsList = [];
+        final allAdverts = snapshot.data?.docs;
+
+        for (var advert in allAdverts!) {
+          final advertId = advert.id;
+          final dogList = advert.get("dogs");
+          final dateTime = advert.get("datetime");
+          final owner = advert.get("creator");
+          final meetUpSpot = advert.get("meetup spot");
+          final bookingType = advert.get("booking type");
+
+          String firstDogID = dogList[0].toString();
+          String convertedDateTime =
+              DateFormat('EEEE').format(dateTime.toDate());
+
+          advertsList.add(
+            Advert(
+              advertId: advertId,
+              dateTime: convertedDateTime,
+              owner: owner,
+              meetUpSpot: meetUpSpot,
+              dogId: firstDogID,
+              bookingType: bookingType,
+              dogList: dogList,
+              onlyUser: true,
+            ),
+          );
         }
-        return Text("Loading");
+        return Column(
+          children: advertsList,
+        );
       },
     );
   }

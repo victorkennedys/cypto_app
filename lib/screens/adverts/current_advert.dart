@@ -5,7 +5,7 @@ class CurrentAdvert extends StatelessWidget {
   final String imageUrl;
   final String dogName;
   final String advertId;
-  final Timestamp dateTime;
+  final String dateTime;
   final String owner;
   final String meetUpSpot;
   final String dogId;

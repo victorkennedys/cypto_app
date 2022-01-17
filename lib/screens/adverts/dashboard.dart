@@ -60,6 +60,7 @@ class AdvertsScreen extends StatelessWidget {
                         dogId: firstDogID,
                         bookingType: bookingType,
                         dogList: dogList,
+                        onlyUser: false,
                       ),
                     );
                   }
