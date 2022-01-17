@@ -6,6 +6,7 @@ import 'package:woof/components/nav_bar.dart';
 import 'package:woof/components/dog/user_dog_list.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/screens/dog/add_dog.dart';
+import 'package:woof/screens/dog/add_dog_image.dart';
 import 'package:woof/screens/dog/more_dog_info.dart';
 
 User loggedInUser = _auth.currentUser!;
@@ -53,13 +54,12 @@ class _MyDogsState extends State<MyDogs> {
                   buttonColor: kPurpleColor,
                   buttonText: "Lägg till en hund",
                   onPressed: () {
-                    Navigator.pushNamed(context, AddDogScreen.id);
-                    /* Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddDogInfo(),
+                        builder: (context) => AddDogImage(),
                       ),
-                    ); */
+                    );
                   },
                 ),
               )

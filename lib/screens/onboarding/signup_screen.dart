@@ -68,7 +68,11 @@ class RegistrationScreen extends StatelessWidget {
                     final newUser = await _auth.createUserWithEmailAndPassword(
                         email: email, password: passWord);
                     if (newUser != null) {
-                      Navigator.pushNamed(context, AddDogScreen.id);
+                      /* Navigator.pushNamed(context, AddDogScreen.id);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddDogScreen(urlList))); */
                     }
                   } catch (e) {
                     print(e);
