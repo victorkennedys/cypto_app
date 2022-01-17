@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sprung/sprung.dart';
 import 'package:woof/screens/adverts/dashboard.dart';
 import 'package:woof/screens/chat/chat_screen.dart';
 import 'package:woof/screens/dog/my_dogs.dart';
@@ -93,7 +94,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
-            child: Container(
+            child: AnimatedContainer(
+              curve: Sprung.criticallyDamped,
+              duration: Duration(milliseconds: 1500),
               width: MediaQuery.of(context).size.width,
               height: expanded
                   ? MediaQuery.of(context).size.height * 0.56
