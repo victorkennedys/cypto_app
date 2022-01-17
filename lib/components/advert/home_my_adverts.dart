@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/advert/advert.dart';
 import 'package:intl/intl.dart';
+import 'package:woof/constants.dart';
 
 final _auth = FirebaseAuth.instance;
 final User? loggedInUser = _auth.currentUser;
@@ -55,9 +56,34 @@ class UserAdvertsList extends StatelessWidget {
             ),
           );
         }
-        return Column(
-          children: advertsList,
-        );
+        if (advertsList.isNotEmpty) {
+          return Padding(
+            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(bottom: 15),
+                  child: Text(
+                    "Kommande annonser",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: kPurpleColor,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Column(
+                  children: advertsList,
+                )
+              ],
+            ),
+          );
+        } else {
+          return Text(
+            "Du har inga annonser",
+            style: TextStyle(fontSize: 15),
+          );
+        }
       },
     );
   }

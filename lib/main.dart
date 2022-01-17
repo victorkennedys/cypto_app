@@ -5,7 +5,6 @@ import 'package:woof/screens/chat/chat_screen.dart';
 import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
 import 'package:woof/screens/onboarding/login_screen.dart';
-import 'package:woof/screens/dog/add_dog.dart';
 import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import 'package:woof/screens/onboarding/otp.dart';
 import 'package:woof/screens/onboarding/signup_screen.dart';
@@ -85,6 +84,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: expanded ? kPinkColor : kBgColor,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Card(
@@ -209,3 +209,20 @@ class PhoneInput extends StatelessWidget {
     );
   }
 }
+
+
+/* class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  FadeRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Wi */

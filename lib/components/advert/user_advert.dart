@@ -29,6 +29,7 @@ class UserAdvert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 5, right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -56,10 +57,13 @@ class UserAdvert extends StatelessWidget {
                           dogList.length == 1
                               ? "$bookingType för $dogName"
                               : "$bookingType med ${dogList.length} av dina hundar",
-                          style: kH1Text.copyWith(
-                              fontSize: 15, fontWeight: FontWeight.w100),
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
                         ),
-                        Text(dateTime),
+                        Text(
+                          dateTime,
+                          style: TextStyle(color: Colors.black45),
+                        ),
                       ],
                     ),
                     Icon(

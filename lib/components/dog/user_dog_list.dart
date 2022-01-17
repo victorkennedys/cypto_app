@@ -12,11 +12,13 @@ class UserDogList extends StatelessWidget {
   final bool selectable;
   final List<String>? advertDogList;
   final bool showAllDogs;
+  final Function? callBack;
 
   UserDogList(
       {required this.selectable,
       this.advertDogList,
-      required this.showAllDogs});
+      required this.showAllDogs,
+      this.callBack});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -53,6 +55,7 @@ class UserDogList extends StatelessWidget {
                 selectable: selectable,
                 dogList: advertDogList ?? null,
                 age: age,
+                nameCallBack: callBack,
               );
               dogList.add(dogCard);
             } else {
@@ -85,8 +88,12 @@ class UserDogList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: ListView(
-                children: dogList,
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: ListView(
+                  children: dogList,
+                ),
               ),
             ),
           );

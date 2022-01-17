@@ -16,7 +16,8 @@ final user = _auth.currentUser;
 
 class BookWalkScreen extends StatefulWidget {
   final List<String> dogList;
-  BookWalkScreen(this.dogList);
+  final List<String> dogNameList;
+  BookWalkScreen(this.dogList, this.dogNameList);
   static const String id = 'book_walk_screen';
 
   @override
@@ -74,92 +75,104 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: Padding(
-        padding: Woof.defaultPadding(context),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Flexible(
-              flex: 2,
-              child: BlackPinkText(
-                  blackText: "Uppge detaljer om", pinkText: "promenaden"),
-            ),
-            Flexible(
-              flex: 1,
-              child: SizedBox(),
-            ),
-            Flexible(
-              flex: 7,
-              child: Card(
-                elevation: 8.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FormQuestionText("Hur lång promenad behöver Zoe?"),
-                      TogButtons(getWalkLength, buttonSelected, "30 minuter",
-                          "1 timme", null, 2, null, null, null),
-                      FormQuestionText("Vilken dag Zoe sin promenad"),
-                      DateTimePicker(selectedDateTime.toString(), selectDate),
-                      FormQuestionText("Vart ska Zoe upphämtas?"),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          decoration:
-                              kInputDecoration.copyWith(hintText: "Ange plats"),
-                          onChanged: (value) {
-                            meetUpSpot = value;
-                          },
-                        ),
-                      ),
-                    ],
+      extendBodyBehindAppBar: true,
+      appBar: kAppBar,
+      body: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: Padding(
+          padding: Woof.defaultPadding(context),
+          child: ListView(
+            /* crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start, */
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BlackPinkText(
+                      blackText: "Uppge detaljer om", pinkText: "promenaden"),
+                  SizedBox(
+                    height: 50,
                   ),
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 2,
-              child: Container(),
-            ),
-            Flexible(
-                flex: 1,
-                child: AppButton(
-                  buttonColor: kPurpleColor,
-                  buttonText: "Fortsätt",
-                  textColor: kPinkColor,
-                  onPressed: () {
-                    _firestore.collection("adverts").add({
-                      'dogs': widget.dogList,
-                      'creator': user?.email ?? user?.phoneNumber,
-                      'length': length,
-                      'datetime': selectedDateTime,
-                      'meetup spot': meetUpSpot,
-                      'booking type': "promenad",
-                      'helper accepted': "false"
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ConfirmedAdvert(widget.dogList,
-                            length, selectedDateTime, meetUpSpot),
+                  Card(
+                    elevation: 8.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Column(
+                        /* crossAxisAlignment: CrossAxisAlignment.start, */
+                        children: [
+                          FormQuestionText(widget.dogNameList.length == 1
+                              ? "Hur lång promenad behöver ${widget.dogNameList[0]}?"
+                              : "Hur lång promenad behöver hundarna"),
+                          TogButtons(
+                              getWalkLength,
+                              buttonSelected,
+                              "30 minuter",
+                              "1 timme",
+                              null,
+                              2,
+                              null,
+                              null,
+                              null),
+                          FormQuestionText(widget.dogNameList.length == 1
+                              ? "Vilken dag behöver ${widget.dogNameList[0]} promenad"
+                              : "Vilken dag behöver hundarna promenad"),
+                          DateTimePicker(
+                              selectedDateTime.toString(), selectDate),
+                          FormQuestionText(widget.dogNameList.length == 1
+                              ? "Vart ska ${widget.dogNameList[0]} upphämtas"
+                              : "Vart ska hundarna upphämtas"),
+                          Container(
+                            margin: EdgeInsets.only(left: 20, right: 20),
+                            child: TextField(
+                              decoration: kInputDecoration.copyWith(
+                                  hintText: "Ange plats"),
+                              onChanged: (value) {
+                                meetUpSpot = value;
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ))
-          ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  AppButton(
+                    buttonColor: kPurpleColor,
+                    buttonText: "Fortsätt",
+                    textColor: kPinkColor,
+                    onPressed: () {
+                      _firestore.collection("adverts").add({
+                        'dogs': widget.dogList,
+                        'creator': user?.email ?? user?.phoneNumber,
+                        'length': length,
+                        'datetime': selectedDateTime,
+                        'meetup spot': meetUpSpot,
+                        'booking type': "promenad",
+                        'helper accepted': "false"
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ConfirmedAdvert(widget.dogList,
+                              length, selectedDateTime, meetUpSpot),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

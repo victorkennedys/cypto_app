@@ -98,10 +98,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
     return Scaffold(
       key: _scaffoldKey,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      appBar: kAppBar,
       /* resizeToAvoidBottomInset: false, */
       body: MediaQuery.removePadding(
         context: context,

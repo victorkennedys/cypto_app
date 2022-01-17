@@ -8,11 +8,24 @@ import '../../main.dart';
 
 class PickDogScreen extends StatelessWidget {
   static const String id = 'pick_dog_screen';
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<String>? dogNameList = [];
   List<String> dogList = [];
+  getDogInfo(String name, bool addOrRemove) {
+    addOrRemove ? dogNameList!.add(name) : dogNameList!.remove(name);
+    print(dogNameList);
+  }
+
+  showSnackBar(String errorMessage, BuildContext context) {
+    _scaffoldKey.currentState?.showSnackBar(
+      kSnackBar(errorMessage),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: kAppBar,
       body: MediaQuery.removePadding(
@@ -33,6 +46,7 @@ class PickDogScreen extends StatelessWidget {
                   selectable: true,
                   advertDogList: dogList,
                   showAllDogs: true,
+                  callBack: getDogInfo,
                 ),
               ),
               Flexible(
@@ -48,9 +62,14 @@ class PickDogScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BookWalkScreen(dogList),
+                          builder: (context) =>
+                              BookWalkScreen(dogList, dogNameList!),
                         ),
                       );
+                    } else {
+                      showSnackBar(
+                          "Du måste lägga til minst en hund för att fortsätta",
+                          context);
                     }
                   },
                 ),

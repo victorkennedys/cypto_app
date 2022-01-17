@@ -13,6 +13,7 @@ class DogCard extends StatefulWidget {
   final bool selectable;
   final List<String>? dogList;
   final String age;
+  final Function? nameCallBack;
 
   DogCard(
       {required this.docId,
@@ -22,7 +23,8 @@ class DogCard extends StatefulWidget {
       required this.imageUrl,
       required this.selectable,
       this.dogList,
-      required this.age});
+      required this.age,
+      this.nameCallBack});
 
   @override
   State<DogCard> createState() => _DogCardState();
@@ -32,8 +34,14 @@ class _DogCardState extends State<DogCard> {
   callBack(bool selected) {
     setState(() {
       selected
-          ? widget.dogList!.add(widget.docId)
-          : widget.dogList!.remove(widget.docId);
+          ? {
+              widget.dogList!.add(widget.docId),
+              widget.nameCallBack!(widget.name, true)
+            }
+          : {
+              widget.dogList!.remove(widget.docId),
+              widget.nameCallBack!(widget.name, false)
+            };
     });
   }
 
