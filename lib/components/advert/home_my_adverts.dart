@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/advert/advert.dart';
-import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
