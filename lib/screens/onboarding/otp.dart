@@ -50,7 +50,6 @@ class _OTPScreenState extends State<OTPScreen> {
                 .doc(phoneWithCountryCode)
                 .set({'phone': phoneWithCountryCode}).then((value) {
               userDocId = phoneWithCountryCode;
-              print("userDocID: $userDocId");
             });
             Navigator.of(context).pushNamedAndRemoveUntil(
                 UserEnterInfoScreen.id, (Route<dynamic> route) => false);

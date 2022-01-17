@@ -65,63 +65,57 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
             right: MediaQuery.of(context).size.width / 12,
           ),
           child: ListView(children: [
-            Flexible(
-                child: BlackPinkText(
-                    blackText: "Välkommen till", pinkText: "woof")),
-            Flexible(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FormQuestionText("Vad heter du?"),
-                  InputField("Ange ditt namn", true, setName),
-                  FormQuestionText("Hur många hundar har du?"),
-                  Column(
-                    children: [
-                      Column(
-                        children: addDogWidgetList,
+            BlackPinkText(blackText: "Välkommen till", pinkText: "woof"),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FormQuestionText("Vad heter du?"),
+                InputField("Ange ditt namn", true, setName),
+                FormQuestionText("Hur många hundar har du?"),
+                Column(
+                  children: [
+                    Column(
+                      children: addDogWidgetList,
+                    ),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          if (addDogWidgetList[addDogWidgetList.length - 1]
+                              .dogData
+                              .isNotEmpty) {
+                            setState(() {
+                              addDogWidgetList.add(
+                                AddDogWidget(setDocId),
+                              );
+                            });
+                          }
+                        },
+                        child: Text("Lägg till en till hund"),
                       ),
-                      Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (addDogWidgetList[addDogWidgetList.length - 1]
-                                .dogData
-                                .isNotEmpty) {
-                              setState(() {
-                                addDogWidgetList.add(
-                                  AddDogWidget(setDocId),
-                                );
-                              });
-                            }
-                          },
-                          child: Text("Lägg till en till hund"),
-                        ),
-                      )
-                    ],
-                  ),
-                  FormQuestionText("Vad är din email?"),
-                  InputField("Ange din email", true, setEmail),
-                ],
-              ),
+                    )
+                  ],
+                ),
+                FormQuestionText("Vad är din email?"),
+                InputField("Ange din email", true, setEmail),
+              ],
             ),
-            Flexible(
-                child: AppButton(
-                    buttonColor: kPurpleColor,
-                    textColor: kPinkColor,
-                    onPressed: () {
-                      if (name.isNotEmpty &&
-                          email.isNotEmpty &&
-                          docIdList.isNotEmpty) {
-                        addUSerDataToFireBase();
-                      } else if (name.isEmpty) {
-                        showSnackBar("Ange ditt namn", context);
-                      } else if (email.isEmpty) {
-                        showSnackBar("Ange din email", context);
-                      } else if (docIdList.isEmpty) {
-                        showSnackBar("Lägg till minst en hund", context);
-                      }
-                    },
-                    buttonText: "Klar")),
+            AppButton(
+                buttonColor: kPurpleColor,
+                textColor: kPinkColor,
+                onPressed: () {
+                  if (name.isNotEmpty &&
+                      email.isNotEmpty &&
+                      docIdList.isNotEmpty) {
+                    addUSerDataToFireBase();
+                  } else if (name.isEmpty) {
+                    showSnackBar("Ange ditt namn", context);
+                  } else if (email.isEmpty) {
+                    showSnackBar("Ange din email", context);
+                  } else if (docIdList.isEmpty) {
+                    showSnackBar("Lägg till minst en hund", context);
+                  }
+                },
+                buttonText: "Klar"),
           ]),
         ),
       ),
