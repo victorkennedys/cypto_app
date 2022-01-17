@@ -14,9 +14,9 @@ class ChatScreen extends StatelessWidget {
       body: Padding(
         padding: Woof.defaultPadding(context),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlackPinkText(blackText: "Ansökningar och", pinkText: "chatter"),
-            UserAdverts(),
+            /* BlackPinkText(blackText: "Ansökningar och", pinkText: "chatter"), */
           ],
         ),
       ),
