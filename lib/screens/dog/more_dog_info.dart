@@ -11,7 +11,8 @@ import 'package:woof/main.dart';
 class AddDogInfo extends StatefulWidget {
   final String name;
   final String docId;
-  AddDogInfo(this.name, this.docId);
+  final String imageUrl;
+  AddDogInfo(this.name, this.docId, this.imageUrl);
 
   @override
   State<AddDogInfo> createState() => _AddDogInfoState();
@@ -128,6 +129,13 @@ class _AddDogInfoState extends State<AddDogInfo> {
       'good with kids': goodWithKids,
       'potty trained': pottyTrained
     }).catchError((e) => print(e));
+
+    Map<String, dynamic> data = {
+      "dogName": widget.name,
+      "imageUrl": widget.imageUrl,
+      "docId": widget.docId
+    };
+    Navigator.pop(context, data);
   }
 }
 

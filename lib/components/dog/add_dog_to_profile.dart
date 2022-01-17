@@ -18,16 +18,16 @@ class _AddDogWidgetState extends State<AddDogWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        widget.dogData = await Navigator.push(
-          context,
+        Map<String, dynamic>? data = await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => AddDogScreen(),
           ),
         );
+        print(data);
 
-        widget.setDocId(widget.dogData['docId']);
+        widget.setDocId(data!['docId']);
         setState(() {
-          widget.dogData;
+          widget.dogData = data;
         });
       },
       child: Padding(

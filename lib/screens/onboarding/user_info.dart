@@ -141,6 +141,7 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
       'email': email,
       'dogs': docIdList
     });
-    Navigator.pushNamed(context, Home.id);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(Home.id, (Route<dynamic> route) => false);
   }
 }

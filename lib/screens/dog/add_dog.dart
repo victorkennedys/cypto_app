@@ -6,12 +6,9 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/input%20widgets/date_selector.dart';
 import 'package:woof/components/input%20widgets/input_field.dart';
 import 'package:woof/components/input%20widgets/toggle_button.dart';
-import 'package:woof/screens/dog/add_dog_image.dart';
 import '../../components/input widgets/form_question_text.dart';
 import '../../constants.dart';
 import '../../components/dog/add_dog_image.dart';
-import '../../constants.dart';
-import '../../constants.dart';
 import '../../main.dart';
 import 'more_dog_info.dart';
 
@@ -205,7 +202,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
     );
   }
 
-  addDogToFireBase() {
+  addDogToFireBase() async {
     int age;
     String ageString;
     if (DateTime.now().year != birthDay!.year) {
@@ -238,13 +235,14 @@ class _AddDogScreenState extends State<AddDogScreen> {
       'docId': "${loggedInUser.phoneNumber}_$dogName"
     }); */
 
-    Navigator.push(
-      context,
+    Map<String, dynamic>? data = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) =>
-            AddDogInfo(dogName, "${loggedInUser.phoneNumber}$dogName"),
+        builder: (context) => AddDogInfo(
+            dogName, "${loggedInUser.phoneNumber}$dogName", urlList[0]),
       ),
     );
+
+    Navigator.pop(context, data);
 
     urlList.clear();
   }
