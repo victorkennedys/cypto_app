@@ -46,15 +46,42 @@ class Woof extends StatelessWidget {
   }
 }
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
 
-  TextEditingController _phoneController = TextEditingController();
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  TextEditingController phoneController = TextEditingController();
+  bool expanded = false;
+
+  onTap() {
+    setState(() {
+      expanded = true;
+    });
+  }
+
+  onEditingComplete() {}
+
+  onSubmitted(String value) {
+    if (value.characters.length >= 9) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OTPScreen(phone: phoneController.text),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      backgroundColor: kBgColor,
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      backgroundColor: expanded ? kPinkColor : kBgColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -66,7 +93,9 @@ class WelcomeScreen extends StatelessWidget {
             ),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: expanded
+                  ? MediaQuery.of(context).size.height * 0.56
+                  : MediaQuery.of(context).size.height * 0.2,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -88,59 +117,47 @@ class WelcomeScreen extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            flex: 2,
-                            child: Row(
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: 30,
-                                  height: 20,
-                                  child: Image.asset("images/sweden-flag.png"),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    "+46",
-                                    style: kH1Text.copyWith(fontSize: 15),
+                                Flexible(
+                                  flex: 2,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 30,
+                                        height: 20,
+                                        child: Image.asset(
+                                            "images/sweden-flag.png"),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Text(
+                                          "+46",
+                                          style: kH1Text.copyWith(fontSize: 15),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                PhoneInput(
+                                    onTapCallback: onTap,
+                                    onSubmittedCallback: onSubmitted,
+                                    onEditingCompleteCallback:
+                                        onEditingComplete,
+                                    phoneController: phoneController),
                               ],
                             ),
-                          ),
-                          Flexible(
-                            flex: 5,
-                            child: TextField(
-                              textInputAction: TextInputAction.done,
-                              onSubmitted: (value) {
-                                if (value.characters.length >= 9) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => OTPScreen(
-                                          phone: _phoneController.text),
-                                    ),
-                                  );
-                                }
-                              },
-                              maxLength: 9,
-                              style: TextStyle(color: Colors.black),
-                              enabled: true,
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: false, signed: true),
-                              decoration: kInputDecoration.copyWith(
-                                fillColor: Colors.white,
-                                filled: true,
-                                hintText: "## #### ## ##",
-                                border: UnderlineInputBorder(),
-                              ),
-                              controller: _phoneController,
-                            ),
-                          ),
-                        ],
+                            /* phoneCompleted
+                                ? OTPScreen(phone: phoneController.text)
+                                : Container(), */
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -149,6 +166,43 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class PhoneInput extends StatelessWidget {
+  final Function onTapCallback;
+  final Function onSubmittedCallback;
+  final Function onEditingCompleteCallback;
+  final TextEditingController phoneController;
+  PhoneInput(
+      {required this.onTapCallback,
+      required this.onSubmittedCallback,
+      required this.onEditingCompleteCallback,
+      required this.phoneController});
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: 5,
+      child: TextField(
+        textInputAction: TextInputAction.done,
+        onTap: () => onTapCallback(),
+        onEditingComplete: () => onEditingCompleteCallback(),
+        onSubmitted: (value) => onSubmittedCallback(value),
+        maxLength: 9,
+        style: TextStyle(color: Colors.black),
+        enabled: true,
+        keyboardType:
+            TextInputType.numberWithOptions(decimal: false, signed: true),
+        decoration: kInputDecoration.copyWith(
+          fillColor: Colors.white,
+          filled: true,
+          hintText: "## #### ## ##",
+          border: UnderlineInputBorder(),
+        ),
+        controller: phoneController,
       ),
     );
   }
