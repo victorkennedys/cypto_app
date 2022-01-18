@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:woof/components/advert/home_my_adverts.dart';
+import 'package:woof/components/advert/user_adverts_stream.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                       child: ListView(
                         /* mainAxisAlignment: MainAxisAlignment.end, */
                         children: [
-                          UserAdvertsList(),
+                          UserAdvertsStream(),
                         ],
                       ),
                     ),

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:woof/components/advert/advert.dart';
+import 'package:woof/components/advert/advert_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:woof/constants.dart';
 
@@ -9,7 +9,7 @@ final _auth = FirebaseAuth.instance;
 final User? loggedInUser = _auth.currentUser;
 final _firestore = FirebaseFirestore.instance;
 
-class UserAdvertsList extends StatelessWidget {
+class UserAdvertsStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -28,7 +28,7 @@ class UserAdvertsList extends StatelessWidget {
           );
         }
 
-        List<Advert> advertsList = [];
+        List<AdvertBuilder> advertsList = [];
         final allAdverts = snapshot.data?.docs;
 
         for (var advert in allAdverts!) {
@@ -44,7 +44,7 @@ class UserAdvertsList extends StatelessWidget {
               DateFormat('EEEE').format(dateTime.toDate());
 
           advertsList.add(
-            Advert(
+            AdvertBuilder(
               advertId: advertId,
               dateTime: convertedDateTime,
               owner: owner,

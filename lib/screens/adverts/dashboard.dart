@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/nav_bar.dart';
-import '../../components/advert/advert.dart';
+import '../../components/advert/advert_builder.dart';
 import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -39,7 +39,7 @@ class AdvertsScreen extends StatelessWidget {
                     );
                   }
 
-                  List<Advert> advertsList = [];
+                  List<AdvertBuilder> advertsList = [];
                   final allAdverts = snapshot.data?.docs;
 
                   for (var advert in allAdverts!) {
@@ -56,7 +56,7 @@ class AdvertsScreen extends StatelessWidget {
                     String firstDogID = dogList[0].toString();
 
                     advertsList.add(
-                      Advert(
+                      AdvertBuilder(
                         advertId: advertId,
                         dateTime: convertedDateTime,
                         owner: owner,

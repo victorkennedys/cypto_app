@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:woof/components/advert/user_advert.dart';
 import 'grid_item.dart';
 
-class Advert extends StatelessWidget {
+class AdvertBuilder extends StatelessWidget {
   final String advertId;
   final String dateTime;
   final String owner;
@@ -13,7 +13,7 @@ class Advert extends StatelessWidget {
   final List dogList;
   final bool onlyUser;
 
-  const Advert(
+  const AdvertBuilder(
       {Key? key,
       required this.advertId,
       required this.dateTime,
