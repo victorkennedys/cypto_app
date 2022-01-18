@@ -8,6 +8,7 @@ import 'package:woof/screens/helper%20onboarding/helper_profile.dart';
 import 'package:woof/screens/helper%20onboarding/id_verification.dart';
 import 'package:woof/screens/helper%20onboarding/user_profile_info.dart';
 import 'package:woof/screens/profile_screen.dart';
+import 'package:http/http.dart' as http;
 
 class HelperInfo extends StatelessWidget {
   final List<String> servicesList;
@@ -52,12 +53,37 @@ class HelperInfo extends StatelessWidget {
             AppButton(
                 buttonColor: kPurpleColor,
                 textColor: kPinkColor,
-                onPressed: () {},
+                onPressed: () {
+                  stripeConnect();
+                },
                 buttonText: "Klar")
           ],
         ),
       ),
     );
+  }
+
+  stripeConnect() async {
+    String url = 'https://api.stripe.com/v1/accounts';
+    Map<String, String> headers = {
+      'Authorization': "Bearer $stripeSecretKey",
+    };
+    Map body = {
+      'type': 'custom',
+      'country': 'SE',
+      'email': 'vict.kenn-2022@vrg.se',
+      'capabilities[card_payments][requested]': 'true',
+      'capabilities[transfers][requested]': 'true',
+      'business_type': 'individual',
+      'individual[first_name]': 'Victor',
+      'individual[last_name]': 'Kennedy',
+      'individual[dob][day]': '20',
+      'individual[dob][month]': '10',
+      'individual[dob][year]': '2003',
+      'business_profile[mcc]': '7299'
+    };
+    var data = await http.post(Uri.parse(url), headers: headers, body: body);
+    print(data.body);
   }
 }
 

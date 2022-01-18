@@ -47,7 +47,7 @@ SnackBar kSnackBar(String errorMessage) {
 }
 
 String stripePublishableKey =
-    'pk_test_51Hnp5AEnO8Ao5XpOGJWqY2QEF3H0FNr2BnXolP2JlXF0G3CyTUV9lE0P2v5RWvof7GcAfe5OTRb9XK5s4HhVukgt00GaD4VzUW';
+    'pk_test_51KJLYfE9jxaLNJQBKxEFPjyUIFBm4Mb1RIAnu3Qcew2VcxmmEetsh7ufoNtErBny80hHoS7SszQLeO2sEJEaDDOc00VwxAxku6';
 
 String stripeSecretKey =
-    'sk_test_51Hnp5AEnO8Ao5XpOHkQ0Vt61c7hih5PsFpuLJyN46O2s9S5nfTmGKkrxUdu8Bz98RPW4aydtJL1CKIvFnXjQYsVi00nO8BJPEh';
+    'sk_test_51KJLYfE9jxaLNJQBUzDVtX7pBybhOQ3655ic5HZgbK4SrGap1y45NgZKggMuA0Gd2F5cq8GP7oqUlhGpNAsQu1UM00m7OcPd7G';
