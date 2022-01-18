@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
+import 'package:woof/screens/helper%20onboarding/helper_profile.dart';
+import 'package:woof/screens/helper%20onboarding/id_verification.dart';
 import 'package:woof/screens/helper%20onboarding/user_profile_info.dart';
 import 'package:woof/screens/profile_screen.dart';
 
@@ -38,7 +40,12 @@ class HelperInfo extends StatelessWidget {
             HelperInfoCategory(
               "Verifiera din identitet",
               "images/identification.png",
-              HelperProfileInfo(),
+              IdVerificationScreen(),
+            ),
+            HelperInfoCategory(
+              "Skapa din profil",
+              "images/dog-leash.png",
+              CreateHelperProfileScreen(),
             ),
           ],
         ),
@@ -50,7 +57,7 @@ class HelperInfo extends StatelessWidget {
 class HelperInfoCategory extends StatefulWidget {
   final String text;
   final String icon;
-  final Widget? onTap;
+  final Widget onTap;
   HelperInfoCategory(this.text, this.icon, this.onTap);
 
   @override
@@ -66,6 +73,9 @@ class _HelperInfoCategoryState extends State<HelperInfoCategory> {
       onTap: () async {
         data = await Navigator.push(context,
             MaterialPageRoute(builder: (context) => widget.onTap as Widget));
+        setState(() {
+          data;
+        });
       },
       child: Container(
         child: Padding(

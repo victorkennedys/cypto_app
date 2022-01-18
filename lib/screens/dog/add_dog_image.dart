@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:woof/components/dog/add_dog_image.dart';
+import 'package:woof/components/input%20widgets/image_picker.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
@@ -35,7 +35,7 @@ class AddDogImage extends StatelessWidget {
                   ],
                 ),
               ),
-              AddImageOfDog(200, 200, urlList),
+              PickImage(200, 200, urlList),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: AppButton(

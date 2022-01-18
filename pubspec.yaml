@@ -44,6 +44,7 @@ dependencies:
   fluid_bottom_nav_bar: ^1.3.0
   pin_code_fields: ^7.3.0
   sprung: ^3.0.0
+  flutter_onfido: ^0.2.5
   
 
 

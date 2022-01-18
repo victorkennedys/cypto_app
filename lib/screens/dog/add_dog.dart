@@ -8,7 +8,7 @@ import 'package:woof/components/input%20widgets/input_field.dart';
 import 'package:woof/components/input%20widgets/toggle_button.dart';
 import '../../components/input widgets/form_question_text.dart';
 import '../../constants.dart';
-import '../../components/dog/add_dog_image.dart';
+import '../../components/input widgets/image_picker.dart';
 import '../../main.dart';
 import 'more_dog_info.dart';
 

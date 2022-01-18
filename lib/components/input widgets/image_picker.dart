@@ -5,19 +5,19 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
-class AddImageOfDog extends StatefulWidget {
+class PickImage extends StatefulWidget {
   final double height;
   final double width;
   final List urlList;
 
-  const AddImageOfDog(this.height, this.width, this.urlList, {Key? key})
+  const PickImage(this.height, this.width, this.urlList, {Key? key})
       : super(key: key);
 
   @override
-  State<AddImageOfDog> createState() => _AddImageOfDogState();
+  State<PickImage> createState() => _PickImageState();
 }
 
-class _AddImageOfDogState extends State<AddImageOfDog> {
+class _PickImageState extends State<PickImage> {
   File? imageFile;
   Future pickImage() async {
     try {
@@ -45,15 +45,17 @@ class _AddImageOfDogState extends State<AddImageOfDog> {
       String imageUrl = await firebaseStorageRef.getDownloadURL();
       widget.urlList.add(imageUrl);
     });
+    print(widget.urlList);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => pickImage(),
-      child: Container(
-          decoration: BoxDecoration(
-              color: Colors.grey[300], borderRadius: BorderRadius.circular(90)),
+      child: ClipOval(
+        child: Container(
+          decoration:
+              BoxDecoration(color: Colors.grey[300], shape: BoxShape.circle),
           margin: const EdgeInsets.symmetric(horizontal: 3),
           height: widget.height,
           width: widget.width,
@@ -66,10 +68,14 @@ class _AddImageOfDogState extends State<AddImageOfDog> {
                     fit: BoxFit.cover,
                   ),
                 )
-              : const Icon(
-                  Icons.image,
-                  color: Colors.white,
-                )),
+              : Container(
+                  child: const Icon(
+                    Icons.image,
+                    color: Colors.white,
+                  ),
+                ),
+        ),
+      ),
     );
   }
 }
