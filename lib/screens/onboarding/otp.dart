@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/screens/onboarding/user_info.dart';
 import '../../constants.dart';
@@ -50,6 +51,9 @@ class _OTPScreenState extends State<OTPScreen> {
                 .doc(phoneWithCountryCode)
                 .set({'phone': phoneWithCountryCode});
             userDocId = phoneWithCountryCode;
+
+            LocationPermission permission;
+            permission = await Geolocator.requestPermission();
 
             Navigator.of(context).pushNamedAndRemoveUntil(
                 UserEnterInfoScreen.id, (Route<dynamic> route) => false);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
@@ -7,8 +6,8 @@ import 'package:woof/main.dart';
 import 'package:woof/screens/helper%20onboarding/helper_profile.dart';
 import 'package:woof/screens/helper%20onboarding/id_verification.dart';
 import 'package:woof/screens/helper%20onboarding/user_profile_info.dart';
-import 'package:woof/screens/profile_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:network_info_plus/network_info_plus.dart';
 
 class HelperInfo extends StatelessWidget {
   final List<String> servicesList;
@@ -53,7 +52,7 @@ class HelperInfo extends StatelessWidget {
             AppButton(
                 buttonColor: kPurpleColor,
                 textColor: kPinkColor,
-                onPressed: () {
+                onPressed: () async {
                   stripeConnect();
                 },
                 buttonText: "Klar")
@@ -64,6 +63,8 @@ class HelperInfo extends StatelessWidget {
   }
 
   stripeConnect() async {
+    String? ip = await NetworkInfo().getWifiIP();
+
     String url = 'https://api.stripe.com/v1/accounts';
     Map<String, String> headers = {
       'Authorization': "Bearer $stripeSecretKey",
@@ -80,7 +81,15 @@ class HelperInfo extends StatelessWidget {
       'individual[dob][day]': '20',
       'individual[dob][month]': '10',
       'individual[dob][year]': '2003',
-      'business_profile[mcc]': '7299'
+      'business_profile[mcc]': '7299',
+      'individual[address][city]': 'Stockholm',
+      'individual[address][line1]': 'Brahegatan 3',
+      'individual[address][postal_code]': '11437',
+      'individual[email]': 'vict.kenn-2022@vrg.se',
+      'individual[phone]': '+46737776368',
+      'tos_acceptance[date]':
+          (DateTime.now().millisecondsSinceEpoch / 1000).toInt().toString(),
+      'tos_acceptance[ip]': ip,
     };
     var data = await http.post(Uri.parse(url), headers: headers, body: body);
     print(data.body);
