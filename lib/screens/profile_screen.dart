@@ -4,7 +4,7 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/nav_bar.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
-import 'package:woof/screens/helper%20onboarding/helper_info.dart';
+import 'package:woof/screens/helper%20onboarding/helper_services.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -24,8 +24,8 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ProfileScreenContainer(
-                "Bli hundpassare", "images/dog-leash.png", HelperInfoScreen()),
+            ProfileScreenContainer("Bli hundpassare", "images/dog-leash.png",
+                HelperServicesScreen()),
             ProfileScreenContainer("Mina hundar", "images/dog (1).png", null),
             ProfileScreenContainer("Min profil", "images/user.png", null),
             ProfileScreenContainer(

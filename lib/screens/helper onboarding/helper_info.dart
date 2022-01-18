@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
-import 'package:woof/components/input%20widgets/checkbox.dart';
+import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
+import 'package:woof/screens/helper%20onboarding/user_profile_info.dart';
+import 'package:woof/screens/profile_screen.dart';
 
-class HelperInfoScreen extends StatelessWidget {
-  List servicesList = [];
+class HelperInfo extends StatelessWidget {
+  final List<String> servicesList;
+  HelperInfo(this.servicesList);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: kAppBar,
       body: Padding(
         padding: Woof.defaultPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             BlackPinkText(
-                blackText: "Vilka tjänster vill", pinkText: "du erbjuda?"),
-            DogHelpService("images/dog-leash.png", "Promenader", servicesList,
-                "Ta ut hundar på promenad 30 eller 60 minuter"),
-            DogHelpService("images/home.png", "Hempassning", servicesList,
-                "Ta ut hundar på promenad 30 eller 60 minuter"),
-            DogHelpService("images/route.png", "Hämta och lämna", servicesList,
-                "Ta ut hundar på promenad 30 eller 60 minuter"),
+                blackText: "Registrera dig som", pinkText: "Hundhjälpare"),
+            SizedBox(
+              height: 50,
+            ),
+            Text(
+              "Bygg din profil",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Divider(),
+            HelperInfoCategory(
+                "Information om dig", "images/user.png", HelperProfileInfo())
           ],
         ),
       ),
@@ -28,63 +39,62 @@ class HelperInfoScreen extends StatelessWidget {
   }
 }
 
-class DogHelpService extends StatelessWidget {
-  final String icon;
+class HelperInfoCategory extends StatefulWidget {
   final String text;
-  final List servicesList;
-  final String infoText;
-  DogHelpService(this.icon, this.text, this.servicesList, this.infoText);
+  final String icon;
+  final Widget? onTap;
+  HelperInfoCategory(this.text, this.icon, this.onTap);
 
-  callBack(bool selected) {
-    selected ? servicesList.add(text) : servicesList.remove(text);
-    print(servicesList);
-  }
+  @override
+  State<HelperInfoCategory> createState() => _HelperInfoCategoryState();
+}
+
+class _HelperInfoCategoryState extends State<HelperInfoCategory> {
+  Map<String, dynamic> data = {};
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Row(
-                children: [
-                  Container(
-                    child: Image.asset(icon),
-                    height: 30,
-                    width: 30,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        text,
+    return GestureDetector(
+      onTap: () async {
+        data = await Navigator.push(context,
+            MaterialPageRoute(builder: (context) => widget.onTap as Widget));
+      },
+      child: Container(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Row(
+                  children: [
+                    Container(
+                      child: Image.asset(widget.icon),
+                      height: 30,
+                      width: 30,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Flexible(
+                      child: Text(
+                        widget.text,
                         style: TextStyle(fontSize: 15),
                       ),
-                      Container(
-                        width: 200,
-                        child: Text(
-                          infoText,
-                          maxLines: 3,
-                          style: TextStyle(fontSize: 12, color: Colors.black45),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            FormCheckBox(callBack),
-          ],
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black45,
+              ),
+            ],
+          ),
         ),
+        width: double.infinity,
+        decoration: BoxDecoration(),
       ),
-      width: double.infinity,
-      decoration: BoxDecoration(),
     );
   }
 }
