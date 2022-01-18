@@ -31,7 +31,15 @@ class HelperInfo extends StatelessWidget {
             ),
             Divider(),
             HelperInfoCategory(
-                "Information om dig", "images/user.png", HelperProfileInfo())
+              "Information om dig",
+              "images/user.png",
+              HelperProfileInfo(),
+            ),
+            HelperInfoCategory(
+              "Verifiera din identitet",
+              "images/identification.png",
+              HelperProfileInfo(),
+            ),
           ],
         ),
       ),
@@ -85,10 +93,15 @@ class _HelperInfoCategoryState extends State<HelperInfoCategory> {
                   ],
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.black45,
-              ),
+              data.isEmpty
+                  ? Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black45,
+                    )
+                  : Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    )
             ],
           ),
         ),

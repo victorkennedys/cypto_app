@@ -123,9 +123,9 @@ class _AddDogScreenState extends State<AddDogScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         FormQuestionText("Vad heter din hund?"),
-                        InputField("Namn", true, setName),
+                        InputField("Namn", true, setName, null),
                         FormQuestionText("Vad har du för hundras"),
-                        InputField("Hundras", true, setBreed),
+                        InputField("Hundras", true, setBreed, null),
                         FormQuestionText("När är din hund född?"),
                         DateSelector(setDate),
                         FormQuestionText("Vad är din hund för kön?"),

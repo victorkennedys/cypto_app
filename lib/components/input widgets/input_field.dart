@@ -6,15 +6,22 @@ class InputField extends StatelessWidget {
   final String hintText;
   final bool enabled;
   final Function setVariable;
-  InputField(this.hintText, this.enabled, this.setVariable);
+  final bool? numberInput;
+  InputField(this.hintText, this.enabled, this.setVariable, this.numberInput);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: TextField(
+        keyboardType:
+            numberInput != null ? TextInputType.number : TextInputType.text,
         enabled: enabled,
-        decoration: kInputDecoration.copyWith(hintText: "${hintText}"),
+        decoration: kInputDecoration.copyWith(
+            hintText: "${hintText}",
+            hintStyle: TextStyle(
+              fontSize: 14,
+            )),
         onChanged: (value) {
           setVariable(value);
         },
