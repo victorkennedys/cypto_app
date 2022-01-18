@@ -80,8 +80,8 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(30)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      child: ListView(
+                        /* mainAxisAlignment: MainAxisAlignment.end, */
                         children: [
                           UserAdvertsList(),
                         ],

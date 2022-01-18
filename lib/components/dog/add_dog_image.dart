@@ -53,16 +53,14 @@ class _AddImageOfDogState extends State<AddImageOfDog> {
       onTap: () => pickImage(),
       child: Container(
           decoration: BoxDecoration(
-            color:
-                Colors.grey[300], /* borderRadius: BorderRadius.circular(90) */
-          ),
+              color: Colors.grey[300], borderRadius: BorderRadius.circular(90)),
           margin: const EdgeInsets.symmetric(horizontal: 3),
           height: widget.height,
           width: widget.width,
           child: imageFile != null
               ? Container(
-                  decoration: BoxDecoration(
-                      /* borderRadius: BorderRadius.circular(90) */),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(90)),
                   child: Image.file(
                     imageFile!,
                     fit: BoxFit.cover,

@@ -91,9 +91,13 @@ class UserDogList extends StatelessWidget {
               child: MediaQuery.removePadding(
                 context: context,
                 removeTop: true,
-                child: ListView(
-                  children: dogList,
-                ),
+                child: showAllDogs
+                    ? ListView(
+                        children: dogList,
+                      )
+                    : Column(
+                        children: dogList,
+                      ),
               ),
             ),
           );

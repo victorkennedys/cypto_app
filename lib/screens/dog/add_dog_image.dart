@@ -15,39 +15,43 @@ class AddDogImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: kAppBar,
       body: MediaQuery.removePadding(
         context: context,
         child: Padding(
           padding: Woof.defaultPadding(context),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              BlackPinkText(blackText: "Lägg till en bild på", pinkText: "Zoe"),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 21),
+              Container(
+                width: double.infinity,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    AddImageOfDog(100, 100, urlList),
-                    AddImageOfDog(70, 70, urlList),
-                    AddImageOfDog(70, 70, urlList),
+                    BlackPinkText(
+                        blackText: "Lägg till en bild på", pinkText: "hunden"),
                   ],
                 ),
               ),
-              AppButton(
-                  buttonColor: kPurpleColor,
-                  textColor: kPinkColor,
-                  onPressed: () async {
-                    Map<String, dynamic> data = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddDogScreen(urlList),
-                      ),
-                    );
-                    Navigator.pop(context, data);
-                  },
-                  buttonText: "Klar")
+              AddImageOfDog(200, 200, urlList),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: AppButton(
+                    buttonColor: kPurpleColor,
+                    textColor: kPinkColor,
+                    onPressed: () async {
+                      Map<String, dynamic> data = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddDogScreen(urlList),
+                        ),
+                      );
+                      Navigator.pop(context, data);
+                    },
+                    buttonText: "Klar"),
+              )
             ],
           ),
         ),

@@ -24,19 +24,21 @@ class _AddDogWidgetState extends State<AddDogWidget> {
           ),
         );
         print(data);
-
-        widget.setDocId(data!['docId']);
-        setState(() {
-          widget.dogData = data;
-        });
+        if (data != null) {
+          widget.setDocId(data['docId']);
+          setState(() {
+            widget.dogData = data;
+          });
+        }
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 21),
+        padding: const EdgeInsets.only(right: 21),
         child: Container(
           height: 50,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.black45, width: 1),
           ),
           child: Row(

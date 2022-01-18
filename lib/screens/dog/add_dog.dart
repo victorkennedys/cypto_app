@@ -98,6 +98,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
     return Scaffold(
       key: _scaffoldKey,
       extendBodyBehindAppBar: true,
+      /* resizeToAvoidBottomInset: false, */
       appBar: kAppBar,
       /* resizeToAvoidBottomInset: false, */
       body: MediaQuery.removePadding(
@@ -105,78 +106,89 @@ class _AddDogScreenState extends State<AddDogScreen> {
         removeTop: true,
         child: Padding(
           padding: Woof.defaultPadding(context),
-          child: ListView(children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child: Expanded(
+            flex: 5,
+            child: ListView(
               children: [
-                BlackPinkText(
-                  blackText: "Lägg till din",
-                  pinkText: "hund",
-                ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    FormQuestionText("Vad heter din hund?"),
-                    InputField("Namn", true, setName),
-                    FormQuestionText("Vad har du för hundras"),
-                    InputField("Hundras", true, setBreed),
-                    FormQuestionText("När är din hund född?"),
-                    DateSelector(setDate),
-                    FormQuestionText("Vad är din hund för kön?"),
-                    TogButtons(
-                      changeActiveGenderButton,
-                      genderButtonSelected,
-                      "Hona",
-                      "Hane",
-                      null,
-                      2,
-                      'images/woman.png',
-                      'images/male.png',
-                      null,
+                    BlackPinkText(
+                      blackText: "Lägg till din",
+                      pinkText: "hund",
                     ),
-                    FormQuestionText("Hur stor är din hund?"),
-                    TogButtons(changeActiveSizeButton, sizeButtonSelected,
-                        "Liten", "Mellan", "Stor", 3, null, null, null),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        FormQuestionText("Vad heter din hund?"),
+                        InputField("Namn", true, setName),
+                        FormQuestionText("Vad har du för hundras"),
+                        InputField("Hundras", true, setBreed),
+                        FormQuestionText("När är din hund född?"),
+                        DateSelector(setDate),
+                        FormQuestionText("Vad är din hund för kön?"),
+                        TogButtons(
+                          changeActiveGenderButton,
+                          genderButtonSelected,
+                          "Hona",
+                          "Hane",
+                          null,
+                          2,
+                          'images/woman.png',
+                          'images/male.png',
+                          null,
+                        ),
+                        FormQuestionText("Hur stor är din hund?"),
+                        TogButtons(changeActiveSizeButton, sizeButtonSelected,
+                            "Liten", "Mellan", "Stor", 3, null, null, null),
+                        Container(
+                          height: 150,
+                          child: AppButton(
+                              buttonColor: kPurpleColor,
+                              textColor: kPinkColor,
+                              onPressed: () {
+                                final dogAge = ((DateTime.now()
+                                            .toUtc()
+                                            .millisecondsSinceEpoch) -
+                                        (birthDay!
+                                            .toUtc()
+                                            .millisecondsSinceEpoch)) /
+                                    1000 /
+                                    60 /
+                                    60 /
+                                    24;
+                                print(dogAge);
+                                if (dogName.isNotEmpty &&
+                                    size.isNotEmpty &&
+                                    gender.isNotEmpty &&
+                                    breed.isNotEmpty &&
+                                    birthDay != null &&
+                                    dogAge >= 30) {
+                                  addDogToFireBase();
+                                } else if (dogName.isEmpty) {
+                                  showSnackBar(
+                                      "Du måste fylla i hundens namn", context);
+                                } else if (size.isEmpty) {
+                                  showSnackBar(
+                                      "Fyll i hundens storlek", context);
+                                } else if (gender.isEmpty) {
+                                  showSnackBar("Ange hundens kön", context);
+                                } else if (dogAge <= 30) {
+                                  showSnackBar(
+                                      "Ogiltigt födelsedatum", context);
+                                }
+                              },
+                              buttonText: "Klar"),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: 50,
-                ),
-                AppButton(
-                    buttonColor: kPurpleColor,
-                    textColor: kPinkColor,
-                    onPressed: () {
-                      final dogAge =
-                          ((DateTime.now().toUtc().millisecondsSinceEpoch) -
-                                  (birthDay!.toUtc().millisecondsSinceEpoch)) /
-                              1000 /
-                              60 /
-                              60 /
-                              24;
-                      print(dogAge);
-                      if (dogName.isNotEmpty &&
-                          size.isNotEmpty &&
-                          gender.isNotEmpty &&
-                          breed.isNotEmpty &&
-                          birthDay != null &&
-                          dogAge >= 30) {
-                        addDogToFireBase();
-                      } else if (dogName.isEmpty) {
-                        showSnackBar("Du måste fylla i hundens namn", context);
-                      } else if (size.isEmpty) {
-                        showSnackBar("Fyll i hundens storlek", context);
-                      } else if (gender.isEmpty) {
-                        showSnackBar("Ange hundens kön", context);
-                      } else if (dogAge <= 30) {
-                        showSnackBar("Ogiltigt födelsedatum", context);
-                      }
-                    },
-                    buttonText: "Klar")
               ],
             ),
-          ]),
+          ),
         ),
       ),
     );
