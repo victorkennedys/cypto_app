@@ -1,4 +1,3 @@
-import 'package:flutter_onfido/flutter_onfido.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/constants.dart';
