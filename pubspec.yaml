@@ -45,6 +45,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   sprung: ^3.0.0
   flutter_onfido: ^0.2.5
+  flutter_stripe: ^2.1.1
   
 
 

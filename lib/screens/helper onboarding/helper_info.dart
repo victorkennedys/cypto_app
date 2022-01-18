@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
@@ -47,6 +48,11 @@ class HelperInfo extends StatelessWidget {
               "images/dog-leash.png",
               CreateHelperProfileScreen(),
             ),
+            AppButton(
+                buttonColor: kPurpleColor,
+                textColor: kPinkColor,
+                onPressed: () {},
+                buttonText: "Klar")
           ],
         ),
       ),

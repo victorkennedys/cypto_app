@@ -48,9 +48,9 @@ class _OTPScreenState extends State<OTPScreen> {
           if (newUser == true) {
             dogOwners
                 .doc(phoneWithCountryCode)
-                .set({'phone': phoneWithCountryCode}).then((value) {
-              userDocId = phoneWithCountryCode;
-            });
+                .set({'phone': phoneWithCountryCode});
+            userDocId = phoneWithCountryCode;
+
             Navigator.of(context).pushNamedAndRemoveUntil(
                 UserEnterInfoScreen.id, (Route<dynamic> route) => false);
           }
