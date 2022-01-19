@@ -43,7 +43,6 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
     setState(() {
       docIdList;
     });
-    print(docIdList);
   }
 
   @override

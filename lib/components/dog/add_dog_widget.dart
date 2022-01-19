@@ -23,7 +23,7 @@ class _AddDogWidgetState extends State<AddDogWidget> {
             builder: (context) => AddDogImage(),
           ),
         );
-        print(data);
+
         if (data != null) {
           widget.setDocId(data['docId']);
           setState(() {

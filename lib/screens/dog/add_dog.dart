@@ -55,7 +55,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   changeActiveGenderButton(int index) {
     setState(() {
-      print(index);
       if (index == 0) {
         genderButtonSelected[0] = true;
         genderButtonSelected[1] = false;
@@ -71,7 +70,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   changeActiveSizeButton(int index) {
     setState(() {
-      print(index);
       if (index == 0) {
         sizeButtonSelected[0] = true;
         sizeButtonSelected[1] = false;
@@ -159,7 +157,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                                     60 /
                                     60 /
                                     24;
-                                print(dogAge);
+
                                 if (dogName.isNotEmpty &&
                                     size.isNotEmpty &&
                                     gender.isNotEmpty &&

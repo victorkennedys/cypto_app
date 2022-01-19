@@ -12,6 +12,10 @@ import 'package:network_info_plus/network_info_plus.dart';
 class HelperInfo extends StatelessWidget {
   final List<String> servicesList;
   HelperInfo(this.servicesList);
+  List<Map<String, dynamic>> dataList = [];
+  getUserDataMap(Map<String, dynamic> map) {
+    dataList.add(map);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +38,15 @@ class HelperInfo extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Divider(),
+            HelperInfoCategory("Information om dig", "images/user.png",
+                HelperProfileInfo(), getUserDataMap),
             HelperInfoCategory(
-              "Information om dig",
-              "images/user.png",
-              HelperProfileInfo(),
-            ),
-            HelperInfoCategory(
-              "Verifiera din identitet",
-              "images/identification.png",
-              IdVerificationScreen(),
-            ),
-            HelperInfoCategory(
-              "Skapa din profil",
-              "images/dog-leash.png",
-              CreateHelperProfileScreen(),
-            ),
+                "Verifiera din identitet",
+                "images/identification.png",
+                IdVerificationScreen(),
+                getUserDataMap),
+            HelperInfoCategory("Skapa din profil", "images/dog-leash.png",
+                CreateHelperProfileScreen(), getUserDataMap),
             AppButton(
                 buttonColor: kPurpleColor,
                 textColor: kPinkColor,
@@ -90,6 +88,10 @@ class HelperInfo extends StatelessWidget {
       'tos_acceptance[date]':
           (DateTime.now().millisecondsSinceEpoch / 1000).toInt().toString(),
       'tos_acceptance[ip]': ip,
+      'individual[verification][additional_document][front]':
+          'https://firebasestorage.googleapis.com/v0/b/woof-ad9a6.appspot.com/o/uploads%2Fimage_picker_6E68A1D8-920F-4AFD-9220-39B81B4DBDBE-812-000006D457BE3ADE.jpg',
+      'individual[verification][additional_document][back]':
+          'https://firebasestorage.googleapis.com/v0/b/woof-ad9a6.appspot.com/o/uploads%2Fimage_picker_0E07F634-D055-42FE-BC83-42214425153A-812-000006D466A8B3F1.jpg'
     };
     var data = await http.post(Uri.parse(url), headers: headers, body: body);
     print(data.body);
@@ -100,7 +102,8 @@ class HelperInfoCategory extends StatefulWidget {
   final String text;
   final String icon;
   final Widget onTap;
-  HelperInfoCategory(this.text, this.icon, this.onTap);
+  final Function callBack;
+  HelperInfoCategory(this.text, this.icon, this.onTap, this.callBack);
 
   @override
   State<HelperInfoCategory> createState() => _HelperInfoCategoryState();
@@ -113,11 +116,12 @@ class _HelperInfoCategoryState extends State<HelperInfoCategory> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        data = await Navigator.push(context,
-            MaterialPageRoute(builder: (context) => widget.onTap as Widget));
+        data = await Navigator.push(
+            context, MaterialPageRoute(builder: (context) => widget.onTap));
         setState(() {
           data;
         });
+        widget.callBack(data);
       },
       child: Container(
         child: Padding(

@@ -35,7 +35,7 @@ class AddDogImage extends StatelessWidget {
                   ],
                 ),
               ),
-              PickImage(200, 200, urlList),
+              PickImage(200, 200, urlList, true),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: AppButton(

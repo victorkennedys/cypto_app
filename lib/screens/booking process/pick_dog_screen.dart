@@ -13,7 +13,6 @@ class PickDogScreen extends StatelessWidget {
   List<String> dogList = [];
   getDogInfo(String name, bool addOrRemove) {
     addOrRemove ? dogNameList!.add(name) : dogNameList!.remove(name);
-    print(dogNameList);
   }
 
   showSnackBar(String errorMessage, BuildContext context) {

@@ -15,7 +15,7 @@ class CreateHelperProfileScreen extends StatelessWidget {
               decoration: BoxDecoration(color: kPinkColor),
               child: Center(
                 child: PickImage(MediaQuery.of(context).size.height * 0.2,
-                    MediaQuery.of(context).size.height * 0.2, urlList),
+                    MediaQuery.of(context).size.height * 0.2, urlList, true),
               ),
             ),
           ),

@@ -58,7 +58,6 @@ class _AddDogInfoState extends State<AddDogInfo> {
 
   changeLeashButton(int index) {
     setState(() {
-      print(index);
       if (index == 0) {
         leashButtonSelected[0] = true;
         leashButtonSelected[1] = false;

@@ -176,7 +176,6 @@ class HelperProfileInfo extends StatelessWidget {
 
       Navigator.pop(context, dataMap);
     } else if (dataMap.containsKey('first name') != false) {
-      print("....");
       showSnackBar("Ange ditt namn", context);
     }
     ;

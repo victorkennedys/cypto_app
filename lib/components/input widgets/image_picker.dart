@@ -9,8 +9,10 @@ class PickImage extends StatefulWidget {
   final double height;
   final double width;
   final List urlList;
+  final bool rounded;
 
-  const PickImage(this.height, this.width, this.urlList, {Key? key})
+  const PickImage(this.height, this.width, this.urlList, this.rounded,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -45,7 +47,6 @@ class _PickImageState extends State<PickImage> {
       String imageUrl = await firebaseStorageRef.getDownloadURL();
       widget.urlList.add(imageUrl);
     });
-    print(widget.urlList);
   }
 
   @override
