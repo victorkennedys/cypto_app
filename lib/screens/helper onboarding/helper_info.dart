@@ -74,7 +74,8 @@ class HelperInfo extends StatelessWidget {
 
   stripeConnect() async {
     final currentUser = _auth.currentUser;
-    String? ip = await NetworkInfo().getWifiIP();
+    String ip =
+        await NetworkInfo().getWifiIP() ?? "80.216.210.24"; //remove later.
 
     String url = 'https://api.stripe.com/v1/accounts';
     Map<String, String> headers = {
