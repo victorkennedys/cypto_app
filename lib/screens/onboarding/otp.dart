@@ -17,7 +17,6 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  final TextEditingController _authController = TextEditingController();
   String verificationCode = '';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -30,7 +29,7 @@ class _OTPScreenState extends State<OTPScreen> {
     try {
       await AuthenticationModel().authenticateNumber(
           verificationCode: verificationCode,
-          authController: _authController,
+          inputCode: value,
           newUser: newUser,
           phone: phoneWithCountryCode);
 
@@ -78,7 +77,6 @@ class _OTPScreenState extends State<OTPScreen> {
                     onCompleted: (value) {
                       pinEntered(value);
                     },
-                    controller: _authController,
                     autoDismissKeyboard: true,
                     pinTheme: PinTheme(
                         shape: PinCodeFieldShape.box,
