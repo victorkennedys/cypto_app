@@ -24,6 +24,11 @@ getLastName(String value) {
   dataMap.addAll({'last name': lastName});
 }
 
+getEmail(String value) {
+  String email = value;
+  dataMap.addAll({'email': email});
+}
+
 getAdress(String value) {
   String adress = value;
   dataMap.addAll({'adress': adress});
@@ -94,6 +99,8 @@ class HelperProfileInfo extends StatelessWidget {
                             ),
                           ],
                         ),
+                        FormQuestionText("Email"),
+                        InputField("Email", true, getEmail, null),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -170,9 +177,8 @@ class HelperProfileInfo extends StatelessWidget {
           DateTime.utc(dataMap['year'], dataMap['month'], dataMap['day']);
 
       dataMap.addAll({'birthday': birthDay});
-      dataMap.remove('day');
-      dataMap.remove('month');
-      dataMap.remove('year');
+
+      print(dataMap);
 
       Navigator.pop(context, dataMap);
     } else if (dataMap.containsKey('first name') != false) {

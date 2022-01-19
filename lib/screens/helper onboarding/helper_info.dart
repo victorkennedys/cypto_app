@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
@@ -9,12 +13,20 @@ import 'package:woof/screens/helper%20onboarding/user_profile_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:network_info_plus/network_info_plus.dart';
 
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+
 class HelperInfo extends StatelessWidget {
   final List<String> servicesList;
   HelperInfo(this.servicesList);
-  List<Map<String, dynamic>> dataList = [];
+
+  Map<String, dynamic> dataMap = {};
   getUserDataMap(Map<String, dynamic> map) {
-    dataList.add(map);
+    for (var entries in map.entries) {
+      final key = entries.key;
+      final value = entries.value;
+      dataMap.addAll({key: value});
+    }
   }
 
   @override
@@ -61,6 +73,7 @@ class HelperInfo extends StatelessWidget {
   }
 
   stripeConnect() async {
+    final currentUser = _auth.currentUser;
     String? ip = await NetworkInfo().getWifiIP();
 
     String url = 'https://api.stripe.com/v1/accounts';
@@ -74,27 +87,50 @@ class HelperInfo extends StatelessWidget {
       'capabilities[card_payments][requested]': 'true',
       'capabilities[transfers][requested]': 'true',
       'business_type': 'individual',
-      'individual[first_name]': 'Victor',
-      'individual[last_name]': 'Kennedy',
-      'individual[dob][day]': '20',
-      'individual[dob][month]': '10',
-      'individual[dob][year]': '2003',
+      'individual[first_name]': dataMap['first name'],
+      'individual[last_name]': dataMap['last name'],
+      'individual[dob][day]': dataMap['day'].toString(),
+      'individual[dob][month]': dataMap['month'].toString(),
+      'individual[dob][year]': dataMap['year'].toString(),
       'business_profile[mcc]': '7299',
-      'individual[address][city]': 'Stockholm',
-      'individual[address][line1]': 'Brahegatan 3',
-      'individual[address][postal_code]': '11437',
-      'individual[email]': 'vict.kenn-2022@vrg.se',
-      'individual[phone]': '+46737776368',
+      'individual[address][city]': dataMap['city'],
+      'individual[address][line1]': dataMap['adress'],
+      'individual[address][postal_code]': dataMap['post number'],
+      'individual[email]': dataMap['email'],
+      'individual[phone]': currentUser!.phoneNumber.toString(),
       'tos_acceptance[date]':
           (DateTime.now().millisecondsSinceEpoch / 1000).toInt().toString(),
       'tos_acceptance[ip]': ip,
-      'individual[verification][additional_document][front]':
+      /* 'individual[verification][additional_document][front]':
           'https://firebasestorage.googleapis.com/v0/b/woof-ad9a6.appspot.com/o/uploads%2Fimage_picker_6E68A1D8-920F-4AFD-9220-39B81B4DBDBE-812-000006D457BE3ADE.jpg',
       'individual[verification][additional_document][back]':
-          'https://firebasestorage.googleapis.com/v0/b/woof-ad9a6.appspot.com/o/uploads%2Fimage_picker_0E07F634-D055-42FE-BC83-42214425153A-812-000006D466A8B3F1.jpg'
+          'https://firebasestorage.googleapis.com/v0/b/woof-ad9a6.appspot.com/o/uploads%2Fimage_picker_0E07F634-D055-42FE-BC83-42214425153A-812-000006D466A8B3F1.jpg' */
     };
     var data = await http.post(Uri.parse(url), headers: headers, body: body);
-    print(data.body);
+
+    var decodedData = jsonDecode(data.body);
+    final stripeAccountId = decodedData['id'];
+
+    final dogOwnersCollection = await _firestore
+        .collection('dog owners')
+        .doc(currentUser.phoneNumber)
+        .get();
+
+    /* Map<String, dynamic>? currentFireBaseUser = dogOwnersCollection.data();
+    for (final entry in currentFireBaseUser!.entries) {
+      
+      dataMap.addAll({entry.key: entry.value});
+    } */
+
+    // add more data to userData, such as adress input etc.
+
+    dataMap.addAll({"stripe account id": stripeAccountId});
+    print(dataMap);
+
+    _firestore
+        .collection('dog walkers')
+        .doc(currentUser.phoneNumber)
+        .set(dataMap);
   }
 }
 
