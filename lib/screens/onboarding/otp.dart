@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:woof/components/black_and_pink_text.dart';
+import 'package:woof/models/authentication_model.dart';
+import 'package:woof/models/dog_owner_model.dart';
 import 'package:woof/screens/onboarding/user_info.dart';
 import '../../constants.dart';
 import '../home_screen.dart';
@@ -23,47 +24,23 @@ class _OTPScreenState extends State<OTPScreen> {
 
   pinEntered(value) async {
     String phoneWithCountryCode = '+46${widget.phone}';
-    var dogOwners = FirebaseFirestore.instance.collection('dog owners');
 
-    bool newUser = true;
-
-    String userDocId = '';
-
-    await dogOwners
-        .where('phone', isEqualTo: phoneWithCountryCode)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.length == 0) {
-        newUser = true;
-      } else {
-        newUser = false;
-      }
-    });
+    bool newUser = await DogOwnerModel().userExists(phoneWithCountryCode);
 
     try {
-      await FirebaseAuth.instance
-          .signInWithCredential(PhoneAuthProvider.credential(
-              verificationId: verificationCode, smsCode: _authController.text))
-          .then((response) async {
-        if (response.user != null) {
-          if (newUser == true) {
-            dogOwners
-                .doc(phoneWithCountryCode)
-                .set({'phone': phoneWithCountryCode});
-            userDocId = phoneWithCountryCode;
+      await AuthenticationModel().authenticateNumber(
+          verificationCode: verificationCode,
+          authController: _authController,
+          newUser: newUser,
+          phone: phoneWithCountryCode);
 
-            LocationPermission permission;
-            permission = await Geolocator.requestPermission();
+      await Geolocator.requestPermission();
 
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                UserEnterInfoScreen.id, (Route<dynamic> route) => false);
-          }
-          if (newUser == false) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                Home.id, (Route<dynamic> route) => false);
-          }
-        }
-      });
+      newUser
+          ? Navigator.of(context).pushNamedAndRemoveUntil(
+              UserEnterInfoScreen.id, (Route<dynamic> route) => false)
+          : Navigator.of(context).pushNamedAndRemoveUntil(
+              Home.id, (Route<dynamic> route) => false);
     } catch (e) {
       print(e);
     }

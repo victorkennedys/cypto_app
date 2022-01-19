@@ -46,6 +46,8 @@ dependencies:
   sprung: ^3.0.0
   geolocator: ^8.0.3
   network_info_plus: ^2.1.2
+  permission_handler: ^8.3.0
+ 
   
 
 

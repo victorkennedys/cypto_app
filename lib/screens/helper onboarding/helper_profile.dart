@@ -1,14 +1,33 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:woof/components/app_button.dart';
 import 'package:woof/components/input%20widgets/form_question_text.dart';
 import 'package:woof/components/input%20widgets/image_picker.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/main.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:woof/models/add_to_firestore.dart';
 
 class CreateHelperProfileScreen extends StatelessWidget {
   Map<String, dynamic> data = {};
+
   getDescriptionInput(String input) {
     data.addAll({"description": input});
+  }
+
+  videoTap(BuildContext context) async {
+    await Permission.camera.request();
+    /*  Permission permission = await Permission.camera; */
+    final XFile? video =
+        await ImagePicker().pickVideo(source: ImageSource.camera);
+    if (video == null) {
+      throw Exception('no video');
+    } else {
+      final videoTemprary = File(video.path);
+      String url =
+          await AddToFireStore().addVideoToFirebase(videoTemprary, context);
+      data.addAll({'video': url});
+    }
   }
 
   List<String> urlList = [];
@@ -48,64 +67,78 @@ class CreateHelperProfileScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                      child: FormQuestionText("Skriv en text om dig själv  *")),
-                  Container(
-                    child: TextField(
-                      maxLines: 6,
-                      maxLength: 600,
-                      keyboardType: TextInputType.multiline,
-                      enabled: true,
-                      decoration: kInputDecoration.copyWith(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FormQuestionText("Skriv en text om dig själv  *"),
+                      TextField(
+                        maxLines: 6,
+                        maxLength: 600,
+                        keyboardType: TextInputType.multiline,
+                        enabled: true,
+                        decoration: kInputDecoration.copyWith(
                           hintText: "Berätta om dig själv",
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                             fontSize: 14,
-                          )),
-                      onChanged: (value) {
-                        getDescriptionInput(value);
-                      },
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      final image = await ImagePicker()
-                          .pickImage(source: ImageSource.camera);
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      elevation: 8,
-                      color: Colors.white,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
+                          ),
                         ),
-                        height: 60,
-                        width: double.infinity,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                flex: 4,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
-                                  child: Text(
-                                      "Ladda upp en video där du berättar om dig själv"),
-                                ),
-                              ),
-                              Flexible(
-                                  child: Padding(
-                                padding: const EdgeInsets.only(right: 20.0),
-                                child: Icon(Icons.video_call),
-                              )),
-                            ]),
+                        onChanged: (value) {
+                          getDescriptionInput(value);
+                        },
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () {
+                          videoTap(context);
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 8,
+                          color: Colors.white,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                            ),
+                            height: 60,
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Flexible(
+                                  flex: 4,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: Text(
+                                        "Ladda upp en video där du berättar om dig själv"),
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 20.0),
+                                    child: Icon(Icons.video_call),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: AppButton(
+                        buttonColor: kPurpleColor,
+                        textColor: kPinkColor,
+                        onPressed: () {
+                          Navigator.pop(context, data);
+                        },
+                        buttonText: 'Klar'),
                   )
                 ],
               ),

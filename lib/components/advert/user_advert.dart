@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woof/components/dog/dog_avatar.dart';
 import 'package:woof/screens/adverts/current_advert.dart';
-import '../../constants.dart';
 
 class UserAdvert extends StatelessWidget {
   final String advertId;
@@ -14,7 +13,7 @@ class UserAdvert extends StatelessWidget {
   final String image1;
   final String dogName;
 
-  UserAdvert(
+  const UserAdvert(
       {Key? key,
       required this.advertId,
       required this.dateTime,
@@ -47,7 +46,7 @@ class UserAdvert extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.only(bottom: 5, right: 10),
+        padding: const EdgeInsets.only(bottom: 5, right: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -75,16 +74,16 @@ class UserAdvert extends StatelessWidget {
                             dogList.length == 1
                                 ? "$bookingType för $dogName"
                                 : "$bookingType med ${dogList.length} av dina hundar",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w600),
                           ),
                           Text(
                             dateTime,
-                            style: TextStyle(color: Colors.black45),
+                            style: const TextStyle(color: Colors.black45),
                           ),
                         ],
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.grey,
                       ),
@@ -93,7 +92,7 @@ class UserAdvert extends StatelessWidget {
                 )
               ],
             ),
-            Divider(
+            const Divider(
               color: Colors.grey,
             )
           ],
