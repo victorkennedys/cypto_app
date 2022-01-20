@@ -4,7 +4,7 @@ import 'package:woof/screens/dog/add_dog_image.dart';
 
 class AddDogWidget extends StatefulWidget {
   final Function setDocId;
-  AddDogWidget(this.setDocId);
+  AddDogWidget(this.setDocId, {Key? key}) : super(key: key);
   Map dogData = {};
   static const String id = 'add_dog_widget';
   final _auth = FirebaseAuth.instance;

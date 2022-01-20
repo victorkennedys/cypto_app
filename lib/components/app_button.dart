@@ -7,11 +7,13 @@ class AppButton extends StatelessWidget {
   final dynamic onPressed;
   final String buttonText;
 
-  AppButton(
-      {required this.buttonColor,
+  const AppButton(
+      {Key? key,
+      required this.buttonColor,
       required this.textColor,
       required this.onPressed,
-      required this.buttonText});
+      required this.buttonText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

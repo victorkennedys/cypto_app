@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:woof/components/dog/dog_avatar.dart';
 import 'package:woof/components/input%20widgets/checkbox.dart';
 import 'package:woof/screens/dog/current_dog.dart';
-import 'package:woof/constants.dart';
 
 class DogCard extends StatefulWidget {
   final String docId;
@@ -15,8 +14,9 @@ class DogCard extends StatefulWidget {
   final String age;
   final Function? nameCallBack;
 
-  DogCard(
-      {required this.docId,
+  const DogCard(
+      {Key? key,
+      required this.docId,
       required this.name,
       required this.breed,
       required this.birthDay,
@@ -24,7 +24,8 @@ class DogCard extends StatefulWidget {
       required this.selectable,
       this.dogList,
       required this.age,
-      this.nameCallBack});
+      this.nameCallBack})
+      : super(key: key);
 
   @override
   State<DogCard> createState() => _DogCardState();
@@ -66,7 +67,7 @@ class _DogCardState extends State<DogCard> {
               };
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),

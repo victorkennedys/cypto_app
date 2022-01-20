@@ -22,7 +22,6 @@ class UserDogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return DogListModel().returnDogList(
         selectable: selectable,
         showAllDogs: showAllDogs,

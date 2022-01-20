@@ -7,17 +7,27 @@ import 'package:woof/main.dart';
 import 'package:woof/screens/walker%20onboarding/walker_onboarding.dart';
 
 class HelperServicesScreen extends StatelessWidget {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  showSnackBar(String errorMessage, BuildContext context) {
+    _scaffoldKey.currentState?.showSnackBar(
+      kSnackBar(errorMessage),
+    );
+  }
+
+  HelperServicesScreen({Key? key}) : super(key: key);
   List<String> servicesList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Padding(
         padding: Woof.defaultPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            BlackPinkText(
+            const BlackPinkText(
                 blackText: "Vilka tjänster vill", pinkText: "du erbjuda?"),
             Column(
               children: [
@@ -42,12 +52,16 @@ class HelperServicesScreen extends StatelessWidget {
                   buttonColor: kPurpleColor,
                   textColor: kPinkColor,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HelperInfo(servicesList),
-                      ),
-                    );
+                    if (servicesList.isEmpty) {
+                      showSnackBar("Du måste välja minst en tjänst", context);
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HelperInfo(servicesList),
+                        ),
+                      );
+                    }
                   },
                   buttonText: "Fortsätt"),
             ),

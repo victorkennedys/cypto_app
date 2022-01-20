@@ -139,7 +139,7 @@ class HelperProfileInfo extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      height: 250,
+                      height: 80,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -164,6 +164,7 @@ class HelperProfileInfo extends StatelessWidget {
   }
 
   popFunction(BuildContext context) {
+    print(dataMap);
     if (dataMap.containsKey('first name') &&
         dataMap.containsKey('last name') &&
         dataMap.containsKey('adress') &&
@@ -177,13 +178,41 @@ class HelperProfileInfo extends StatelessWidget {
 
       dataMap.addAll({'birthday': birthDay});
 
-      print(dataMap);
-
       Navigator.pop(context, dataMap);
-    } else if (dataMap.containsKey('first name') != false) {
-      showSnackBar("Ange ditt namn", context);
+    } else {
+      if (dataMap.containsKey('first name') == false) {
+        showSnackBar("Ange ditt namn", context);
+        return;
+      }
+      if (dataMap.containsKey('last name') == false) {
+        showSnackBar("Ange ditt efternamn", context);
+        return;
+      }
+      if (dataMap.containsKey('adress') == false) {
+        showSnackBar("Ange din adress", context);
+        return;
+      }
+      if (dataMap.containsKey('city') == false) {
+        showSnackBar("Ange din stad", context);
+        return;
+      }
+      if (dataMap.containsKey('post number') == false) {
+        showSnackBar("Ange ditt postnummer", context);
+        return;
+      }
+      if (dataMap.containsKey('day') == false) {
+        showSnackBar("Ange din födelsedag", context);
+        return;
+      }
+      if (dataMap.containsKey('month') == false) {
+        showSnackBar("Ange din födelsemånad", context);
+        return;
+      }
+      if (dataMap.containsKey('year') == false) {
+        showSnackBar("Ange ditt födelseår", context);
+        return;
+      }
     }
-    ;
   }
 
   showSnackBar(String errorMessage, BuildContext context) {

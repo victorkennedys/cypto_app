@@ -4,7 +4,7 @@ import '../../constants.dart';
 
 class FormCheckBox extends StatefulWidget {
   final Function callBack;
-  FormCheckBox(this.callBack);
+  const FormCheckBox(this.callBack, {Key? key}) : super(key: key);
   @override
   State<FormCheckBox> createState() => _FormCheckBoxState();
 }

@@ -10,6 +10,8 @@ final User? loggedInUser = _auth.currentUser;
 final _firestore = FirebaseFirestore.instance;
 
 class UserAdvertsStream extends StatelessWidget {
+  const UserAdvertsStream({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -19,11 +21,11 @@ class UserAdvertsStream extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print("Error");
+          throw Exception("problem getting user adverts");
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -58,12 +60,12 @@ class UserAdvertsStream extends StatelessWidget {
         }
         if (advertsList.isNotEmpty) {
           return Padding(
-            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+            padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.only(bottom: 15),
                   child: Text(
                     "Kommande annonser",
                     style: TextStyle(
@@ -79,7 +81,7 @@ class UserAdvertsStream extends StatelessWidget {
             ),
           );
         } else {
-          return Text(
+          return const Text(
             "Du har inga annonser",
             style: TextStyle(fontSize: 15),
           );

@@ -5,7 +5,9 @@ class BlackPinkText extends StatelessWidget {
   final String blackText;
   final String pinkText;
 
-  BlackPinkText({required this.blackText, required this.pinkText});
+  const BlackPinkText(
+      {Key? key, required this.blackText, required this.pinkText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
