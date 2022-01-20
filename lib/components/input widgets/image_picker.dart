@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:woof/models/add_to_firestore.dart';
+import 'package:woof/models/image_model.dart';
 
 class PickImage extends StatefulWidget {
   final double height;
@@ -20,21 +20,14 @@ class PickImage extends StatefulWidget {
 
 class _PickImageState extends State<PickImage> {
   File? imageFile;
-  Future pickImage(BuildContext context) async {
+  pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) {
-        return;
-      }
-
-      final imageTemporary = File(image.path);
-      setState(() {
-        imageFile = imageTemporary;
-      });
+      imageFile = await ImageModel().pickImageFromGallery();
+      setState(() => imageFile);
+      print(imageFile!.path);
       String url = await AddToFireStore().addFileToFireStore(imageFile);
 
       widget.urlList.add(url);
-      print(widget.urlList);
     } on PlatformException catch (e) {
       throw Exception(e);
     }
@@ -43,7 +36,7 @@ class _PickImageState extends State<PickImage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => pickImage(context),
+      onTap: () => pickImage(),
       child: ClipOval(
         child: Container(
           decoration:
