@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:woof/components/app_button.dart';
-import 'package:woof/components/input%20widgets/image_picker.dart';
 import 'package:woof/constants.dart';
-import 'package:woof/screens/helper%20onboarding/user_profile_info.dart';
+import 'package:woof/screens/walker%20onboarding/walker_info.dart';
 
 class IdVerificationScreen extends StatelessWidget {
   Future<void> onfido() async {

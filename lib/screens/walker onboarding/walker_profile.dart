@@ -1,12 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/input%20widgets/form_question_text.dart';
 import 'package:woof/components/input%20widgets/image_picker.dart';
 import 'package:woof/constants.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:woof/models/add_to_firestore.dart';
+import 'package:woof/models/image_model.dart';
 
 class CreateHelperProfileScreen extends StatelessWidget {
   Map<String, dynamic> data = {};
@@ -15,18 +13,10 @@ class CreateHelperProfileScreen extends StatelessWidget {
     data.addAll({"description": input});
   }
 
-  videoTap() async {
-    await Permission.camera.request();
-    /*  Permission permission = await Permission.camera; */
-    final XFile? video =
-        await ImagePicker().pickVideo(source: ImageSource.camera);
-    if (video == null) {
-      throw Exception('no video');
-    } else {
-      final videoTemprary = File(video.path);
-      String url = await AddToFireStore().addFileToFireStore(videoTemprary);
-      data.addAll({'video': url});
-    }
+  selectVideo() async {
+    final videoTemprary = await ImageModel().imageFromGallery();
+    String url = await AddToFireStore().addFileToFireStore(videoTemprary);
+    data.addAll({'video': url});
   }
 
   List<String> urlList = [];
@@ -90,7 +80,7 @@ class CreateHelperProfileScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          videoTap();
+                          selectVideo();
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(

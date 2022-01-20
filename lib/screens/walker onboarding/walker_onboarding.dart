@@ -5,10 +5,10 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
 import 'package:woof/models/stripe_model.dart';
-import 'package:woof/screens/helper%20onboarding/helper_profile.dart';
-import 'package:woof/screens/helper%20onboarding/id_verification.dart';
-import 'package:woof/screens/helper%20onboarding/user_profile_info.dart';
 import 'package:woof/screens/helper%20screens/helper_home.dart';
+import 'package:woof/screens/walker%20onboarding/walker_info.dart';
+import 'walker_profile.dart';
+import 'walker_verification.dart';
 
 final _auth = FirebaseAuth.instance;
 

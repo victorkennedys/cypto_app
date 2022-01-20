@@ -4,7 +4,7 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/input%20widgets/checkbox.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
-import 'package:woof/screens/helper%20onboarding/helper_info.dart';
+import 'package:woof/screens/walker%20onboarding/walker_onboarding.dart';
 
 class HelperServicesScreen extends StatelessWidget {
   List<String> servicesList = [];

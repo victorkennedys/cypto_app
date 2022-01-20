@@ -6,7 +6,6 @@ import 'package:woof/components/input%20widgets/form_question_text.dart';
 import 'package:woof/components/input%20widgets/input_field.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
-import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
 final User? user = _auth.currentUser;
