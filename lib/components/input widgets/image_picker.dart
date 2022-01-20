@@ -1,9 +1,8 @@
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+import 'package:woof/models/add_to_firestore.dart';
 
 class PickImage extends StatefulWidget {
   final double height;
@@ -21,7 +20,7 @@ class PickImage extends StatefulWidget {
 
 class _PickImageState extends State<PickImage> {
   File? imageFile;
-  Future pickImage() async {
+  Future pickImage(BuildContext context) async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) {
@@ -32,27 +31,19 @@ class _PickImageState extends State<PickImage> {
       setState(() {
         imageFile = imageTemporary;
       });
-      uploadImageToFirebase(context);
+      String url = await AddToFireStore().addFileToFireStore(imageFile);
+
+      widget.urlList.add(url);
+      print(widget.urlList);
     } on PlatformException catch (e) {
       throw Exception(e);
     }
   }
 
-  Future uploadImageToFirebase(context) async {
-    String fileName = basename(imageFile!.path);
-    Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('uploads/$fileName');
-    UploadTask uploadTask = firebaseStorageRef.putFile(imageFile!);
-    uploadTask.whenComplete(() async {
-      String imageUrl = await firebaseStorageRef.getDownloadURL();
-      widget.urlList.add(imageUrl);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => pickImage(),
+      onTap: () => pickImage(context),
       child: ClipOval(
         child: Container(
           decoration:
