@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woof/components/advert/user_adverts_stream.dart';
@@ -9,8 +8,6 @@ import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import '../components/nav_bar.dart';
 
 class Home extends StatefulWidget {
-  bool? newUser;
-  Home({this.newUser});
   static const String id = 'home_screen';
   @override
   State<Home> createState() => _HomeState();
@@ -18,17 +15,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late User loggedInUser;
-
   final _auth = FirebaseAuth.instance;
-
-  final _fireStore = FirebaseFirestore.instance;
-
-  @override
-  void initState() {
-    getCurrentUser();
-
-    super.initState();
-  }
 
   void getCurrentUser() async {
     try {
@@ -39,6 +26,13 @@ class _HomeState extends State<Home> {
     } catch (e) {
       print(e);
     }
+  }
+
+  @override
+  void initState() {
+    getCurrentUser();
+
+    super.initState();
   }
 
   @override

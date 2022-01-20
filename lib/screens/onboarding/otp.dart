@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/models/authentication_model.dart';
-import 'package:woof/models/dog_owner_model.dart';
+import 'package:woof/screens/helper%20screens/helper_home.dart';
 import 'package:woof/screens/onboarding/user_info.dart';
 import '../../constants.dart';
 import '../home_screen.dart';
@@ -19,27 +19,35 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> {
   String verificationCode = '';
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   pinEntered(value) async {
     String phoneWithCountryCode = '+46${widget.phone}';
-
-    bool newUser = await DogOwnerModel().userExists(phoneWithCountryCode);
+    bool newDogOwner =
+        await AuthenticationModel().dogOwnerExists(phoneWithCountryCode);
+    bool newDogHelper =
+        await AuthenticationModel().dogWalkerExists(phoneWithCountryCode);
 
     try {
       await AuthenticationModel().authenticateNumber(
           verificationCode: verificationCode,
           inputCode: value,
-          newUser: newUser,
+          newUser: newDogOwner,
+          newWalker: newDogHelper,
           phone: phoneWithCountryCode);
 
       await Geolocator.requestPermission();
 
-      newUser
-          ? Navigator.of(context).pushNamedAndRemoveUntil(
-              UserEnterInfoScreen.id, (Route<dynamic> route) => false)
-          : Navigator.of(context).pushNamedAndRemoveUntil(
-              Home.id, (Route<dynamic> route) => false);
+      if (newDogOwner && newDogHelper) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            UserEnterInfoScreen.id, (Route<dynamic> route) => false);
+      }
+      if (newDogOwner == false) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(Home.id, (Route<dynamic> route) => false);
+      }
+      if (newDogHelper == false) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            WalkerHomeScreen.id, (Route<dynamic> route) => false);
+      }
     } catch (e) {
       print(e);
     }

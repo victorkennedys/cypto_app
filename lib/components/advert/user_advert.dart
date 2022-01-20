@@ -73,7 +73,7 @@ class UserAdvert extends StatelessWidget {
                           Text(
                             dogList.length == 1
                                 ? "$bookingType för $dogName"
-                                : "$bookingType med ${dogList.length} av dina hundar",
+                                : "$bookingType: ${dogList.length} hundar",
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w600),
                           ),

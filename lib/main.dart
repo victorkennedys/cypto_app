@@ -4,11 +4,10 @@ import 'package:sprung/sprung.dart';
 import 'package:woof/screens/adverts/dashboard.dart';
 import 'package:woof/screens/chat/chat_screen.dart';
 import 'package:woof/screens/dog/my_dogs.dart';
+import 'package:woof/screens/helper%20screens/helper_home.dart';
 import 'package:woof/screens/home_screen.dart';
-import 'package:woof/screens/onboarding/login_screen.dart';
 import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import 'package:woof/screens/onboarding/otp.dart';
-import 'package:woof/screens/onboarding/signup_screen.dart';
 import 'package:woof/screens/onboarding/user_info.dart';
 import 'package:woof/screens/profile_screen.dart';
 import 'constants.dart';
@@ -34,8 +33,6 @@ class Woof extends StatelessWidget {
       initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
-        LoginScreen.id: (context) => LoginScreen(),
-        RegistrationScreen.id: (context) => RegistrationScreen(),
         Home.id: (context) => Home(),
         MyDogs.id: (context) => MyDogs(),
         PickDogScreen.id: (context) => PickDogScreen(),
@@ -43,6 +40,7 @@ class Woof extends StatelessWidget {
         ProfileScreen.id: (context) => ProfileScreen(),
         UserEnterInfoScreen.id: (context) => UserEnterInfoScreen(),
         ChatScreen.id: (context) => ChatScreen(),
+        WalkerHomeScreen.id: (context) => WalkerHomeScreen(),
       },
     );
   }

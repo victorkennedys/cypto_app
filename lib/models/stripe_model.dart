@@ -47,16 +47,10 @@ class StripeModel {
     var decodedData = jsonDecode(data.body);
     final stripeAccountId = decodedData['id'];
 
-    final dogOwnersCollection =
-        await _firestore.collection('dog owners').doc(user.phoneNumber).get();
-
-    /* Map<String, dynamic>? currentFireBaseUser = dogOwnersCollection.data();
-    for (final entry in currentFireBaseUser!.entries) {
-      
-      dataMap.addAll({entry.key: entry.value});
-    } */
-
-    // add more data to userData, such as adress input etc.
+    final dogOwnersCollection = await _firestore
+        .collection('dog owners')
+        .doc(user.phoneNumber)
+        .delete();
 
     dataMap.addAll({"stripe account id": stripeAccountId});
     print(dataMap);

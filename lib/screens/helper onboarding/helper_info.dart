@@ -79,7 +79,7 @@ class HelperInfo extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HelperHomeScreen(),
+                        builder: (context) => WalkerHomeScreen(),
                       ),
                     );
                   },
