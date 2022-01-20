@@ -1,18 +1,19 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
 class AddToFireStore {
-  addVideoToFirebase(File? video, BuildContext context) {
-    String fileName = basename(video!.path);
+  Future<String> addFileToFireStore(File? file) async {
+    String url = '';
+    String fileName = basename(file!.path);
+
     Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('videos/$fileName');
-    UploadTask uploadTask = firebaseStorageRef.putFile(video);
-    uploadTask.whenComplete(() async {
-      String videoUrl = await firebaseStorageRef.getDownloadURL();
-      return videoUrl;
+        FirebaseStorage.instance.ref().child('uploads/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(file);
+    await uploadTask.whenComplete(() async {
+      String fileUrl = await firebaseStorageRef.getDownloadURL();
+      url = fileUrl;
     });
+    return url;
   }
 }
