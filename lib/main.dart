@@ -70,7 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OTPScreen(phone: phoneController.text),
+          builder: (context) => OTPScreen(phone: value),
         ),
       );
     }
@@ -149,16 +149,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                 ),
                                 PhoneInput(
-                                    onTapCallback: onTap,
-                                    onSubmittedCallback: onSubmitted,
-                                    onEditingCompleteCallback:
-                                        onEditingComplete,
-                                    phoneController: phoneController),
+                                  onTapCallback: onTap,
+                                  onSubmittedCallback: onSubmitted,
+                                  onEditingCompleteCallback: onEditingComplete,
+                                ),
                               ],
                             ),
-                            /* phoneCompleted
-                                ? OTPScreen(phone: phoneController.text)
-                                : Container(), */
                           ],
                         ),
                       ),
@@ -178,12 +174,12 @@ class PhoneInput extends StatelessWidget {
   final Function onTapCallback;
   final Function onSubmittedCallback;
   final Function onEditingCompleteCallback;
-  final TextEditingController phoneController;
-  PhoneInput(
-      {required this.onTapCallback,
-      required this.onSubmittedCallback,
-      required this.onEditingCompleteCallback,
-      required this.phoneController});
+
+  PhoneInput({
+    required this.onTapCallback,
+    required this.onSubmittedCallback,
+    required this.onEditingCompleteCallback,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +201,6 @@ class PhoneInput extends StatelessWidget {
           hintText: "## #### ## ##",
           border: UnderlineInputBorder(),
         ),
-        controller: phoneController,
       ),
     );
   }
