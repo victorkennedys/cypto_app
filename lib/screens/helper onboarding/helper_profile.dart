@@ -15,7 +15,7 @@ class CreateHelperProfileScreen extends StatelessWidget {
     data.addAll({"description": input});
   }
 
-  videoTap(BuildContext context) async {
+  videoTap() async {
     await Permission.camera.request();
     /*  Permission permission = await Permission.camera; */
     final XFile? video =
@@ -24,8 +24,7 @@ class CreateHelperProfileScreen extends StatelessWidget {
       throw Exception('no video');
     } else {
       final videoTemprary = File(video.path);
-      String url =
-          await AddToFireStore().addVideoToFirebase(videoTemprary, context);
+      String url = await AddToFireStore().addFileToFireStore(videoTemprary);
       data.addAll({'video': url});
     }
   }
@@ -91,7 +90,7 @@ class CreateHelperProfileScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          videoTap(context);
+                          videoTap();
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
