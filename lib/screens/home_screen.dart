@@ -4,6 +4,7 @@ import 'package:woof/components/advert/user_adverts_stream.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/models/dog_owner_model.dart';
 import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import '../components/nav_bar.dart';
 
@@ -28,9 +29,17 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Map<String, dynamic> userData = {};
+
+  getUserData() async {
+    userData = await DogOwnerModel().getCurrentUser();
+    print(userData);
+  }
+
   @override
   void initState() {
     getCurrentUser();
+    getUserData();
 
     super.initState();
   }

@@ -6,6 +6,7 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/components/dog/user_dog_list.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/models/dog_owner_model.dart';
 import 'package:woof/screens/home_screen.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -125,8 +126,13 @@ class CurrentAdvertInfo extends StatelessWidget {
                     AppButton(
                         buttonColor: kPurpleColor,
                         textColor: kPinkColor,
-                        onPressed: () {
-                          Navigator.pushNamed(context, Home.id);
+                        onPressed: () async {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => Home(),
+                              ),
+                              (route) => false);
                         },
                         buttonText: "Klar"),
                   ],

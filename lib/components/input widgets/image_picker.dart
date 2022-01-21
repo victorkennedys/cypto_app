@@ -10,9 +10,7 @@ class PickImage extends StatefulWidget {
   final List urlList;
   final bool rounded;
 
-  const PickImage(this.height, this.width, this.urlList, this.rounded,
-      {Key? key})
-      : super(key: key);
+  const PickImage(this.height, this.width, this.urlList, this.rounded);
 
   @override
   State<PickImage> createState() => _PickImageState();

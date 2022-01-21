@@ -58,7 +58,8 @@ class HelperServicesScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HelperInfo(servicesList),
+                          builder: (context) =>
+                              WalkerOnboardingScreen(servicesList),
                         ),
                       );
                     }

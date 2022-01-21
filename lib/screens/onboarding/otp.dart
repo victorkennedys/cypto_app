@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/models/authentication_model.dart';
-import 'package:woof/screens/helper%20screens/helper_home.dart';
+import 'package:woof/models/dog_owner_model.dart';
+import 'package:woof/models/dog_walker_model.dart';
 import 'package:woof/screens/onboarding/user_info.dart';
+import 'package:woof/screens/walker%20screens/helper_home.dart';
 import '../../constants.dart';
 import '../home_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -18,6 +20,8 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   String verificationCode = '';
+
+  Map<String, dynamic> userData = {};
 
   pinEntered(value) async {
     String phoneWithCountryCode = '+46${widget.phone}';
@@ -41,12 +45,24 @@ class _OTPScreenState extends State<OTPScreen> {
             UserEnterInfoScreen.id, (Route<dynamic> route) => false);
       }
       if (newDogOwner == false) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Home.id, (Route<dynamic> route) => false);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => Home(),
+          ),
+          (route) => false,
+        );
       }
       if (newDogHelper == false) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            WalkerHomeScreen.id, (Route<dynamic> route) => false);
+        userData = await DogWalkerModel().getCurrentUser();
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => WalkerHomeScreen(userData),
+          ),
+          (route) => false,
+        );
       }
     } catch (e) {
       print(e);

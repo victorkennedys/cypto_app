@@ -5,6 +5,7 @@ import 'package:woof/components/input%20widgets/image_picker.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/models/add_to_firestore.dart';
 import 'package:woof/models/image_model.dart';
+import 'package:woof/screens/walker%20onboarding/walker_info.dart';
 
 class CreateHelperProfileScreen extends StatelessWidget {
   Map<String, dynamic> data = {};
@@ -125,6 +126,8 @@ class CreateHelperProfileScreen extends StatelessWidget {
                         buttonColor: kPurpleColor,
                         textColor: kPinkColor,
                         onPressed: () {
+                          data.addAll({'profile picture': urlList[0]});
+                          /* print(dataMap); */
                           Navigator.pop(context, data);
                         },
                         buttonText: 'Klar'),

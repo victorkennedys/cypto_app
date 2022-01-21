@@ -5,19 +5,24 @@ import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
 import 'package:woof/models/stripe_model.dart';
-import 'package:woof/screens/helper%20screens/helper_home.dart';
 import 'package:woof/screens/walker%20onboarding/walker_info.dart';
+import 'package:woof/screens/walker%20screens/helper_home.dart';
 import 'walker_profile.dart';
 import 'walker_verification.dart';
 
 final _auth = FirebaseAuth.instance;
 
-class HelperInfo extends StatelessWidget {
+class WalkerOnboardingScreen extends StatelessWidget {
   final List<String> servicesList;
-  HelperInfo(this.servicesList);
+  WalkerOnboardingScreen(this.servicesList);
+
+  static const String id = 'walker_onboarding_screen';
 
   Map<String, dynamic> dataMap = {};
   getUserDataMap(Map<String, dynamic> map) {
+    if (dataMap.containsKey('services') == false) {
+      dataMap.addAll({'services': servicesList});
+    }
     for (var entries in map.entries) {
       final key = entries.key;
       final value = entries.value;
@@ -79,7 +84,7 @@ class HelperInfo extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WalkerHomeScreen(),
+                        builder: (context) => WalkerHomeScreen(dataMap),
                       ),
                     );
                   },
@@ -112,6 +117,7 @@ class _HelperInfoCategoryState extends State<HelperInfoCategory> {
       onTap: () async {
         data = await Navigator.push(
             context, MaterialPageRoute(builder: (context) => widget.onTap));
+        print(data);
         setState(() {
           data;
         });

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:woof/constants.dart';
+import 'package:woof/models/dog_owner_model.dart';
 import 'package:woof/screens/adverts/dashboard.dart';
 import 'package:woof/screens/chat/chat_screen.dart';
 import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
-import 'package:woof/screens/dog/add_dog.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:woof/screens/profile_screen.dart';
 
@@ -24,7 +24,7 @@ class _NavBarState extends State<NavBar> {
         child: FluidNavBar(
           scaleFactor: 2,
           defaultIndex: widget.currentIndex,
-          onChange: (value) {
+          onChange: (value) async {
             if (value != widget.currentIndex) {
               if (value == 0) {
                 Navigator.of(context).pushNamedAndRemoveUntil(

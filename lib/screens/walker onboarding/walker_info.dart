@@ -180,6 +180,10 @@ class HelperProfileInfo extends StatelessWidget {
 
       Navigator.pop(context, dataMap);
     } else {
+      if (dataMap.length <= 6) {
+        showSnackBar("Fyll i alla fält", context);
+        return;
+      }
       if (dataMap.containsKey('first name') == false) {
         showSnackBar("Ange ditt namn", context);
         return;
