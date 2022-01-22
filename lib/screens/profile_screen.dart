@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woof/components/nav_bar.dart';
+import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
 import 'package:woof/screens/walker%20onboarding/walker_services.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -35,6 +39,25 @@ class ProfileScreen extends StatelessWidget {
                 "Mina hundhjälpare", "images/heart.png", null),
             ProfileScreenContainer(
                 "Inställnignar", "images/settings.png", null),
+            Center(
+              child: TextButton(
+                child: Text(
+                  'Logga ut',
+                  style: TextStyle(color: kPurpleColor),
+                ),
+                onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove('phone');
+                  _auth.signOut();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => WelcomeScreen(),
+                      ),
+                      (route) => false);
+                },
+              ),
+            )
           ],
         ),
       ),
