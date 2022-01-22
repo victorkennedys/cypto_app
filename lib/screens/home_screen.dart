@@ -33,7 +33,6 @@ class _HomeState extends State<Home> {
 
   getUserData() async {
     userData = await DogOwnerModel().getCurrentUser();
-    print(userData);
   }
 
   @override
