@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/models/authentication_model.dart';
+import 'package:woof/models/dog_owner_model.dart';
 import 'package:woof/models/dog_walker_model.dart';
 import 'package:woof/models/location.dart';
 import 'package:woof/screens/onboarding/user_info.dart';
@@ -24,46 +26,14 @@ class _OTPScreenState extends State<OTPScreen> {
 
   pinEntered(value) async {
     String phoneWithCountryCode = '+46${widget.phone}';
-    bool newDogOwner =
-        await AuthenticationModel().dogOwnerExists(phoneWithCountryCode);
-    bool newDogHelper =
-        await AuthenticationModel().dogWalkerExists(phoneWithCountryCode);
 
     try {
       await AuthenticationModel().authenticateNumber(
           verificationCode: verificationCode,
           inputCode: value,
-          newUser: newDogOwner,
-          newWalker: newDogHelper,
           phone: phoneWithCountryCode);
 
-      Map<String, dynamic>? userLocationData =
-          await LocationModel().getLocation();
-
-      if (newDogOwner && newDogHelper) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            UserEnterInfoScreen.id, (Route<dynamic> route) => false);
-      }
-      if (newDogOwner == false) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => Home(),
-          ),
-          (route) => false,
-        );
-      }
-      if (newDogHelper == false) {
-        userData = await DogWalkerModel().getCurrentUser();
-
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => WalkerHomeScreen(userData),
-          ),
-          (route) => false,
-        );
-      }
+      userAuthenticated(phoneWithCountryCode);
     } catch (e) {
       print(e);
     }
@@ -118,7 +88,54 @@ class _OTPScreenState extends State<OTPScreen> {
     );
   }
 
-  _verifyPhone() async {
+  userAuthenticated(String phone) async {
+    bool newDogOwner = await AuthenticationModel().dogOwnerExists(phone);
+    bool newDogHelper = await AuthenticationModel().dogWalkerExists(phone);
+    Map<String, dynamic>? userLocationData =
+        await LocationModel().getLocation();
+
+    double? longitude = userLocationData!['longitude'];
+    double? latitude = userLocationData['latitude'];
+    GeoPoint geoPoint = GeoPoint(latitude ?? 0, longitude ?? 0);
+
+    Map<String, dynamic> userData = {
+      'phone': phone,
+      'location': geoPoint,
+      'longitude': longitude ?? 0,
+      'latitude': latitude ?? 0,
+    };
+
+    if (newDogOwner && newDogHelper) {
+      var dogOwners = FirebaseFirestore.instance.collection('dog owners');
+      dogOwners.doc(phone).set(userData);
+
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          UserEnterInfoScreen.id, (Route<dynamic> route) => false);
+    }
+    if (newDogOwner == false) {
+      DogOwnerModel().updateUserData(userData);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Home(),
+        ),
+        (route) => false,
+      );
+    }
+    if (newDogHelper == false) {
+      userData = await DogWalkerModel().getCurrentUser();
+      DogWalkerModel().updateUserData(userData);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => WalkerHomeScreen(userData),
+        ),
+        (route) => false,
+      );
+    }
+  }
+
+  _sendOTP() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+46${widget.phone}',
       verificationCompleted: (phoneAuthCredential) async {
@@ -149,6 +166,6 @@ class _OTPScreenState extends State<OTPScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _verifyPhone();
+    _sendOTP();
   }
 }

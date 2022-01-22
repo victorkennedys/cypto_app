@@ -58,77 +58,75 @@ class _UserEnterInfoScreenState extends State<UserEnterInfoScreen> {
       extendBodyBehindAppBar: true,
       key: _scaffoldKey,
       appBar: kAppBar,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 40,
-            left: MediaQuery.of(context).size.width / 12,
-            right: MediaQuery.of(context).size.width / 12,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: ListView(
-                    /*   mainAxisAlignment: MainAxisAlignment.spaceBetween, */
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 40,
+          left: MediaQuery.of(context).size.width / 12,
+          right: MediaQuery.of(context).size.width / 12,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ListView(
+                /*   mainAxisAlignment: MainAxisAlignment.spaceBetween, */
+                children: [
+                  BlackPinkText(blackText: "Välkommen till", pinkText: "woof"),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      BlackPinkText(
-                          blackText: "Välkommen till", pinkText: "woof"),
+                      FormQuestionText("Vad heter du?"),
+                      InputField("Ange ditt namn", true, setName, null),
+                      FormQuestionText("Hur många hundar har du?"),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FormQuestionText("Vad heter du?"),
-                          InputField("Ange ditt namn", true, setName, null),
-                          FormQuestionText("Hur många hundar har du?"),
                           Column(
-                            children: [
-                              Column(
-                                children: addDogWidgetList,
-                              ),
-                              Center(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (addDogWidgetList[
-                                            addDogWidgetList.length - 1]
-                                        .dogData
-                                        .isNotEmpty) {
-                                      setState(() {
-                                        addDogWidgetList.add(
-                                          AddDogWidget(setDocId),
-                                        );
-                                      });
-                                    }
-                                  },
-                                  child: const Text("Lägg till en till hund"),
-                                ),
-                              )
-                            ],
+                            children: addDogWidgetList,
                           ),
-                          FormQuestionText("Vad är din email?"),
-                          InputField("Ange din email", true, setEmail, null),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (addDogWidgetList[
+                                        addDogWidgetList.length - 1]
+                                    .dogData
+                                    .isNotEmpty) {
+                                  setState(() {
+                                    addDogWidgetList.add(
+                                      AddDogWidget(setDocId),
+                                    );
+                                  });
+                                }
+                              },
+                              child: const Text("Lägg till en till hund"),
+                            ),
+                          )
                         ],
                       ),
-                      AppButton(
-                          buttonColor: kPurpleColor,
-                          textColor: kPinkColor,
-                          onPressed: () {
-                            if (name.isNotEmpty &&
-                                email.isNotEmpty &&
-                                docIdList.isNotEmpty) {
-                              addUSerDataToFireBase();
-                            } else if (name.isEmpty) {
-                              showSnackBar("Ange ditt namn", context);
-                            } else if (email.isEmpty) {
-                              showSnackBar("Ange din email", context);
-                            } else if (docIdList.isEmpty) {
-                              showSnackBar("Lägg till minst en hund", context);
-                            }
-                          },
-                          buttonText: "Klar"),
-                    ]),
+                      FormQuestionText("Vad är din email?"),
+                      InputField("Ange din email", true, setEmail, null),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            AppButton(
+                buttonColor: kPurpleColor,
+                textColor: kPinkColor,
+                onPressed: () {
+                  if (name.isNotEmpty &&
+                      email.isNotEmpty &&
+                      docIdList.isNotEmpty) {
+                    addUSerDataToFireBase();
+                  } else if (name.isEmpty) {
+                    showSnackBar("Ange ditt namn", context);
+                  } else if (email.isEmpty) {
+                    showSnackBar("Ange din email", context);
+                  } else if (docIdList.isEmpty) {
+                    showSnackBar("Lägg till minst en hund", context);
+                  }
+                },
+                buttonText: "Klar"),
+          ],
         ),
       ),
     );

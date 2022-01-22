@@ -18,7 +18,7 @@ class WalkerOnboardingModel {
       if (stripeAccountId != null) {
         await _firestore
             .collection('dog owners')
-            .doc(user!.phoneNumber)
+            .doc(user.phoneNumber)
             .delete();
 
         dataMap.addAll({"stripe account id": stripeAccountId});
@@ -59,7 +59,7 @@ class WalkerOnboardingModel {
       'individual[address][line1]': dataMap['adress'],
       'individual[address][postal_code]': dataMap['post number'],
       'individual[email]': dataMap['email'],
-      'individual[phone]': user!.phoneNumber.toString(),
+      'individual[phone]': user.phoneNumber.toString(),
       'tos_acceptance[date]':
           (DateTime.now().millisecondsSinceEpoch / 1000).toInt().toString(),
       'tos_acceptance[ip]': ip,
