@@ -5,10 +5,36 @@ import 'package:network_info_plus/network_info_plus.dart';
 import '../constants.dart';
 import 'package:http/http.dart' as http;
 
-class StripeModel {
-  registrationDone(User? user, Map<String, dynamic> dataMap) async {
-    final _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
 
+class WalkerOnboardingModel {
+  Future<String?> registerWalker(Map<String, dynamic> dataMap) async {
+    final user = _auth.currentUser;
+    try {
+      final stripeData = await addStripeUser(dataMap, user!);
+      final String? stripeAccountId = stripeData['id'];
+
+      if (stripeAccountId != null) {
+        await _firestore
+            .collection('dog owners')
+            .doc(user!.phoneNumber)
+            .delete();
+
+        dataMap.addAll({"stripe account id": stripeAccountId});
+        print(dataMap);
+
+        _firestore.collection('dog walkers').doc(user.phoneNumber).set(dataMap);
+        return stripeAccountId;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future addStripeUser(Map<String, dynamic> dataMap, User user) async {
     String ip =
         await NetworkInfo().getWifiIP() ?? "80.216.210.24"; //remove later.
 
@@ -45,16 +71,6 @@ class StripeModel {
     var data = await http.post(Uri.parse(url), headers: headers, body: body);
 
     var decodedData = jsonDecode(data.body);
-    final stripeAccountId = decodedData['id'];
-
-    final dogOwnersCollection = await _firestore
-        .collection('dog owners')
-        .doc(user.phoneNumber)
-        .delete();
-
-    dataMap.addAll({"stripe account id": stripeAccountId});
-    print(dataMap);
-
-    _firestore.collection('dog walkers').doc(user.phoneNumber).set(dataMap);
+    return decodedData;
   }
 }

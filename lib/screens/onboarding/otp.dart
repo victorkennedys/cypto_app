@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/models/authentication_model.dart';
-import 'package:woof/models/dog_owner_model.dart';
 import 'package:woof/models/dog_walker_model.dart';
+import 'package:woof/models/location.dart';
 import 'package:woof/screens/onboarding/user_info.dart';
 import 'package:woof/screens/walker%20screens/helper_home.dart';
 import '../../constants.dart';
@@ -38,7 +37,8 @@ class _OTPScreenState extends State<OTPScreen> {
           newWalker: newDogHelper,
           phone: phoneWithCountryCode);
 
-      await Geolocator.requestPermission();
+      Map<String, dynamic>? userLocationData =
+          await LocationModel().getLocation();
 
       if (newDogOwner && newDogHelper) {
         Navigator.of(context).pushNamedAndRemoveUntil(

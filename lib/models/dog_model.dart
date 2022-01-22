@@ -2,17 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woof/components/dog/dog_card.dart';
+import 'package:woof/constants.dart';
 
-class DogListModel {
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+User loggedInUser = _auth.currentUser!;
+
+class DogModel {
   returnDogList(
       {required bool selectable,
       required bool showAllDogs,
       List<String>? advertDogList,
       Function? callBack}) {
-    final _firestore = FirebaseFirestore.instance;
-    final _auth = FirebaseAuth.instance;
-    User loggedInUser = _auth.currentUser!;
-
     return StreamBuilder<QuerySnapshot>(
         stream: _firestore
             .collection("dogs")

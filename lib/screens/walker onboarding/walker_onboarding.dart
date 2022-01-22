@@ -4,7 +4,7 @@ import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/constants.dart';
 import 'package:woof/main.dart';
-import 'package:woof/models/stripe_model.dart';
+import 'package:woof/models/walker_onboarding_model.dart';
 import 'package:woof/screens/walker%20onboarding/walker_info.dart';
 import 'package:woof/screens/walker%20screens/helper_home.dart';
 import 'walker_profile.dart';
@@ -76,17 +76,21 @@ class WalkerOnboardingScreen extends StatelessWidget {
                   buttonColor: kPurpleColor,
                   textColor: kPinkColor,
                   onPressed: () async {
-                    StripeModel().registrationDone(
-                      _auth.currentUser,
+                    String? stripeID =
+                        await WalkerOnboardingModel().registerWalker(
                       dataMap,
                     );
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WalkerHomeScreen(dataMap),
-                      ),
-                    );
+                    if (stripeID == null) {
+                      throw Exception('Error creating Stripe user');
+                    } else {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WalkerHomeScreen(dataMap),
+                          ),
+                          (route) => false);
+                    }
                   },
                   buttonText: "Klar"),
             ),

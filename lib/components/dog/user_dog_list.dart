@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:woof/models/dog_list_model.dart';
+import 'package:woof/models/dog_model.dart';
 
 User loggedInUser = _auth.currentUser!;
 
@@ -22,7 +22,7 @@ class UserDogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DogListModel().returnDogList(
+    return DogModel().returnDogList(
         selectable: selectable,
         showAllDogs: showAllDogs,
         advertDogList: advertDogList,
