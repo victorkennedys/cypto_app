@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sprung/sprung.dart';
-import 'package:woof/screens/adverts/dashboard.dart';
-import 'package:woof/screens/chat/chat_screen.dart';
-import 'package:woof/screens/dog/my_dogs.dart';
 import 'package:woof/screens/home_screen.dart';
-import 'package:woof/screens/booking%20process/pick_dog_screen.dart';
 import 'package:woof/screens/onboarding/otp.dart';
-import 'package:woof/screens/onboarding/user_info.dart';
-import 'package:woof/screens/profile_screen.dart';
 import 'constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? phone = prefs.getString('phone');
+
   await Firebase.initializeApp();
   runApp(MaterialApp(
     home: phone == null ? WelcomeScreen() : Home(),
