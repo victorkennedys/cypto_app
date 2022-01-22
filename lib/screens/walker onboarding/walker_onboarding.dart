@@ -36,7 +36,7 @@ class WalkerOnboardingScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: kAppBar,
       body: Padding(
-        padding: Woof.defaultPadding(context),
+        padding: WelcomeScreen.defaultPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -81,7 +81,7 @@ class _BookWalkScreenState extends State<BookWalkScreen> {
         context: context,
         removeTop: true,
         child: Padding(
-          padding: Woof.defaultPadding(context),
+          padding: WelcomeScreen.defaultPadding(context),
           child: ListView(
             /* crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start, */

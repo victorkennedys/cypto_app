@@ -105,7 +105,12 @@ class _HomeState extends State<Home> {
                         buttonColor: kPurpleColor,
                         textColor: kPinkColor,
                         onPressed: () {
-                          Navigator.pushNamed(context, PickDogScreen.id);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PickDogScreen(),
+                            ),
+                          );
                         },
                         buttonText: "Promenad"),
                     SizedBox(

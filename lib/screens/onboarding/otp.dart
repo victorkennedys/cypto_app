@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woof/components/black_and_pink_text.dart';
 import 'package:woof/models/authentication_model.dart';
 import 'package:woof/models/dog_owner_model.dart';
@@ -89,6 +90,7 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   userAuthenticated(String phone) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     bool newDogOwner = await AuthenticationModel().dogOwnerExists(phone);
     bool newDogHelper = await AuthenticationModel().dogWalkerExists(phone);
     Map<String, dynamic>? userLocationData =
@@ -105,12 +107,17 @@ class _OTPScreenState extends State<OTPScreen> {
       'latitude': latitude ?? 0,
     };
 
+    prefs.setString('phone', phone);
+
     if (newDogOwner && newDogHelper) {
       var dogOwners = FirebaseFirestore.instance.collection('dog owners');
       dogOwners.doc(phone).set(userData);
 
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          UserEnterInfoScreen.id, (Route<dynamic> route) => false);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => UserEnterInfoScreen(),
+          ),
+          (route) => false);
     }
     if (newDogOwner == false) {
       DogOwnerModel().updateUserData(userData);

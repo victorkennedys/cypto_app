@@ -12,7 +12,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: Woof.defaultPadding(context),
+        padding: WelcomeScreen.defaultPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

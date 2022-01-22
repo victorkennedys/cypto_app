@@ -69,7 +69,7 @@ class HelperProfileInfo extends StatelessWidget {
       appBar: kAppBar,
       extendBodyBehindAppBar: true,
       body: Padding(
-        padding: Woof.defaultPadding(context),
+        padding: WelcomeScreen.defaultPadding(context),
         child: MediaQuery.removePadding(
           context: context,
           removeTop: true,

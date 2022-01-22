@@ -103,7 +103,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
         context: context,
         removeTop: true,
         child: Padding(
-          padding: Woof.defaultPadding(context),
+          padding: WelcomeScreen.defaultPadding(context),
           child: ListView(
             children: [
               Column(

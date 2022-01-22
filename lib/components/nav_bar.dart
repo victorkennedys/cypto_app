@@ -27,20 +27,25 @@ class _NavBarState extends State<NavBar> {
           onChange: (value) async {
             if (value != widget.currentIndex) {
               if (value == 0) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    Home.id, (Route<dynamic> route) => false);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => Home()),
+                    (route) => false);
               } else if (value == 1) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    MyDogs.id, (Route<dynamic> route) => false);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => MyDogs()),
+                    (route) => false);
               } else if (value == 2) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    AdvertsScreen.id, (Route<dynamic> route) => false);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => AdvertsScreen()),
+                    (route) => false);
               } else if (value == 3) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    ChatScreen.id, (Route<dynamic> route) => false);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => ChatScreen()),
+                    (route) => false);
               } else if (value == 4) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    ProfileScreen.id, (Route<dynamic> route) => false);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    (route) => false);
               }
             }
           },

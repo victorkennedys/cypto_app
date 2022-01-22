@@ -12,7 +12,12 @@ class ProfileScreen extends StatelessWidget {
   signOut(context) {
     FirebaseAuth.instance.signOut();
 
-    Navigator.pushNamed(context, WelcomeScreen.id);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WelcomeScreen(),
+        ),
+        (route) => false);
   }
 
   @override

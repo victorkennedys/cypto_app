@@ -20,7 +20,7 @@ class AddDogImage extends StatelessWidget {
       body: MediaQuery.removePadding(
         context: context,
         child: Padding(
-          padding: Woof.defaultPadding(context),
+          padding: WelcomeScreen.defaultPadding(context),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,

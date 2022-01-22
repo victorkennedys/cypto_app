@@ -22,7 +22,7 @@ class HelperServicesScreen extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       body: Padding(
-        padding: Woof.defaultPadding(context),
+        padding: WelcomeScreen.defaultPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

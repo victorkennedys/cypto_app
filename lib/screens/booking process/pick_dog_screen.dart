@@ -30,7 +30,7 @@ class PickDogScreen extends StatelessWidget {
       body: MediaQuery.removePadding(
         context: context,
         child: Padding(
-          padding: Woof.defaultPadding(context),
+          padding: WelcomeScreen.defaultPadding(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

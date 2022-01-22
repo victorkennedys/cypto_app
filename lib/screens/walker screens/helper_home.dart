@@ -11,7 +11,7 @@ class WalkerHomeScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Padding(
-        padding: Woof.defaultPadding(context),
+        padding: WelcomeScreen.defaultPadding(context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

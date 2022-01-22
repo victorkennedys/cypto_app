@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sprung/sprung.dart';
 import 'package:woof/screens/adverts/dashboard.dart';
 import 'package:woof/screens/chat/chat_screen.dart';
@@ -13,11 +14,15 @@ import 'constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? phone = prefs.getString('phone');
   await Firebase.initializeApp();
-  runApp(Woof());
+  runApp(MaterialApp(
+    home: phone == null ? WelcomeScreen() : Home(),
+  ));
 }
 
-class Woof extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   static defaultPadding(context) {
     return EdgeInsets.only(
       left: MediaQuery.of(context).size.width / 12,
@@ -26,25 +31,6 @@ class Woof extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: WelcomeScreen.id,
-      routes: {
-        WelcomeScreen.id: (context) => WelcomeScreen(),
-        MyDogs.id: (context) => MyDogs(),
-        PickDogScreen.id: (context) => PickDogScreen(),
-        AdvertsScreen.id: (context) => AdvertsScreen(),
-        ProfileScreen.id: (context) => ProfileScreen(),
-        UserEnterInfoScreen.id: (context) => UserEnterInfoScreen(),
-        ChatScreen.id: (context) => ChatScreen(),
-        Home.id: (context) => Home(),
-      },
-    );
-  }
-}
-
-class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
 
   @override
