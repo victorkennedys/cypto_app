@@ -73,7 +73,6 @@ class _IdImagePickerState extends State<IdImagePicker> {
     uploadTask.whenComplete(() async {
       String imageUrl = await firebaseStorageRef.getDownloadURL();
       dataMap.addAll({"${widget.frontOrBack}": imageUrl});
-      print(dataMap);
     });
   }
 

@@ -22,7 +22,7 @@ class _PickImageState extends State<PickImage> {
     try {
       imageFile = await ImageModel().pickImageFromGallery();
       setState(() => imageFile);
-      print(imageFile!.path);
+
       String url = await AddToFireStore().addFileToFireStore(imageFile);
 
       widget.urlList.add(url);

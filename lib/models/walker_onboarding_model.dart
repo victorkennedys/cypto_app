@@ -22,7 +22,6 @@ class WalkerOnboardingModel {
             .delete();
 
         dataMap.addAll({"stripe account id": stripeAccountId});
-        print(dataMap);
 
         _firestore.collection('dog walkers').doc(user.phoneNumber).set(dataMap);
         return stripeAccountId;

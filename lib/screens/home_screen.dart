@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woof/components/advert/user_adverts_stream.dart';
 import 'package:woof/components/app_button.dart';
 import 'package:woof/components/black_and_pink_text.dart';
@@ -29,10 +30,11 @@ class _HomeState extends State<Home> {
     }
   }
 
+  String capitalizedName = '';
   Map<String, dynamic> userData = {};
 
   getUserData() async {
-    userData = await DogOwnerModel().getCurrentUser();
+    userData = await DogOwnerModel().getCurrentUserData();
   }
 
   @override
@@ -63,8 +65,12 @@ class _HomeState extends State<Home> {
                   Flexible(
                     flex: 2,
                     child: BlackPinkText(
-                      blackText: "Välkommen till",
-                      pinkText: "Woof",
+                      blackText: userData.containsKey('name')
+                          ? "Välkommen"
+                          : "Välkommen till",
+                      pinkText: userData.containsKey('name')
+                          ? userData['name']
+                          : "Woof",
                     ),
                   ),
                 ],

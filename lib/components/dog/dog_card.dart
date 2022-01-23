@@ -7,7 +7,7 @@ class DogCard extends StatefulWidget {
   final String docId;
   final String name;
   final String breed;
-  final DateTime birthDay;
+
   final String imageUrl;
   final bool selectable;
   final List<String>? dogList;
@@ -19,7 +19,6 @@ class DogCard extends StatefulWidget {
       required this.docId,
       required this.name,
       required this.breed,
-      required this.birthDay,
       required this.imageUrl,
       required this.selectable,
       this.dogList,
@@ -57,7 +56,6 @@ class _DogCardState extends State<DogCard> {
                     builder: (context) => CurrentDog(
                           name: widget.name,
                           breed: widget.breed,
-                          birthDay: widget.birthDay,
                           image1: widget.imageUrl,
                           age: widget.age,
                         )),

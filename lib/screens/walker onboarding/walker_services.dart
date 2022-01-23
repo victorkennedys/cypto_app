@@ -82,7 +82,6 @@ class DogHelpService extends StatelessWidget {
 
   callBack(bool selected) {
     selected ? servicesList.add(text) : servicesList.remove(text);
-    print(servicesList);
   }
 
   @override

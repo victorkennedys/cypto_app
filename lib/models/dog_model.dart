@@ -7,8 +7,18 @@ import 'package:woof/constants.dart';
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 User loggedInUser = _auth.currentUser!;
+var dogs = _firestore.collection('dogs');
 
 class DogModel {
+  Future<Map<String, dynamic>> getDogData(String dogId) async {
+    final dog = dogs.doc(dogId);
+    Map<String, dynamic> dogData = {};
+    await dog.get().then((DocumentSnapshot snapshot) {
+      dogData = snapshot.data() as Map<String, dynamic>;
+    });
+    return dogData;
+  }
+
   returnDogList(
       {required bool selectable,
       required bool showAllDogs,
@@ -34,7 +44,6 @@ class DogModel {
               docId: dog.id,
               name: dog.get("name"),
               breed: dog.get("breed"),
-              birthDay: (dog.get("birthday") as Timestamp).toDate(),
               imageUrl: dog.get("image1"),
               selectable: selectable,
               dogList: advertDogList ?? null,

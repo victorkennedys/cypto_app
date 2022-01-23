@@ -127,7 +127,7 @@ class CreateHelperProfileScreen extends StatelessWidget {
                         textColor: kPinkColor,
                         onPressed: () {
                           data.addAll({'profile picture': urlList[0]});
-                          /* print(dataMap); */
+
                           Navigator.pop(context, data);
                         },
                         buttonText: 'Klar'),

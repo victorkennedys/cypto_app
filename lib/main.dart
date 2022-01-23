@@ -10,7 +10,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? phone = prefs.getString('phone');
-
   await Firebase.initializeApp();
   runApp(MaterialApp(
     home: phone == null ? WelcomeScreen() : Home(),

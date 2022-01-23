@@ -164,7 +164,6 @@ class HelperProfileInfo extends StatelessWidget {
   }
 
   popFunction(BuildContext context) {
-    print(dataMap);
     if (dataMap.containsKey('first name') &&
         dataMap.containsKey('last name') &&
         dataMap.containsKey('adress') &&

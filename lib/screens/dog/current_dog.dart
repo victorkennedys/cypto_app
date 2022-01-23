@@ -4,7 +4,6 @@ import 'package:woof/constants.dart';
 class CurrentDog extends StatelessWidget {
   final String name;
   final String breed;
-  final DateTime birthDay;
   final String image1;
   final String age;
 
@@ -13,21 +12,8 @@ class CurrentDog extends StatelessWidget {
   CurrentDog(
       {required this.name,
       required this.breed,
-      required this.birthDay,
       required this.image1,
       required this.age});
-  String getDogAge() {
-    num age;
-    if (DateTime.now().year != birthDay.year) {
-      age = DateTime.now().year - birthDay.year;
-      String ageYears = age.toString() + "år";
-      return ageYears;
-    } else {
-      age = DateTime.now().month - birthDay.month;
-      String ageMonths = age.toString() + "månader";
-      return ageMonths;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +44,7 @@ class CurrentDog extends StatelessWidget {
                   style: kH1Text.copyWith(color: Colors.black54),
                 ),
                 Text(breed),
-                Text(getDogAge())
+                Text(age)
               ],
             ),
           ),
